@@ -6,24 +6,29 @@ site: bookdown::bookdown_site
 documentclass: book
 output: 
   bookdown::gitbook: default
-# bibliography: [book.bib, packages.bib]
-# biblio-style: apalike
-# link-citations: yes
+bibliography: [packages.bib]
+biblio-style: apalike
+link-citations: yes
 github-repo: amandahastings/ESS580_Final_Project
-description: "This is a ."
+description: "This is book consists of six different projects completed in ESS580: Introduction to Environmental Data Science at Colorado State University in Spring 2022."
 ---
 
 ```{r}
 library(bookdown)
-library(htmlwidgets)
-library(htmltools)
 ```
 
 
 ```{r,include=FALSE}
-# knitr::write_bib(c(
-#   .packages(), 'bookdown', 'knitr', 'rmarkdown'
-# ), 'packages.bib')
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
 ```
 
 # Preface {-}
+
+
+This book contains six different projects completed in ESS580: Introduction to Environmental Data Science taught by Dr. Matt Ross and Dr. Nathan Mueller at Colorado State University. Each chapter details the purpose, data acquisition, analyses, and results of an individual project. For each project, Dr. Matt Ross and/or Dr. Nathan Mueller wrote the preliminary code and outlined project objectives. Amanda Hastings completed the remaining portions of each project and compiled this book. 
+
+
+
+
