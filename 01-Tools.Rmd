@@ -1,0 +1,142 @@
+# Introduction to workflow tools: RMarkdown, Git, Github {-}
+
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(dataRetrieval)
+library(dygraphs)
+library(xts)
+library(revealjs)
+```
+
+
+## Methods 
+
+
+## Site Description
+
+
+The Poudre River at Lincoln Bridge is:
+
+  - Downstream of only a little bit of urban stormwater
+
+  - Near Odell Brewing CO
+  
+  - Near an open space area and the Poudre River Trail
+  
+  - Downstream of many agricultural diversions
+  
+  
+![](https://waterdata.usgs.gov/nwisweb/local/state/co/text/pics/06752260big.jpg)
+
+<small>Figure 1. Poudre River at Lincoln Bridge, Fort Collins, CO. Photograph courtesy of USGS.</small>
+
+
+## Data Acquistion and Plotting Tests
+
+
+## Data Download 
+
+
+```{r downloader}
+#Download Poudre River discharge data at Lincoln Bridge site
+DischargeData <- readNWISdv(
+  siteNumbers = '06752260',
+  parameterCd = '00060',
+  startDate = '2017-01-01',
+  endDate = '2022-01-01') %>%
+  rename(discharge = 'X_00060_00003')
+```
+
+
+# Results 
+
+
+## Static Data Plotter 
+
+
+```{r, warning = FALSE, fig.align="center", echo=FALSE}
+ggplot(DischargeData, aes(x = Date, y = discharge)) + 
+  geom_line() + 
+  theme_bw()+
+  ylab('Discharge (cfs)') + 
+  theme(axis.title.y = element_text(size = 14)) +
+  ggtitle('Discharge in the Poudre River, Fort Collins, CO')
+```
+
+
+## Interactive Data Plotter 
+
+
+
+```{r interactive data plotter, echo=FALSE}
+discharge_xts <- xts(DischargeData$discharge, order.by = DischargeData$Date)
+
+dygraph(discharge_xts) %>%
+  dyAxis("y", label = "Discharge (cfs)") %>%
+  dyAxis("x", axisLabelFontSize = 12)
+```
+
+
+# Assignment Items 
+
+
+## Dygraphs example
+
+
+```{r dygraphs example, echo=FALSE}
+dygraph(discharge_xts) %>%
+  dyOptions(strokeWidth = 0.7, drawPoints = TRUE, pointSize = 1.5) %>%
+  dyAxis("y",label = "Discharge (cfs)") %>%
+  dyAxis("x", axisLabelFontSize = 12)
+```
+
+
+## Colorado's Wild and Scenic River
+
+
+![](https://cdn.5280.com/2019/08/Cache-la-Poudre-River_Marek-Uliasz_Alamy-Stock-Photo-960x720.jpg)
+
+<small>Figure 2. Cache la Poudre River. Photograph courtesy of Marek Uliasz.</small> 
+
+## Cache la Poudre River
+
+
+Meandering through Roosevelt National Forest and dropping approximately 7,000 feet in elevation, the Cache la Poudre River stretches from peaks along the Continental Divide to foothills of the Front Range near Fort Collins, CO (USFS). Despite the great length of the river, stretches of uninterrupted habitat for resident fishes are becoming increasingly limited— particularly with the construction of man-made diversion structures (Bloom, 2018). As of 2018, researchers estimated approximately **82%** Great Plains fish are in decline, with species such as the common shiner, [*Luxilus cornutus*]( https://nas.er.usgs.gov/queries/factsheet.aspx?SpeciesID=563), and the central stoneroller, [*Campostoma anomalum*](https://nas.er.usgs.gov/queries/factsheet.aspx?SpeciesID=506), potentially lost to northern Colorado waterways (Bloom, 2018). Species including small minnows— such as the red shiner, *Cyprinella lutrensis*, and orangespotted sunfish, *Lepomis humilis*– require stretches of **at least** 30 miles to migrate and spawn (Bloom, 2018). However, could another man-made structure potentially offset the necessary, yet imperiling, structures in place? CSU researcher Dr. Chris Myrick and his graduate students built a fish ladder for small fishes, similar to those previously built for larger fishes, to essentially extend their, otherwise interrupted, habitat. [Here]( https://youtu.be/7x7O9r5j5fE) is a fish eye’s view of the fish ladder the team created. While the only fish ladder within Larimer County, the research team hopes the design will be transferable and a means to protect small fish across other states as well (Bloom, 2018). 
+
+
+## Additional Note
+
+
+Another noteworthy fact about the Poudre river: it is the **only** designated National Wild and Scenic River within the state of Colorado (USFS). 
+
+
+*For those curious about other National Wild and Scenic Rivers...*
+
+
+Click [here](https://www.rivers.gov/documents/nwsrs-map.pdf) for a map of the National Wild and Scenic Rivers system. 
+
+
+## References 
+<small>
+
+Bloom, Matt.(2018, March) To Reverse The Disappearance of Native Fish, North Colorado Is Turning to Fish Ladders. *NPR for Northern Colorado*. [kunc.org](https://www.kunc.org/environment/2018-03-21/to-reverse-the-disappearance-of-native-fish-northern-colorado-is-turning-to-fish-ladders)
+
+
+Interagency Wild & Scenic Rivers Council. *MAPS & GIS*.  National Wild and Scenic Rivers System. [rivers.gov/mapping-gis.php](https://www.rivers.gov/mapping-gis.php). Accessed January 26, 2022. 
+
+
+Uliasz, Marek.(2019, August) *Cache la Poudre River*, "Colorado’s Scenic and Historic Byways: Cache La Poudre/North Park", 5280 Denver's Mile High Magazine, [5280.com](https://www.5280.com/2019/08/colorados-scenic-and-historic-byways-cache-la-poudre-north-park/)
+
+
+USDA Forest Service (USFS). *Cache la Poudre Wild and Scenic River*. [fs.usda.gov](https://www.fs.usda.gov/detail/arp/specialplaces/?cid=stelprdb5150293). Accessed January 26, 2022. 
+
+</small>
+
+### Presentation link
+
+
+<small>This chapter has also been formatted into a presentation/talk. The formatted version can be found [here](https://amandahastings.github.io/1_rmarkdown_examples/index_talk.html#/).</small> 
+

@@ -1,0 +1,29 @@
+---
+title: "Introduction to Environmental Data Science: Final Project"
+author: "Amanda Hastings"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+output: 
+  bookdown::gitbook: default
+# bibliography: [book.bib, packages.bib]
+# biblio-style: apalike
+# link-citations: yes
+github-repo: amandahastings/ESS580_Final_Project
+description: "This is a ."
+---
+
+```{r}
+library(bookdown)
+library(htmlwidgets)
+library(htmltools)
+```
+
+
+```{r,include=FALSE}
+# knitr::write_bib(c(
+#   .packages(), 'bookdown', 'knitr', 'rmarkdown'
+# ), 'packages.bib')
+```
+
+# Preface {-}

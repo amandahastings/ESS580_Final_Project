@@ -1,0 +1,179 @@
+# Geospatial analysis: part I {-}
+
+
+```{r, include=FALSE}
+library(tidyverse) # Tidy packages
+library(sf) #Spatial package that can read and create shapefiles 
+library(mapview) #Interactive maps
+library(LAGOSNE) #Lots and lots of clean lake data
+library(USAboundaries) #USA states and counties
+library(RApiSerialize)
+```
+
+
+
+# LAGOS Analysis
+
+
+## Loading in data
+
+
+### First download and then specifically grab the locus (or site lat longs)
+
+```{r data-read}
+#Lagos download script
+# LAGOSNE::lagosne_get(dest_folder = LAGOSNE:::lagos_path())
+
+
+#Load in lagos
+lagos <- lagosne_load()
+
+#Grab the lake centroid info
+lake_centers <- lagos$locus
+
+
+# load('lake_centers.Rdata')
+
+```
+
+
+
+### Convert to spatial data
+```{r}
+#Look at the column names
+#names(lake_centers)
+
+#Look at the structure
+#str(lake_centers)
+
+#View the full dataset
+#View(lake_centers %>% slice(1:100))
+
+spatial_lakes <- st_as_sf(lake_centers,coords=c('nhd_long','nhd_lat'),
+                          crs=4326) %>%
+  st_transform(2163)
+
+#Subset for plotting
+subset_spatial <- spatial_lakes %>%
+  slice(1:100) 
+
+subset_baser <- spatial_lakes[1:100,]
+
+#Dynamic mapviewer
+mapview(subset_spatial)
+
+```
+
+
+### Subset to only Minnesota
+
+```{r}
+states <- us_states()
+
+#Plot all the states to check if they loaded
+#mapview(states)
+minnesota <- states %>%
+  filter(name == 'Minnesota') %>%
+  st_transform(2163)
+
+#Subset lakes based on spatial position
+minnesota_lakes <- spatial_lakes[minnesota,]
+
+#Plotting the first 1000 lakes
+minnesota_lakes %>%
+  arrange(-lake_area_ha) %>%
+    slice(1:1000) %>%
+  mapview(.,zcol = 'lake_area_ha')
+```
+
+
+
+# In-Class work
+
+
+## 1) Show a map outline of Iowa and Illinois (similar to Minnesota map upstream)
+
+```{r}
+#Show a map outline of Iowa and Illinois 
+
+i_states <- states %>% 
+  filter(name %in% c('Iowa','Illinois')) %>% 
+  st_transform(2163)
+
+mapview(i_states, layer.name='States of Interest')
+
+```
+
+
+
+## 2) Subset LAGOS data to these sites, how many sites are in Illinois and Iowa combined? How does this compare to Minnesota?
+
+```{r}
+#Subset LAGOS data
+
+istate_lakes <- spatial_lakes[i_states,]
+
+nrow(minnesota_lakes)-nrow(istate_lakes)
+
+```
+
+There are 16446 sites in Illinois and Iowa combined. Meanwhile, there are 29038 Minnesota sites, exceeding the number of sites in Illinois/Iowa by 12572 sites.
+
+
+## 3) What is the distribution of lake size in Iowa vs. Minnesota?
+
+- Here I want to see a histogram plot with lake size on x-axis and frequency on 
+y axis (check out geom_histogram)
+
+```{r}
+states_lagos <- lagos$state %>% 
+  select()
+
+iowa <- states %>%
+  filter(name == 'Iowa') %>%
+  st_transform(2163)
+
+iowa_lakes <- spatial_lakes[iowa,]
+  
+
+ggplot(iowa_lakes, aes(x=lake_area_ha))+ 
+  geom_histogram(bins=40)+ 
+  scale_x_log10(labels= scales::comma)+
+  labs(x= "Lake size (hectares)", y= "Frequency", title='Iowa Lakes')
+
+ggplot(minnesota_lakes, aes(x=lake_area_ha))+ 
+  geom_histogram(bins=40)+ 
+  scale_x_log10(labels=scales::comma)+
+  labs(x= "Lake size (hectares)", y= "Frequency", title='Minnesota Lakes')
+
+```
+
+The distributions of lake size for both Iowa and Minnesota are positively skewed. Generally, Iowa lake size is smaller than Minnesota.
+
+## 4) Make an interactive plot of lakes in Iowa and Illinois and color them by lake area in hectares. 
+
+```{r}
+istate_lakes %>%
+  arrange(-lake_area_ha) %>%
+  slice(1:1000) %>%
+  mapview(., zcol = 'lake_area_ha', at=c(0,100,250,500,1000,2500,5000,10000), layer.name='Lake area (ha)', canvas=TRUE)
+```
+
+
+## 5) What other data sources might we use to understand how reservoirs and natural lakes vary in size in these three states? 
+
+
+Additional data sources for investigating reservoir and natural lake size include: 
+
+*The Global Lake area, Climate, and Population (GLCP) dataset is comprised of lake surface area data (from the datasets listed below), as well as temperature, precipitation, and population data (Meyer et al. 2020).
+
+*The HydroLAKES dataset combines information from multiple lake datasets, including NASA SRTM, Water Body Data, and the Global Lakes and Wetlands Database (Meyer et al. 2020). This dataset consists of shapefiles with attributes such as lake surface area, total volume, average depth, geographic coordinates of pour points, and more (Meyer er al. 2020). 
+
+*The Global Surface Water Dataset, derived from LANDSAT imagery and hosted by the Joint Research Centre (JRC), provides information regarding surface water area for lakes, as well as rivers, streams, and wetlands (Meyer et al. 2020). A subset of this data based upon yearly water classification history is available via Google Earth Engine (Meyer et al. 2020). 
+
+*Also, the [Central Midwest Water Science Center](https://www.usgs.gov/centers/cm-water/science/real-time-data-links?qt-science_center_objects=0#qt-science_center_objects) is another resource, for Iowa and Illinois lake data specifically.
+
+Reference:
+
+Meyer, MF, Labou, SG, Cramer, AN, Brousil, MR, & Luff, BT. (2020). The global lake area, climate, and population dataset. Scientific Data, 7(1), 1–12. https://doi.org/10.1038/s41597-020-0517-4
+
