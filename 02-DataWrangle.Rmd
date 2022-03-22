@@ -12,10 +12,14 @@ library(broom)
 # knitr::opts_knit$set(root.dir='..')
 ```
 
+
 ## Introduction
 
 
-Our research questions included: 
+This project served as an introduction and exploration in data munging. We utilized data from Climate Engine to investigate vegetation recovery following the 2002 Hayman Fire in Colorado. We specifically looked at NDVI, NDSI, and NDMI between unburned and burned sites and before and after the fire event. 
+
+
+Once manipulating the data, we performed basic analyses to address the following project questions: 
 
 a) What is the correlation between NDVI and NDMI? 
 
@@ -55,7 +59,7 @@ ndvi <- read_csv(files[3])%>%
 ```
 
 
-```{r, warning=F,message=F, include=FALSE}
+```{r, warning=F,message=F}
 # Stack data as a tidy dataset
 full_long <- rbind(ndvi,ndmi,ndsi) %>%
   gather(key='site',value='value',-DateTime,-data) %>%
@@ -68,7 +72,7 @@ full_long <- rbind(ndvi,ndmi,ndsi) %>%
 
 ### Question A: NDVI and NDMI
 
-```{r longformat, echo=FALSE}
+```{r longformat, echo=T}
 #Convert from long to wide data with spread() 
 #Add month and year columns to wide data
 full_wide1 <- full_long %>%
@@ -78,8 +82,8 @@ full_wide1 <- full_long %>%
 ```
 
 
-```{r plot ndvi vs ndmi, echo=FALSE, warning=F,message=F}
-#Limit data to only summer months  using filter() 
+```{r plot ndvi vs ndmi, echo=T, warning=F,message=F}
+#Limit data to only summer months using filter() 
 summer_wide <- full_wide1 %>%
   filter(month %in% c(6,7,8))
 
@@ -95,11 +99,14 @@ ggplot(summer_wide, aes(x=ndmi, y=ndvi, color=site))+
 ```
 
 
-```{r plot ndvi vs ndmi, facet wrap site, echo=FALSE, warning=F,message=F}
-#Capitlize facet wrap labels 
+```{r site labels, include=FALSE, warning=F,message=F}
+#Capitalize facet wrap labels 
 Site <- c("Burned","Unburned")
 names(Site) <- c("burned","unburned")
+```
 
+
+```{r plot ndvi vs ndmi, facet wrap site, echo=T, warning=F,message=F}
 # Plot ndvi vs ndmi with facet wrap over site type (burned or unburned)
 ggplot(summer_wide, aes(x=ndmi, y=ndvi))+
   geom_point(alpha=0.25)+
@@ -109,7 +116,7 @@ ggplot(summer_wide, aes(x=ndmi, y=ndvi))+
 ```
 
 
-```{r, include=FALSE}
+```{r, echo=TRUE, results='hide'}
 #Test correlation between ndvi and ndmi
 cor.test(summer_wide$ndmi, summer_wide$ndvi, method='pearson')
 
@@ -140,7 +147,7 @@ full_wide2 <- full_long %>%
 ### Question B: Winter NDSI and Summer NDVI 
 
 
-```{r, include=FALSE}
+```{r, echo=T, message=F}
 #Summarize data by average ndvi for summer months
 summer_ndvi<- full_wide1 %>%
   group_by(site, year, month) %>%
@@ -157,7 +164,7 @@ winter_ndsi <- full_wide1 %>%
 ```
 
 
-```{r, echo=FALSE}
+```{r, echo=T}
 #Join average summer ndvi and average winter ndsi by year and site
 #Add burnperiod column to distinguish pre- and post-fire years
 wide_averages <- inner_join(winter_ndsi, summer_ndvi, by= c('site', 'year')) %>%
@@ -165,7 +172,7 @@ wide_averages <- inner_join(winter_ndsi, summer_ndvi, by= c('site', 'year')) %>%
 ```
 
   
-```{r, echo=FALSE, message=F}
+```{r, echo=T, message=F}
 #Plot and evaluate relationship between ndvi and ndsi
 ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi))+
   geom_point(alpha=0.25, color = "#22AA99")+
@@ -175,9 +182,10 @@ ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi))+
 ```
 
 
-```{r, include=FALSE}
+```{r, echo=T, results='hide'}
 #Test correlation between ndvi and ndsi overall
 cor.test(wide_averages$mean_ndsi, wide_averages$mean_ndvi)
+
 #Fit lm model for ndvi by ndsi overall
 LMFit2 <- lm(mean_ndvi~mean_ndsi, data = wide_averages)
 summary(LMFit2)
@@ -197,10 +205,10 @@ The p-value from a test of correlation for average summer NDVI and average winte
 ### Question C: NDVI-NDSI correlations
 
 
-#### NDVI-NDSI: Pre- and post-fire figure and analyses
+#### NDVI-NDSI: Pre- versus post-fire figure and analyses
 
 
-```{r, echo=FALSE, message=F}
+```{r, echo=T, message=F}
 #Plot and compare ndvi-ndsi relationship between pre- and post-burn periods
 ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi, color=burnperiod))+
   geom_point(alpha=0.25)+
@@ -211,7 +219,7 @@ ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi, color=burnperiod))+
 ```
 
 
-```{r, echo = FALSE, results='hide'}
+```{r, echo = T, results='hide'}
 #Fit lm model to evaluate ndvi-ndsi correlation pre- and post-fire 
 LMFit3 <- lm(mean_ndvi~mean_ndsi*burnperiod, data= wide_averages)
 summary(LMFit3)
@@ -225,7 +233,7 @@ plot(LMFit3, which= c(1:2))
 ```
 
 
-```{r, include=FALSE}
+```{r, echo=T}
 #Create separate data frames for prefire and postfire 
 prefire <- wide_averages %>% 
   filter(burnperiod %in% 'prefire')
@@ -235,7 +243,7 @@ postfire <- wide_averages %>%
 ```
 
 
-```{r, include=FALSE}
+```{r, echo=T, results='hide'}
 #Test correlation between ndvi and ndsi prefire and postfire 
 cor.test(prefire$mean_ndsi,prefire$mean_ndvi)
 cor.test(postfire$mean_ndsi,postfire$mean_ndvi)
@@ -245,10 +253,10 @@ cor.test(postfire$mean_ndsi,postfire$mean_ndvi)
 In pre-fire years, we do not have evidence of an association between average summer NDVI and average winter NDSI (p-value=0.1721). However, in post-fire years, we have evidence of an association between average summer NDVI and average winter NDSI (p-value=0.01048).
 
 
-### NDVI-NDSI: Burned and unburned figure and analyses
+#### NDVI-NDSI: Burned versus unburned figure and analyses
 
 
-```{r, echo = FALSE, message=F}
+```{r, echo = T, message=F}
 #Plot and compare ndvi-ndsi relationship across burned versus unburned sites
 ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi, color=site))+
   geom_point(alpha=0.25)+
@@ -259,7 +267,7 @@ ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi, color=site))+
 ```
 
 
-```{r, echo = FALSE, results='hide'}
+```{r, echo = T, results='hide'}
 #Fit lm model to evaluate ndvi-ndsi correlation between burned and unburned sites
 LMFit4 <- lm(mean_ndvi~mean_ndsi*site, data=wide_averages)
 summary(LMFit4)
@@ -273,7 +281,7 @@ plot(LMFit4, which= c(1:2))
 ```
 
 
-```{r, include = FALSE}
+```{r, echo=T}
 #Create separate data frames for burned and unburned sites
 burned <- wide_averages %>% 
   # filter(burnperiod %in% 'postfire') %>%
@@ -285,7 +293,7 @@ unburned <- wide_averages %>%
 ```
 
 
-```{r, include = FALSE}
+```{r, echo=T,results='hide'}
 #Test correlation between ndvi and ndsi in burned and unburned sites separately 
 cor.test(burned$mean_ndsi, burned$mean_ndvi)
 cor.test(unburned$mean_ndsi,unburned$mean_ndvi)
@@ -293,6 +301,7 @@ cor.test(unburned$mean_ndsi,unburned$mean_ndvi)
 
 
 When analyzing all years included in the dataset, we do not have evidence of an association between average summer NDVI and average winter NDSI within the unburned area (p-value= 0.6589) and burned area (p-value=0.1825). When analyzing only years postfire, we still do not have evidence of an association between average summer NDVI and average winter NDSI in the unburned (p-value=0.905) and burned areas (p-value=0.3226).
+
 
 ### Additional findings
 
@@ -317,9 +326,5 @@ ndsi_stats <- wide_averages %>%
 ndsi_stats
 ```
 
-
-#### Bonus Question 2: Use Climate Engine to pull the same data for the assignment, but updated with 2020/2021 data.
-
-Updated Climate Engine with years 2020 and 2021 is stored in data2. 
 
 
