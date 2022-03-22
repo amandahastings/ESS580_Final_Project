@@ -153,7 +153,7 @@ ggplot(snow_yearly,aes(x=Year,y=mean_height,color=site)) +
   geom_point(alpha=0.75) +
   ggthemes::theme_few() + 
   scale_color_manual(name="Study Plots", labels=c("Swamp Angel","Senator Beck"), values= c("#58A3EB","#58E8EB"))+
-  labs(y="Depth of Snowpack (m)",main="Average Snow Height over Time")
+  labs(y="Depth of Snowpack (m)",title="Average Snow Height over Time")
 ```
 
 <small> **Figure 1. Yearly snow pack depth for Swamp Angel and Senator Beck study plots, Center for Snow and Avalanche Studies. Height of snow was sampled once at the end of an array.** </small>
@@ -246,7 +246,7 @@ forcing_data_full <- map_dfr(forcing_files, forcefile_reader)
 
 #Display summary as tibble 
 forcing_tibble <-as_tibble(forcing_data_full)
-kable(forcing_tibble)
+knitr::kable(head(forcing_tibble))
 ```
 
 
@@ -331,7 +331,8 @@ precip_daily <- forcing_data_full %>%
 ggplot(precip_daily, aes(x = yday, y = mean_dy_precip)) +
   geom_point(alpha=0.5) +
   theme_few() +
-  labs(x = 'Day of Year', y = 'Average Precipitation (mm/day)')+
+  labs(x = 'Day of Year', y = expression('Average Precipitation' ~ ('kg' *
+                                                    m ^ 2 * ' per day')))+
   scale_x_continuous(breaks=c(1,90,180,270,360))
 ```
 
@@ -356,7 +357,8 @@ precip_xts2 <- xts(precip_daily2 %>%
 
 dygraph(precip_xts2, ylab = "") %>%
   dyOptions(fillGraph = TRUE, axisLabelFontSize=10) %>% 
-  dySeries("SASP", label = "Average Daily Precipitation")
+  dySeries("SASP", label = "Average Daily Precipitation (kgm2 per day)")%>% 
+  dyLegend(width=400,show="always")
 ```
 
 
@@ -382,7 +384,8 @@ precip_plotter2 <- function(df, year) {
       labs(
         title = i,
         x = 'Day of Year',
-        y = 'Average Precipitation (mm/day)') +
+        y = expression('Average Precipitation' ~ ('kg' *
+                                                    m ^ 2 * ' per day'))) +
       scale_x_continuous(breaks = c(1, 90, 180, 270, 360))
   )
 }
