@@ -379,7 +379,7 @@ precip_plotter2 <- function(df, year) {
   
   print(
     ggplot(precip_daily4, aes(x = yday, y = SASP)) +
-      geom_point(shape = 1) +
+      geom_point(alpha=0.5) +
       theme_few() +
       labs(
         title = i,

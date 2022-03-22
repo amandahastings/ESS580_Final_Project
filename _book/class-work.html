@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Class work | Introduction to Environmental Data Science: Final Project</title>
+  <meta name="description" content="This is book consists of six different projects completed in ESS580: Introduction to Environmental Data Science at Colorado State University in Spring 2022." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Class work | Introduction to Environmental Data Science: Final Project" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is book consists of six different projects completed in ESS580: Introduction to Environmental Data Science at Colorado State University in Spring 2022." />
+  <meta name="github-repo" content="amandahastings/ESS580_Final_Project" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Class work | Introduction to Environmental Data Science: Final Project" />
+  
+  <meta name="twitter:description" content="This is book consists of six different projects completed in ESS580: Introduction to Environmental Data Science at Colorado State University in Spring 2022." />
+  
+
+<meta name="author" content="Amanda Hastings" />
+
+
+<meta name="date" content="2022-03-21" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="geospatial-analysis-water-quality.html"/>
+<link rel="next" href="regression-models.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/dygraphs-1.1.1/dygraph.css" rel="stylesheet" />
+<script src="libs/dygraphs-1.1.1/dygraph-combined.js"></script>
+<script src="libs/dygraphs-1.1.1/shapes.js"></script>
+<script src="libs/moment-2.8.4/moment.js"></script>
+<script src="libs/moment-timezone-0.2.5/moment-timezone-with-data.js"></script>
+<script src="libs/moment-fquarter-1.0.0/moment-fquarter.min.js"></script>
+<script src="libs/dygraphs-binding-1.1.1.6/dygraphs.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.1.0/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.1.0/leaflet-providers-plugin.js"></script>
+<link href="libs/HomeButton-0.0.1/home-button.css" rel="stylesheet" />
+<script src="libs/HomeButton-0.0.1/home-button.js"></script>
+<script src="libs/HomeButton-0.0.1/easy-button-src.min.js"></script>
+<script src="libs/clipboard-0.0.1/setClipboardText.js"></script>
+<link href="libs/mapviewCSS-0.0.1/mapview-popup.css" rel="stylesheet" />
+<link href="libs/mapviewCSS-0.0.1/mapview.css" rel="stylesheet" />
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="index.html#preface">Preface<span></span></a></li>
+<li class="chapter" data-level="1" data-path="workflow-tools-rmarkdown-git-github.html"><a href="workflow-tools-rmarkdown-git-github.html"><i class="fa fa-check"></i><b>1</b> Workflow tools: RMarkdown, Git, Github<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="workflow-tools-rmarkdown-git-github.html"><a href="workflow-tools-rmarkdown-git-github.html#methods"><i class="fa fa-check"></i><b>1.1</b> Methods<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="workflow-tools-rmarkdown-git-github.html"><a href="workflow-tools-rmarkdown-git-github.html#site-description"><i class="fa fa-check"></i><b>1.1.1</b> Site Description<span></span></a></li>
+<li class="chapter" data-level="1.1.2" data-path="workflow-tools-rmarkdown-git-github.html"><a href="workflow-tools-rmarkdown-git-github.html#data-acquistion"><i class="fa fa-check"></i><b>1.1.2</b> Data Acquistion<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="workflow-tools-rmarkdown-git-github.html"><a href="workflow-tools-rmarkdown-git-github.html#results"><i class="fa fa-check"></i><b>1.2</b> Results<span></span></a>
+<ul>
+<li class="chapter" data-level="1.2.1" data-path="workflow-tools-rmarkdown-git-github.html"><a href="workflow-tools-rmarkdown-git-github.html#static-plot"><i class="fa fa-check"></i><b>1.2.1</b> Static Plot<span></span></a></li>
+<li class="chapter" data-level="1.2.2" data-path="workflow-tools-rmarkdown-git-github.html"><a href="workflow-tools-rmarkdown-git-github.html#interactive-plot"><i class="fa fa-check"></i><b>1.2.2</b> Interactive Plot<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="workflow-tools-rmarkdown-git-github.html"><a href="workflow-tools-rmarkdown-git-github.html#additional-cache-la-poudre-river-information"><i class="fa fa-check"></i><b>1.3</b> Additional Cache la Poudre River Information<span></span></a>
+<ul>
+<li class="chapter" data-level="1.3.1" data-path="workflow-tools-rmarkdown-git-github.html"><a href="workflow-tools-rmarkdown-git-github.html#presentation-link"><i class="fa fa-check"></i><b>1.3.1</b> Presentation link<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="workflow-tools-rmarkdown-git-github.html"><a href="workflow-tools-rmarkdown-git-github.html#references"><i class="fa fa-check"></i><b>1.4</b> References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>2</b> Data wrangling<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-wrangling.html"><a href="data-wrangling.html#introduction"><i class="fa fa-check"></i><b>2.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="data-wrangling.html"><a href="data-wrangling.html#methods-1"><i class="fa fa-check"></i><b>2.2</b> Methods<span></span></a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="data-wrangling.html"><a href="data-wrangling.html#data-acquistion-1"><i class="fa fa-check"></i><b>2.2.1</b> Data Acquistion<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-wrangling.html"><a href="data-wrangling.html#results-1"><i class="fa fa-check"></i><b>2.3</b> Results<span></span></a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="data-wrangling.html"><a href="data-wrangling.html#question-a-ndvi-and-ndmi"><i class="fa fa-check"></i><b>2.3.1</b> Question A: NDVI and NDMI<span></span></a></li>
+<li class="chapter" data-level="2.3.2" data-path="data-wrangling.html"><a href="data-wrangling.html#question-b-winter-ndsi-and-summer-ndvi"><i class="fa fa-check"></i><b>2.3.2</b> Question B: Winter NDSI and Summer NDVI<span></span></a></li>
+<li class="chapter" data-level="2.3.3" data-path="data-wrangling.html"><a href="data-wrangling.html#question-c-ndvi-ndsi-correlations"><i class="fa fa-check"></i><b>2.3.3</b> Question C: NDVI-NDSI correlations<span></span></a></li>
+<li class="chapter" data-level="2.3.4" data-path="data-wrangling.html"><a href="data-wrangling.html#ndvi-ndsi-burned-and-unburned-figure-and-analyses"><i class="fa fa-check"></i><b>2.3.4</b> NDVI-NDSI: Burned and unburned figure and analyses<span></span></a></li>
+<li class="chapter" data-level="2.3.5" data-path="data-wrangling.html"><a href="data-wrangling.html#additional-findings"><i class="fa fa-check"></i><b>2.3.5</b> Additional findings<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html"><i class="fa fa-check"></i><b>3</b> Key programming concepts: webscraping, iteration, functions<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#introduction-1"><i class="fa fa-check"></i><b>3.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#methods-2"><i class="fa fa-check"></i><b>3.2</b> Methods<span></span></a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#data-acquisiton"><i class="fa fa-check"></i><b>3.2.1</b> Data Acquisiton<span></span></a></li>
+<li><a href="key-programming-concepts-webscraping-iteration-functions.html#read-in-snow-data-with-map-function">Read in snow data with map function<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#results-2"><i class="fa fa-check"></i><b>3.3</b> Results<span></span></a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#extract-meterological-data-urls"><i class="fa fa-check"></i><b>3.3.1</b> Extract meterological data URLs<span></span></a></li>
+<li class="chapter" data-level="3.3.2" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#download-meteorological-data"><i class="fa fa-check"></i><b>3.3.2</b> Download meteorological data<span></span></a></li>
+<li class="chapter" data-level="3.3.3" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#download-data-and-save-within-data-folder"><i class="fa fa-check"></i><b>3.3.3</b> Download data and save within data folder<span></span></a></li>
+<li class="chapter" data-level="3.3.4" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#write-a-custom-function-to-read-in-data-and-append-site-column-to-the-data"><i class="fa fa-check"></i><b>3.3.4</b> Write a custom function to read in data and append site column to the data<span></span></a></li>
+<li class="chapter" data-level="3.3.5" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#read-in-meterological-data-files-with-map-function"><i class="fa fa-check"></i><b>3.3.5</b> Read in meterological data files with map function<span></span></a></li>
+<li class="chapter" data-level="3.3.6" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#make-line-plot-of-mean-temperature-by-year-by-site"><i class="fa fa-check"></i><b>3.3.6</b> Make line plot of mean temperature by year by site<span></span></a></li>
+<li class="chapter" data-level="3.3.7" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#create-function-to-make-line-plots-of-monthly-average-temperature-at-each-site-per-year"><i class="fa fa-check"></i><b>3.3.7</b> Create function to make line plots of monthly average temperature at each site per year<span></span></a></li>
+<li class="chapter" data-level="3.3.8" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#create-a-plot-of-average-daily-precipitation-by-day-of-year"><i class="fa fa-check"></i><b>3.3.8</b> Create a plot of average daily precipitation by day of year<span></span></a></li>
+<li class="chapter" data-level="3.3.9" data-path="key-programming-concepts-webscraping-iteration-functions.html"><a href="key-programming-concepts-webscraping-iteration-functions.html#create-yearly-plots-of-precipitation-by-day-of-year"><i class="fa fa-check"></i><b>3.3.9</b> Create yearly plots of precipitation by day of year<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html"><i class="fa fa-check"></i><b>4</b> Geospatial analysis<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#introduction-2"><i class="fa fa-check"></i><b>4.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="4.2" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#lagos-analysis"><i class="fa fa-check"></i><b>4.2</b> LAGOS Analysis<span></span></a></li>
+<li class="chapter" data-level="4.3" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#methods-3"><i class="fa fa-check"></i><b>4.3</b> Methods<span></span></a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#first-download-and-then-specifically-grab-the-locus-or-site-lat-longs"><i class="fa fa-check"></i><b>4.3.1</b> First download and then specifically grab the locus (or site lat longs)<span></span></a></li>
+<li class="chapter" data-level="4.3.2" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#convert-to-spatial-data"><i class="fa fa-check"></i><b>4.3.2</b> Convert to spatial data<span></span></a></li>
+<li class="chapter" data-level="4.3.3" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#subset-to-only-minnesota"><i class="fa fa-check"></i><b>4.3.3</b> Subset to only Minnesota<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#results-3"><i class="fa fa-check"></i><b>4.4</b> Results<span></span></a></li>
+<li class="chapter" data-level="4.5" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#show-a-map-outline-of-iowa-and-illinois-similar-to-minnesota-map-upstream"><i class="fa fa-check"></i><b>4.5</b> 1) Show a map outline of Iowa and Illinois (similar to Minnesota map upstream)<span></span></a></li>
+<li class="chapter" data-level="4.6" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#subset-lagos-data-to-these-sites-how-many-sites-are-in-illinois-and-iowa-combined-how-does-this-compare-to-minnesota"><i class="fa fa-check"></i><b>4.6</b> 2) Subset LAGOS data to these sites, how many sites are in Illinois and Iowa combined? How does this compare to Minnesota?<span></span></a></li>
+<li class="chapter" data-level="4.7" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#what-is-the-distribution-of-lake-size-in-iowa-vs.-minnesota"><i class="fa fa-check"></i><b>4.7</b> 3) What is the distribution of lake size in Iowa vs. Minnesota?<span></span></a></li>
+<li class="chapter" data-level="4.8" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#make-an-interactive-plot-of-lakes-in-iowa-and-illinois-and-color-them-by-lake-area-in-hectares."><i class="fa fa-check"></i><b>4.8</b> 4) Make an interactive plot of lakes in Iowa and Illinois and color them by lake area in hectares.<span></span></a>
+<ul>
+<li class="chapter" data-level="4.8.1" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#additional-data-sources-reservoirs-and-natural-lakes-size"><i class="fa fa-check"></i><b>4.8.1</b> Additional data sources: reservoirs and natural lakes size<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#references-1"><i class="fa fa-check"></i><b>4.9</b> References<span></span></a></li>
+</ul></li>
+<li><a href="geospatial-analysis-water-quality.html#geospatial-analysis-water-quality">Geospatial analysis: water quality<span></span></a>
+<ul>
+<li class="chapter" data-level="4.10" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html"><i class="fa fa-check"></i><b>4.10</b> Introduction<span></span></a>
+<ul>
+<li class="chapter" data-level="4.10.1" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#first-download-and-then-specifically-grab-the-locus-or-site-lat-longs-1"><i class="fa fa-check"></i><b>4.10.1</b> First download and then specifically grab the locus (or site lat longs)<span></span></a></li>
+<li class="chapter" data-level="4.10.2" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#subset-columns-nutr-to-only-keep-key-info-that-we-want"><i class="fa fa-check"></i><b>4.10.2</b> Subset columns nutr to only keep key info that we want<span></span></a></li>
+<li class="chapter" data-level="4.10.3" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#keep-sites-with-at-least-200-observations"><i class="fa fa-check"></i><b>4.10.3</b> Keep sites with at least 200 observations<span></span></a></li>
+<li class="chapter" data-level="4.10.4" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#join-water-quality-data-to-spatial-data"><i class="fa fa-check"></i><b>4.10.4</b> Join water quality data to spatial data<span></span></a></li>
+<li class="chapter" data-level="4.10.5" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#mean-chl_a-map"><i class="fa fa-check"></i><b>4.10.5</b> Mean Chl_a map<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="class-work.html"><a href="class-work.html"><i class="fa fa-check"></i><b>5</b> Class work<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="class-work.html"><a href="class-work.html#what-is-the-correlation-between-secchi-disk-depth-and-chlorophyll-a-for"><i class="fa fa-check"></i><b>5.1</b> 1) What is the correlation between Secchi Disk Depth and Chlorophyll a for<span></span></a></li>
+<li class="chapter" data-level="5.2" data-path="class-work.html"><a href="class-work.html#why-might-this-be-the-case"><i class="fa fa-check"></i><b>5.2</b> Why might this be the case?<span></span></a></li>
+<li class="chapter" data-level="5.3" data-path="class-work.html"><a href="class-work.html#what-states-have-the-most-data"><i class="fa fa-check"></i><b>5.3</b> 2) What states have the most data?<span></span></a>
+<ul>
+<li class="chapter" data-level="5.3.1" data-path="class-work.html"><a href="class-work.html#a-first-you-will-need-to-make-a-lagos-spatial-dataset-that-has-the-total"><i class="fa fa-check"></i><b>5.3.1</b> 2a) First you will need to make a lagos spatial dataset that has the total<span></span></a></li>
+<li class="chapter" data-level="5.3.2" data-path="class-work.html"><a href="class-work.html#b-second-you-will-need-to-join-this-point-dataset-to-the-us_boundaries-data."><i class="fa fa-check"></i><b>5.3.2</b> 2b) Second, you will need to join this point dataset to the us_boundaries data.<span></span></a></li>
+<li class="chapter" data-level="5.3.3" data-path="class-work.html"><a href="class-work.html#c-then-you-will-want-to-group-by-state-and-sum-all-the-observations-in"><i class="fa fa-check"></i><b>5.3.3</b> 2c) Then you will want to group by state and sum all the observations in<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="regression-models.html"><a href="regression-models.html"><i class="fa fa-check"></i><b>6</b> Regression models<span></span></a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="regression-models.html"><a href="regression-models.html#introduction-4"><i class="fa fa-check"></i><b>6.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="6.2" data-path="regression-models.html"><a href="regression-models.html#weather-data-analysis"><i class="fa fa-check"></i><b>6.2</b> Weather Data Analysis<span></span></a></li>
+<li class="chapter" data-level="6.3" data-path="regression-models.html"><a href="regression-models.html#methods-4"><i class="fa fa-check"></i><b>6.3</b> Methods<span></span></a>
+<ul>
+<li class="chapter" data-level="6.3.1" data-path="regression-models.html"><a href="regression-models.html#data-acquisition"><i class="fa fa-check"></i><b>6.3.1</b> Data Acquisition<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.4" data-path="regression-models.html"><a href="regression-models.html#temperature-trends"><i class="fa fa-check"></i><b>6.4</b> Temperature trends<span></span></a>
+<ul>
+<li class="chapter" data-level="6.4.1" data-path="regression-models.html"><a href="regression-models.html#summer-temperature-trends-winneshiek-county"><i class="fa fa-check"></i><b>6.4.1</b> Summer temperature trends: Winneshiek County<span></span></a></li>
+<li class="chapter" data-level="6.4.2" data-path="regression-models.html"><a href="regression-models.html#winter-temperatures---winneshiek-county"><i class="fa fa-check"></i><b>6.4.2</b> Winter Temperatures - Winneshiek County<span></span></a></li>
+<li class="chapter" data-level="6.4.3" data-path="regression-models.html"><a href="regression-models.html#multiple-regression-quadratic-time-trend"><i class="fa fa-check"></i><b>6.4.3</b> Multiple regression – Quadratic time trend<span></span></a></li>
+<li class="chapter" data-level="6.4.4" data-path="regression-models.html"><a href="regression-models.html#download-nass-corn-yield-data"><i class="fa fa-check"></i><b>6.4.4</b> Download NASS corn yield data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="6.5" data-path="regression-models.html"><a href="regression-models.html#results-4"><i class="fa fa-check"></i><b>6.5</b> Results<span></span></a>
+<ul>
+<li class="chapter" data-level="6.5.1" data-path="regression-models.html"><a href="regression-models.html#question-1a-extract-winneshiek-county-corn-yields-fit-a-linear-time-trend-make-a-plot.-is-there-a-significant-time-trend"><i class="fa fa-check"></i><b>6.5.1</b> Question 1a: Extract Winneshiek County corn yields, fit a linear time trend, make a plot. Is there a significant time trend?<span></span></a></li>
+<li class="chapter" data-level="6.5.2" data-path="regression-models.html"><a href="regression-models.html#question-1b-fit-a-quadratic-time-trend-i.e.-year-year2-and-make-a-plot.-is-there-evidence-for-slowing-yield-growth"><i class="fa fa-check"></i><b>6.5.2</b> Question 1b: Fit a quadratic time trend (i.e., year + year<sup>2</sup>) and make a plot. Is there evidence for slowing yield growth?<span></span></a></li>
+<li class="chapter" data-level="6.5.3" data-path="regression-models.html"><a href="regression-models.html#question-2-time-series-lets-analyze-the-relationship-between-temperature-and-yields-for-the-winneshiek-county-time-series.-use-data-on-yield-and-summer-avg-tmax.-is-adding-year-or-tmax2-to-your-model-helpful-make-a-plot-and-interpret-the-results."><i class="fa fa-check"></i><b>6.5.3</b> Question 2 – Time Series: Let’s analyze the relationship between temperature and yields for the Winneshiek County time series. Use data on yield and summer avg Tmax. Is adding year or Tmax<sup>2</sup> to your model helpful? Make a plot and interpret the results.<span></span></a></li>
+<li class="chapter" data-level="6.5.4" data-path="regression-models.html"><a href="regression-models.html#question-3-cross-section-analyze-the-relationship-between-temperature-and-yield-across-all-counties-in-2018.-is-there-a-relationship-interpret-the-results."><i class="fa fa-check"></i><b>6.5.4</b> Question 3 – Cross-Section: Analyze the relationship between temperature and yield across all counties in 2018. Is there a relationship? Interpret the results.<span></span></a></li>
+<li class="chapter" data-level="6.5.5" data-path="regression-models.html"><a href="regression-models.html#question-4-panel-one-way-to-leverage-multiple-time-series-is-to-group-all-data-into-what-is-called-a-panel-regression.-convert-the-county-id-code-countyfp-or-county_ansi-into-factor-using-as.factor-then-include-this-variable-in-a-regression-using-all-counties-yield-and-summer-temperature-data.-how-does-the-significance-of-your-temperature-coefficients-tmax-tmax2-change-make-a-plot-comparing-actual-and-fitted-yields-and-interpret-the-results-of-your-model."><i class="fa fa-check"></i><b>6.5.5</b> Question 4 – Panel: One way to leverage multiple time series is to group all data into what is called a “panel” regression. Convert the county ID code (“countyfp” or “county_ansi”) into factor using as.factor, then include this variable in a regression using all counties’ yield and summer temperature data. How does the significance of your temperature coefficients (Tmax, Tmax<sup>2</sup>) change? Make a plot comparing actual and fitted yields and interpret the results of your model.<span></span></a></li>
+<li class="chapter" data-level="6.5.6" data-path="regression-models.html"><a href="regression-models.html#question-5-soybeans-download-nass-data-on-soybean-yields-and-explore-either-a-time-series-relationship-for-a-given-county-the-cross-sectional-relationship-for-a-given-year-or-a-panel-across-all-counties-and-years."><i class="fa fa-check"></i><b>6.5.6</b> Question 5 – Soybeans: Download NASS data on soybean yields and explore either a time series relationship for a given county, the cross-sectional relationship for a given year, or a panel across all counties and years.<span></span></a></li>
+<li class="chapter" data-level="6.5.7" data-path="regression-models.html"><a href="regression-models.html#bonus-find-a-package-to-make-a-county-map-of-iowa-displaying-some-sort-of-information-about-yields-or-weather.-interpret-your-map."><i class="fa fa-check"></i><b>6.5.7</b> Bonus: Find a package to make a county map of Iowa displaying some sort of information about yields or weather. Interpret your map.<span></span></a></li>
+<li class="chapter" data-level="6.5.8" data-path="regression-models.html"><a href="regression-models.html#bonus-2-challenge-question---map-trends-in-corn-yields-by-county-across-iowa.-interpret-your-map."><i class="fa fa-check"></i><b>6.5.8</b> Bonus #2: Challenge question - map trends in corn yields by county across Iowa. Interpret your map.<span></span></a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Environmental Data Science: Final Project</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="class-work" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Class work<a href="class-work.html#class-work" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="what-is-the-correlation-between-secchi-disk-depth-and-chlorophyll-a-for" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> 1) What is the correlation between Secchi Disk Depth and Chlorophyll a for<a href="class-work.html#what-is-the-correlation-between-secchi-disk-depth-and-chlorophyll-a-for" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>sites with at least 200 observations?</p>
+<ul>
+<li>Here, I just want a plot of chla vs secchi for all sites</li>
+</ul>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="class-work.html#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot secchi disk depth by cholorphyll a </span></span>
+<span id="cb74-2"><a href="class-work.html#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggthemes)</span>
+<span id="cb74-3"><a href="class-work.html#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(chla_secchi_200, <span class="fu">aes</span>(<span class="at">x =</span> secchi, <span class="at">y =</span> chla)) <span class="sc">+</span></span>
+<span id="cb74-4"><a href="class-work.html#cb74-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>, <span class="at">color=</span><span class="st">&quot;#48680E&quot;</span>)<span class="sc">+</span> </span>
+<span id="cb74-5"><a href="class-work.html#cb74-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_few</span>()<span class="sc">+</span></span>
+<span id="cb74-6"><a href="class-work.html#cb74-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Chlorophyll A&quot;</span>, <span class="at">x=</span><span class="st">&quot;Secchi Disk Depth&quot;</span>)<span class="sc">+</span> </span>
+<span id="cb74-7"><a href="class-work.html#cb74-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="dv">0</span>,<span class="dv">16</span>)</span></code></pre></div>
+<pre><code>## Warning: Removed 6 rows containing missing values (geom_point).</code></pre>
+<p><img src="ESS580_Final_files/figure-html/unnamed-chunk-55-1.png" width="672" /></p>
+<p>There is a negative correlation between secchi disk depth and chlorophyll a levels, where shallower secchi disk depths are associated with higher chlorophyll a levels.</p>
+</div>
+<div id="why-might-this-be-the-case" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Why might this be the case?<a href="class-work.html#why-might-this-be-the-case" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>High cholorphyll a concentrations are associated with high density(s) of photosynthetic organisms, such as algae. Meanwhile, secchi disks are used to assess water turbidity, where the depth of disk disappearance indicates the transparency of the water (Fuller and Minnerick 2007). Where algae abundance is high, the depth where light can penetrate a water body diminishes; thus, secchi disk depth decreases (Fuller and Minnerick 2007).</p>
+<p>Fuller, LM &amp; Minnerick, RJ (2007). Predicting Water Quality by Relating Secchi-Disk Transparency and Chlorophyll a Measurements to Landsat Satellite Imagery for Michigan Inland Lakes, 2001–2006. USGS, August 2007, 1–4. [<a href="http://pubs.usgs.gov/fs/2007/3022/pdf/FS2007-3022.pdf" class="uri">http://pubs.usgs.gov/fs/2007/3022/pdf/FS2007-3022.pdf</a>]</p>
+</div>
+<div id="what-states-have-the-most-data" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> 2) What states have the most data?<a href="class-work.html#what-states-have-the-most-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="a-first-you-will-need-to-make-a-lagos-spatial-dataset-that-has-the-total" class="section level3 hasAnchor" number="5.3.1">
+<h3><span class="header-section-number">5.3.1</span> 2a) First you will need to make a lagos spatial dataset that has the total<a href="class-work.html#a-first-you-will-need-to-make-a-lagos-spatial-dataset-that-has-the-total" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>number of counts per site.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="class-work.html#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create lagos spatial dataset with total number of counts per site </span></span>
+<span id="cb76-2"><a href="class-work.html#cb76-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-3"><a href="class-work.html#cb76-3" aria-hidden="true" tabindex="-1"></a>site_counts <span class="ot">&lt;-</span> chla_secchi <span class="sc">%&gt;%</span></span>
+<span id="cb76-4"><a href="class-work.html#cb76-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lagoslakeid) <span class="sc">%&gt;%</span></span>
+<span id="cb76-5"><a href="class-work.html#cb76-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>())</span>
+<span id="cb76-6"><a href="class-work.html#cb76-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-7"><a href="class-work.html#cb76-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Add geographic information to site counts data </span></span>
+<span id="cb76-8"><a href="class-work.html#cb76-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-9"><a href="class-work.html#cb76-9" aria-hidden="true" tabindex="-1"></a>geo_counts <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(site_counts,lake_centers, <span class="at">by=</span> <span class="st">&#39;lagoslakeid&#39;</span>)<span class="sc">%&gt;%</span> </span>
+<span id="cb76-10"><a href="class-work.html#cb76-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(lagoslakeid,nhd_long,nhd_lat, count, secchi, chla)</span>
+<span id="cb76-11"><a href="class-work.html#cb76-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-12"><a href="class-work.html#cb76-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Create spatial object for lagos dataset </span></span>
+<span id="cb76-13"><a href="class-work.html#cb76-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-14"><a href="class-work.html#cb76-14" aria-hidden="true" tabindex="-1"></a>spatial_counts <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(geo_counts,<span class="at">coords=</span><span class="fu">c</span>(<span class="st">&#39;nhd_long&#39;</span>,<span class="st">&#39;nhd_lat&#39;</span>),</span>
+<span id="cb76-15"><a href="class-work.html#cb76-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">crs=</span><span class="dv">4326</span>)</span></code></pre></div>
+</div>
+<div id="b-second-you-will-need-to-join-this-point-dataset-to-the-us_boundaries-data." class="section level3 hasAnchor" number="5.3.2">
+<h3><span class="header-section-number">5.3.2</span> 2b) Second, you will need to join this point dataset to the us_boundaries data.<a href="class-work.html#b-second-you-will-need-to-join-this-point-dataset-to-the-us_boundaries-data." class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="class-work.html#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Use a spatial join to combine point dataset and us_boundaries data</span></span>
+<span id="cb77-2"><a href="class-work.html#cb77-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-3"><a href="class-work.html#cb77-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Parse out state boundaries from us_boundaries data   </span></span>
+<span id="cb77-4"><a href="class-work.html#cb77-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-5"><a href="class-work.html#cb77-5" aria-hidden="true" tabindex="-1"></a>states <span class="ot">&lt;-</span> <span class="fu">us_states</span>()</span>
+<span id="cb77-6"><a href="class-work.html#cb77-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-7"><a href="class-work.html#cb77-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Use spatial join to overlay point dataset (original lagos spatial dataset) and state boundaries </span></span>
+<span id="cb77-8"><a href="class-work.html#cb77-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb77-9"><a href="class-work.html#cb77-9" aria-hidden="true" tabindex="-1"></a>overlay <span class="ot">&lt;-</span> <span class="fu">st_join</span>(spatial_counts,states)</span></code></pre></div>
+</div>
+<div id="c-then-you-will-want-to-group-by-state-and-sum-all-the-observations-in" class="section level3 hasAnchor" number="5.3.3">
+<h3><span class="header-section-number">5.3.3</span> 2c) Then you will want to group by state and sum all the observations in<a href="class-work.html#c-then-you-will-want-to-group-by-state-and-sum-all-the-observations-in" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>that state and arrange that data from most to least total observations per state.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="class-work.html#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Group by state and sum number of observations by state</span></span>
+<span id="cb78-2"><a href="class-work.html#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-3"><a href="class-work.html#cb78-3" aria-hidden="true" tabindex="-1"></a>summed_overlay <span class="ot">&lt;-</span> overlay <span class="sc">%&gt;%</span></span>
+<span id="cb78-4"><a href="class-work.html#cb78-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(state_name) <span class="sc">%&gt;%</span></span>
+<span id="cb78-5"><a href="class-work.html#cb78-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">sum_count =</span> <span class="fu">sum</span>(count)) <span class="sc">%&gt;%</span></span>
+<span id="cb78-6"><a href="class-work.html#cb78-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(sum_count))</span>
+<span id="cb78-7"><a href="class-work.html#cb78-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-8"><a href="class-work.html#cb78-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Print first six rows of dataframe</span></span>
+<span id="cb78-9"><a href="class-work.html#cb78-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-10"><a href="class-work.html#cb78-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(summed_overlay)</span></code></pre></div>
+<pre><code>## Simple feature collection with 6 features and 2 fields
+## Geometry type: MULTIPOINT
+## Dimension:     XY
+## Bounding box:  xmin: -96.7326 ymin: 36.56094 xmax: -71.13 ymax: 49.07966
+## Geodetic CRS:  WGS 84
+## # A tibble: 6 x 3
+##   state_name   sum_count                                                geometry
+##   &lt;chr&gt;            &lt;int&gt;                                        &lt;MULTIPOINT [°]&gt;
+## 1 Minnesota      6397053 ((-91.7611 48.07994), (-91.79656 48.07795), (-92.78202~
+## 2 Vermont        2800140 ((-71.69262 44.49016), (-71.65014 44.6488), (-71.64064~
+## 3 New York       2434082 ((-73.85454 44.48571), (-73.78217 44.46384), (-73.5003~
+## 4 Wisconsin      2045199 ((-87.15812 45.03619), (-87.87378 45.70961), (-87.8165~
+## 5 Rhode Island   1989837 ((-71.58223 41.98801), (-71.76816 42.00814), (-71.7923~
+## 6 Missouri       1372894 ((-95.58194 40.47874), (-95.13708 40.35073), (-94.9173~</code></pre>
+<p>The top five states with the most data include: Minnesota, Vermont, New York, Wisconsin, and Rhode Island.</p>
+<p>##3 Is there a spatial pattern in Secchi disk depth for lakes with at least 200
+observations?</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="class-work.html#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Filter by 200 or more observations</span></span>
+<span id="cb80-2"><a href="class-work.html#cb80-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Calculate the mean secchi depth by lake</span></span>
+<span id="cb80-3"><a href="class-work.html#cb80-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-4"><a href="class-work.html#cb80-4" aria-hidden="true" tabindex="-1"></a>secchi200 <span class="ot">&lt;-</span> chla_secchi <span class="sc">%&gt;%</span></span>
+<span id="cb80-5"><a href="class-work.html#cb80-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(lagoslakeid) <span class="sc">%&gt;%</span></span>
+<span id="cb80-6"><a href="class-work.html#cb80-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb80-7"><a href="class-work.html#cb80-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(count <span class="sc">&gt;</span> <span class="dv">200</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb80-8"><a href="class-work.html#cb80-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_secchi =</span> <span class="fu">mean</span>(secchi))</span>
+<span id="cb80-9"><a href="class-work.html#cb80-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb80-10"><a href="class-work.html#cb80-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Add geographic information, joining by lagoslakeid</span></span>
+<span id="cb80-11"><a href="class-work.html#cb80-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-12"><a href="class-work.html#cb80-12" aria-hidden="true" tabindex="-1"></a>secchi200_locus <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(secchi200, lake_centers, <span class="at">by=</span><span class="st">&#39;lagoslakeid&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb80-13"><a href="class-work.html#cb80-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(lagoslakeid, nhd_long, nhd_lat, mean_secchi)</span>
+<span id="cb80-14"><a href="class-work.html#cb80-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-15"><a href="class-work.html#cb80-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Create a spatial object with lagoslakeid and mean secchi data</span></span>
+<span id="cb80-16"><a href="class-work.html#cb80-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-17"><a href="class-work.html#cb80-17" aria-hidden="true" tabindex="-1"></a>spatial_secchi200 <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(secchi200_locus,<span class="at">coords=</span><span class="fu">c</span>(<span class="st">&#39;nhd_long&#39;</span>,<span class="st">&#39;nhd_lat&#39;</span>),</span>
+<span id="cb80-18"><a href="class-work.html#cb80-18" aria-hidden="true" tabindex="-1"></a>                          <span class="at">crs=</span><span class="dv">4326</span>)</span>
+<span id="cb80-19"><a href="class-work.html#cb80-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-20"><a href="class-work.html#cb80-20" aria-hidden="true" tabindex="-1"></a><span class="co">#Visualize secchi data within interactive plot/map</span></span>
+<span id="cb80-21"><a href="class-work.html#cb80-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-22"><a href="class-work.html#cb80-22" aria-hidden="true" tabindex="-1"></a><span class="fu">mapview</span>(spatial_secchi200, <span class="at">zcol=</span><span class="st">&#39;mean_secchi&#39;</span>, <span class="at">layer.name=</span><span class="st">&#39;Secchi Disk Depth&#39;</span>, <span class="at">canvas=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div id="htmlwidget-968844603a5525974968" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-968844603a5525974968">{"x":{"options":{"minZoom":1,"maxZoom":52,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":true,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane"}]},{"method":"addCircleMarkers","args":[[44.464741,43.737817,43.46829,39.572346,44.700302,45.273736,46.008637,44.99824,44.714411,43.364211,45.184459,44.721881,45.138607,44.836876,44.930886,44.732821,44.495383,45.007824,45.061049,44.383202,46.036814,46.043693,46.001794,46.016693,43.147757,44.972199,43.597788,40.177545,38.191845,37.57015,36.661942,36.56094,36.490608,43.614804,42.641671,42.866518,42.855758,41.983438,41.499841,41.442936,41.8822,41.410312,41.563199,41.383814,41.554434,41.876332,41.706574,41.439358,41.511129,41.441102,41.422103,41.677571,41.50215,41.509926,41.735309,41.696441,44.651526,43.202378,44.993491,41.97365,42.104206,42.362418,46.251455,42.094329],[-73.287532,-73.38038,-72.987965,-84.748952,-93.473593,-92.947538,-89.699786,-93.113149,-93.447482,-73.052027,-93.058609,-93.266846,-93.152981,-93.640379,-93.601545,-93.411219,-92.286713,-93.420596,-93.16707,-72.495912,-89.629758,-89.673305,-89.613093,-89.614589,-72.805908,-72.874959,-71.156964,-92.641957,-92.899213,-93.718828,-93.196415,-93.511837,-92.786039,-73.574073,-76.918376,-75.755892,-75.517344,-71.662141,-71.542433,-71.718352,-71.691108,-71.553336,-71.479539,-71.691615,-71.478553,-71.584137,-71.405437,-71.57506,-71.572995,-71.690336,-71.552093,-71.550382,-71.564772,-71.604388,-71.410773,-71.619423,-93.460222,-75.922466,-93.471793,-74.150688,-75.287129,-74.442637,-89.503567,-74.839642],6,null,"Secchi Disk Depth",{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"stroke":true,"color":"#333333","weight":1,"opacity":[0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9,0.9],"fill":true,"fillColor":["#007495","#45266C","#008E98","#491261","#3F3174","#2C4681","#00BE7D","#006791","#3C3777","#3F3174","#3F3174","#234B84","#3C3777","#185086","#2C4681","#006C93","#481A65","#2C4681","#373C7B","#009297","#007996","#00A890","#A6DA42","#6CD05E","#008197","#32417E","#79D359","#3F3174","#422C70","#00598B","#422C70","#234B84","#005489","#E2E22B","#00C179","#009297","#006C93","#009297","#2C4681","#00598B","#00598B","#00C475","#32417E","#006290","#00598B","#005E8E","#008A98","#3F3174","#006290","#32417E","#00598B","#005E8E","#234B84","#185086","#006C93","#006290","#373C7B","#006791","#006290","#005E8E","#185086","#2C4681","#009996","#008197"],"fillOpacity":[0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6,0.6]},null,null,["<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>1&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>   211&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>3.2454980&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>2&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>   249&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>0.9211806&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>3&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>   418&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>4.1097047&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>4&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>   447&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>0.6169512&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>5&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>   533&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.2084716&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>6&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>   552&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.7789000&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>7&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>   906&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>6.0726166&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>8&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  1361&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.8654726&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>9&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  2329&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.3738806&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>10&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  2537&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.2825871&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>11&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  2709&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.2323207&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>12&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  2713&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.9270721&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>13&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  2785&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.3578846&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>14&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  2936&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.0332512&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>15&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  3006&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.7947120&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>16&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  3092&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.9016019&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>17&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  3523&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>0.7185645&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>18&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  3637&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.8160731&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>19&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  3810&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.5368860&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>20&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  4484&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>4.2217822&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>21&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  4625&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>3.3248565&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>22&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  4664&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>4.9938980&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>23&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  4722&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>7.7790061&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>24&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  5248&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>7.0831195&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>25&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  5320&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>3.6230000&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>26&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  5407&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.6982353&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>27&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  5977&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>7.0961538&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>28&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  6065&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.2423565&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>29&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  6067&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.1008406&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>30&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  6208&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.3502256&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>31&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  6227&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.0685552&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>32&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  6301&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.9377166&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>33&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  6302&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.2421928&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>34&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  6420&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>8.5048600&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>35&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  6490&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>6.2262222&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>36&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  6534&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>4.1600000&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>37&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  6547&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.9876847&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>38&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7496&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>4.2733292&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>39&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7540&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.7782560&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>40&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7545&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.3703276&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>41&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7593&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.3256573&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>42&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7595&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>6.3583580&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>43&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7695&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.6931840&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>44&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7790&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.6567041&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>45&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7791&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.3313842&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>46&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7792&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.5020130&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>47&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7964&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>3.8986228&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>48&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7969&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.1991928&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>49&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  7970&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.6438955&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>50&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  8271&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.7137879&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>51&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  8272&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.4472523&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>52&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  8281&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.5364363&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>53&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  8291&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.9040899&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>54&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  8294&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.1009091&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>55&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  8304&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.8868002&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>56&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>  8333&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.6196583&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>57&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td> 23286&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.5325940&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>58&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td> 38705&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.8523354&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>59&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td> 38846&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.7133898&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>60&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td> 39489&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.5265748&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>61&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td> 40610&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>2.1684127&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>62&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td> 49938&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>1.7706478&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>63&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td> 96694&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>4.4832159&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>","<div class='scrollableContainer'><table class=mapview-popup id='popup'><tr class='coord'><td><\/td><th><b>Feature ID&emsp;<\/b><\/th><td>64&emsp;<\/td><\/tr><tr><td>1<\/td><th>lagoslakeid&emsp;<\/th><td>122517&emsp;<\/td><\/tr><tr><td>2<\/td><th>mean_secchi&emsp;<\/th><td>3.5957872&emsp;<\/td><\/tr><tr><td>3<\/td><th>geometry&emsp;<\/th><td>sfc_POINT&emsp;<\/td><\/tr><\/table><\/div>"],{"maxWidth":800,"minWidth":50,"autoPan":true,"keepInView":false,"closeButton":true,"closeOnClick":true,"className":""},["3.24549795027285","0.921180555555556","4.10970465316456","0.616951219512195","1.20847161572052","1.7789","6.07261663286004","2.86547263681592","1.37388059701493","1.28258706268657","1.23232067510549","1.92707207207207","1.35788461538462","2.03325123152709","1.79471204188482","2.90160194174757","0.718564528301887","1.81607305936073","1.53688596491228","4.22178216435644","3.3248564612326","4.99389795918367","7.7790060851927","7.08311951710262","3.62299999066667","1.69823529137255","7.09615384615385","1.24235648148148","1.1008406374502","2.35022561576355","1.0685552407932","1.93771658031088","2.24219277978339","8.50486","6.22622222222222","4.16","2.98768472906404","4.27332916666667","1.778256033181","2.37032763532906","2.32565733944495","6.35835800652941","1.69318402777917","2.65670413669065","2.33138423988703","2.50201297070711","3.89862278761062","1.19919278606965","2.64389552696324","1.71378787879221","2.44725234270683","2.53643631436179","1.90408989043519","2.10090909090909","2.88680023923445","2.61965833333333","1.53259398496241","2.85233537519142","2.71338983050847","2.52657480314961","2.1684126984127","1.77064777327935","4.48321585903084","3.59578723404255"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addHomeButton","args":[-93.718828,36.490608,-71.156964,46.251455,true,"Secchi Disk Depth","Zoom to Secchi Disk Depth","<strong> Secchi Disk Depth <\/strong>","bottomright"]},{"method":"addLayersControl","args":[["CartoDB.Positron","CartoDB.DarkMatter","OpenStreetMap","Esri.WorldImagery","OpenTopoMap"],"Secchi Disk Depth",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addLegend","args":[{"colors":["#4B0055 , #491361 4.85615124550307%, #32417E 17.5337826409584%, #006791 30.2114140364137%, #008A98 42.8890454318691%, #00A890 55.5666768273244%, #00C179 68.2443082227797%, #85D553 80.9219396182351%, #D9E12C 93.5995710136904%, #FDE333 "],"labels":["1","2","3","4","5","6","7","8"],"na_color":null,"na_label":"NA","opacity":1,"position":"topright","type":"numeric","title":"Secchi Disk Depth","extra":{"p_1":0.0485615124550307,"p_n":0.935995710136904},"layerId":null,"className":"info legend","group":"Secchi Disk Depth"}]}],"limits":{"lat":[36.490608,46.251455],"lng":[-93.718828,-71.156964]},"fitBounds":[36.490608,-93.718828,46.251455,-71.156964,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+<p>I do not see an exceptionally strong spatial pattern in secchi disk depth in lakes with at least 200 observations, given the number of observations above 200 is small. However, the patch of lakes near/surrounding the Minneapolis-Saint Paul sprawl in Minnesota have broadly shallower secchi disk depths. Meanwhile, lakes in more remote areas in northern Wisconsin and near the Adirondacks in New York have broadly deeper secchi disk depths. It could be a stretch, but sufficient to say that lakes within more remote areas have generally deeper secchi depths and urban areas shallower depths.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="geospatial-analysis-water-quality.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="regression-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

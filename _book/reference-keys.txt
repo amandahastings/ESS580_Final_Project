@@ -1,0 +1,16 @@
+workflow-tools
+introduction
+methods
+results
+poudre-river-information
+references
+data-wrangling
+introduction-1
+methods-1
+results-1
+key-programming-concepts
+introduction-2
+data-acquisiton-snowpack-depth
+results-snowpack-depth
+data-acquisition-meterological-data
+results-meterological-data
