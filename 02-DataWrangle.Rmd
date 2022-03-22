@@ -16,7 +16,7 @@ library(broom)
 ## Introduction
 
 
-This project served as an introduction and exploration in data munging. We utilized data from Climate Engine to investigate vegetation recovery following the 2002 Hayman Fire in Colorado. We specifically looked at NDVI, NDSI, and NDMI between unburned and burned sites and before and after the fire event. 
+This project served as an introduction and exploration in data munging. We utilized data from Climate Engine to investigate vegetation recovery following the 2002 Hayman Fire in Colorado. We specifically looked at normalized difference vegetation index (NDVI), normalized difference snow index (NDSI), and normalized difference moisture index (NDMI), between unburned and burned sites and before and after the fire event. 
 
 
 Once manipulating the data, we performed basic analyses to address the following project questions: 

@@ -60,7 +60,7 @@ The Poudre River at Lincoln Bridge is:
 ### Data Acquistion {-}
 
 
-We retrieved discharge data from the USGS NWIS web service. 
+We retrieved discharge data using the dataRetrieval R package from the USGS NWIS web service. 
 
 
 ```{r downloader}
