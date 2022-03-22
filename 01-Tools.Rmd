@@ -1,9 +1,7 @@
-# Workflow tools: RMarkdown, Git, Github
+# Workflow tools
 
 
 ```{r include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
 #Load libraries
 library(tidyverse)
 library(dataRetrieval)
@@ -14,6 +12,22 @@ library(ggthemes)
 ```
 
 
+## Introduction
+
+
+This project served as an introduction to workflow tools: R Markdown, Git, and GitHub. To complete project objectives, we utilized USGS discharge data for the Cache la Poudre River at the Lincoln Avenue bridge in Fort Collins, CO. 
+
+Project objectives included: 
+
+a) Fork example repository to personal GitHub 
+
+b) Explore R Markdown formatting 
+
+c) Utilize dygraphs package for interactive plotting
+
+d) Commit and push work to GitHub
+
+
 ## Methods 
 
 
@@ -22,31 +36,31 @@ library(ggthemes)
 
 The Poudre River at Lincoln Bridge is:
 
-  - Downstream of only a little bit of urban stormwater
+  - Near Old Town Fort Collins, CO and multiple craft breweries, including Odell Brewing 
+  
+  - Near an open space and the Poudre River Trail
 
-  - Near Odell Brewing CO
+  - Downstream of only some urban stormwater
   
-  - Near an open space area and the Poudre River Trail
-  
-  - Downstream of many agricultural diversions
+  - **Downstream of many agricultural diversions**
   
 
 ![](https://www.otak.com/wp-content/uploads/2019/04/0543_The_Unfound_Door_OTAK_two.jpg)
 
 
-<small>Figure 1. The bridge was reconstructed in 2017. Photography courtesy of Otak. </small>
+<small>Figure 1. The Lincoln Avenue bridge was reconstructed in 2017 to accommodate sidewalks and bike lanes. Photograph courtesy of Otak. </small>
 
 
 ![](https://waterdata.usgs.gov/nwisweb/local/state/co/text/pics/06752260big.jpg)
 
 
-<small>Figure 2. Poudre River at Lincoln Bridge, Fort Collins, CO. Photograph courtesy of USGS.</small>
+<small>Figure 2. USGS Station at the Lincoln Bridge location, Poudre River - Fort Collins, CO. Photograph courtesy of USGS.</small>
 
 
 ### Data Acquistion 
 
 
-We retrieved discharge data from the USGS NWIS web service for the Poudre River at the Lincoln bridge using the readNWISdv() package. 
+We retrieved discharge data from the USGS NWIS web service. 
 
 
 ```{r downloader}
@@ -106,12 +120,12 @@ dygraph(discharge_xts) %>%
 ```
 
 
-## Additional Cache la Poudre River Information
+## Additional Poudre River Information
 
 
 ![](https://cdn.5280.com/2019/08/Cache-la-Poudre-River_Marek-Uliasz_Alamy-Stock-Photo-960x720.jpg)
 
-<small>Figure 2. Cache la Poudre River. Photograph courtesy of Marek Uliasz.</small> 
+<small>Figure 3. Cache la Poudre River. Photograph courtesy of Marek Uliasz.</small> 
 
 
 Meandering through Roosevelt National Forest and dropping approximately 7,000 feet in elevation, the Cache la Poudre River stretches from peaks along the Continental Divide to foothills of the Front Range near Fort Collins, CO (USFS). Despite the great length of the river, stretches of uninterrupted habitat for resident fishes are becoming increasingly limited— particularly with the construction of man-made diversion structures (Bloom, 2018). As of 2018, researchers estimated approximately **82%** Great Plains fish are in decline, with species such as the common shiner, [*Luxilus cornutus*]( https://nas.er.usgs.gov/queries/factsheet.aspx?SpeciesID=563), and the central stoneroller, [*Campostoma anomalum*](https://nas.er.usgs.gov/queries/factsheet.aspx?SpeciesID=506), potentially lost to northern Colorado waterways (Bloom, 2018). Species including small minnows— such as the red shiner, *Cyprinella lutrensis*, and orangespotted sunfish, *Lepomis humilis*– require stretches of **at least** 30 miles to migrate and spawn (Bloom, 2018). However, could another man-made structure potentially offset the necessary, yet imperiling, structures in place? CSU researcher Dr. Chris Myrick and his graduate students built a fish ladder for small fishes, similar to those previously built for larger fishes, to essentially extend their, otherwise interrupted, habitat. [Here]( https://youtu.be/7x7O9r5j5fE) is a fish eye’s view of the fish ladder the team created. While the only fish ladder within Larimer County, the research team hopes the design will be transferable and a means to protect small fish across other states as well (Bloom, 2018). 
