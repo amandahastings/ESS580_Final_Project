@@ -1,5 +1,4 @@
 book_filename: "ESS580_Final"
-output_dir: "book"
 language:
   ui:
     chapter_name: "Chapter "
