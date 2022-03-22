@@ -1,4 +1,4 @@
-# Geospatial analysis 
+# Geospatial Analysis 
 
 
 ```{r, include=FALSE}
@@ -8,13 +8,17 @@ library(mapview) #Interactive maps
 library(LAGOSNE) #Lots and lots of clean lake data
 library(USAboundaries) #USA states and counties
 library(RApiSerialize)
+library(ggthemes)
+library(scales)
 ```
 
 
 ## Introduction
 
 
-## LAGOS Analysis
+This project served as an introduction to spatial analysis in R and consisted of two parts. In part I, we utilized data from the LAGOS program to investigate the spatial distribution and size of lakes in midwestern US states. 
+
+Project objectives: 
 
 
 ## Methods 
@@ -36,7 +40,7 @@ lake_centers <- lagos$locus
 ```
 
 
-### Convert to spatial data
+### Data Processing
 
 
 ```{r include=F}
@@ -96,7 +100,7 @@ minnesota_lakes <- spatial_lakes[minnesota,]
 minnesota_lakes %>%
   arrange(-lake_area_ha) %>%
     slice(1:1000) %>%
-  mapview(.,zcol = 'lake_area_ha')
+  mapview(.,zcol = 'lake_area_ha',at=c(0,100,250,500,1000,2500,5000,10000,125000), layer.name='Lake area (ha)')
 ```
 
 
@@ -140,14 +144,15 @@ iowa_lakes <- spatial_lakes[iowa,]
   
 #Create histogram of Iowa lake size 
 ggplot(iowa_lakes, aes(x=lake_area_ha))+ 
-  geom_histogram(bins=40)+ 
-  scale_x_log10(labels= scales::comma)+
+  geom_histogram(bins=40, alpha=0.5)+ 
+  theme_few()+
+  scale_x_log10(labels = label_comma(accuracy = 1))+
   labs(x= "Lake size (hectares)", y= "Frequency", title='Iowa Lakes')
 
 #Create histogram of Minnesota lake size
 ggplot(minnesota_lakes, aes(x=lake_area_ha))+ 
-  geom_histogram(bins=40)+ 
-  scale_x_log10(labels=scales::comma)+
+  geom_histogram(bins=40, alpha=0.5)+ 
+  scale_x_log10(labels = label_comma(accuracy = 1))+
   labs(x= "Lake size (hectares)", y= "Frequency", title='Minnesota Lakes')
 ```
 
@@ -155,8 +160,7 @@ ggplot(minnesota_lakes, aes(x=lake_area_ha))+
 The distributions of lake size for both Iowa and Minnesota are positively skewed. Generally, Iowa lake size is smaller than Minnesota.
 
 
-## 4) Make an interactive plot of lakes in Iowa and Illinois and color them by lake area in hectares. 
-
+<small> Figure . Interactive plot of Iowa and Illinois lakes by lake area in hectares. </small> 
 
 ```{r}
 #Create interactive plot of Iowa and Illinois lakes 
@@ -168,7 +172,8 @@ istate_lakes %>%
 ```
 
 
-### Additional data sources: reservoirs and natural lakes size 
+
+### Additional data sources: reservoirs and natural lakes size {-}
 
 
 *The Global Lake area, Climate, and Population (GLCP) dataset is comprised of lake surface area data (from the datasets listed below), as well as temperature, precipitation, and population data (Meyer et al. 2020).
