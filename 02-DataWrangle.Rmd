@@ -1,4 +1,4 @@
-# Data wrangling
+# Data Wrangling
 
 
 ```{r, include=FALSE, warning=F,message=F}

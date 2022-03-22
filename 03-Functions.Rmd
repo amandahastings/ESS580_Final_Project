@@ -311,7 +311,7 @@ for (i in yrs){
 ```
 
 
-<small> **Figures 3-9. Monthly average temperature at study plots: Swamp Angel and Senator Beck, years 2005-2010.** </small>
+<small> **Figures 3-8. Monthly average temperature at study plots: Swamp Angel and Senator Beck, years 2005-2010.** </small>
 
 
 ```{r, message=F}
@@ -337,7 +337,7 @@ ggplot(precip_daily, aes(x = yday, y = mean_dy_precip)) +
 ```
 
 
-<small> **Figure 10. Average daily precipitation by day of year at the Swamp Angel study plot, averaged across available years.** </small>
+<small> **Figure 9. Average daily precipitation by day of year at the Swamp Angel study plot, averaged across available years.** </small>
 
 
 ```{r, message=F}
@@ -362,7 +362,7 @@ dygraph(precip_xts2, ylab = "") %>%
 ```
 
 
-<small> **Figure 11. Interactive plot of average precipitation by day of year at Swamp Angel study plot.** </small>
+<small> **Figure 10. Interactive plot of average precipitation by day of year at Swamp Angel study plot.** </small>
 
 
 ```{r ggplot, yearly precip plot, message=F}
@@ -399,7 +399,7 @@ for (i in yrs){
 ```
 
 
-<small> **Figures 12-17. Yearly plots (2005-2010) of precipitation by day of year at the Swamp Angel study plot.** </small> 
+<small> **Figures 11-16. Yearly plots (2005-2010) of precipitation by day of year at the Swamp Angel study plot.** </small> 
 
 
 ```{r dygraphs, yearly precip plots, include=F}
