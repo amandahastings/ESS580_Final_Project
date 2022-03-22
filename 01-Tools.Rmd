@@ -31,7 +31,7 @@ d) Commit and push work to GitHub
 ## Methods 
 
 
-### Site Description
+### Site Description {-}
 
 
 The Poudre River at Lincoln Bridge is:
@@ -57,7 +57,7 @@ The Poudre River at Lincoln Bridge is:
 <small>Figure 2. USGS Station at the Lincoln Bridge location, Poudre River - Fort Collins, CO. Photograph courtesy of USGS.</small>
 
 
-### Data Acquistion 
+### Data Acquistion {-}
 
 
 We retrieved discharge data from the USGS NWIS web service. 
@@ -77,7 +77,7 @@ DischargeData <- readNWISdv(
 ## Results 
 
 
-### Static Plot 
+### Static Plot {-}
 
 
 ```{r static plot, warning = FALSE, echo=FALSE}
@@ -104,7 +104,7 @@ ggplot(DischargeData, aes(x = Date, y = discharge)) +
 ```
 
 
-### Interactive Plot 
+### Interactive Plot {-}
 
 
 ```{r interactive plot, echo=FALSE}
@@ -113,14 +113,15 @@ discharge_xts <- xts(DischargeData$discharge, order.by = DischargeData$Date)
 
 #Create interactive plot with dygraphs 
 dygraph(discharge_xts) %>%
-  dyOptions(strokeWidth = 0.7, drawPoints = TRUE, pointSize = 1.25, fillGraph=TRUE,fillAlpha=0.25,drawGrid = FALSE) %>%
+  dyOptions(strokeWidth = 0.7, drawPoints = TRUE, pointSize = 1.25, fillGraph=TRUE,fillAlpha=0.25) %>%
   dyAxis("y",label = "") %>%
   dyAxis("x", axisLabelFontSize = 12) %>%
-  dySeries("V1", label = "Discharge (cfs)")
+  dySeries("V1", label = "Discharge (cfs)")%>% 
+  dyLegend(show="always")
 ```
 
 
-## Additional Poudre River Information
+## Poudre River Information
 
 
 ![](https://cdn.5280.com/2019/08/Cache-la-Poudre-River_Marek-Uliasz_Alamy-Stock-Photo-960x720.jpg)
@@ -137,7 +138,7 @@ Another noteworthy fact about the Poudre river: it is the **only** designated Na
 A map of the National Wild and Scenic Rivers system can be found [here](https://www.rivers.gov/documents/nwsrs-map.pdf).
 
 
-### Presentation link
+### Presentation link {-}
 
 
 This chapter has also been formatted into a presentation/talk using the reveal.js package. The formatted version can be found [here](https://amandahastings.github.io/1_rmarkdown_examples/index_talk.html#/).

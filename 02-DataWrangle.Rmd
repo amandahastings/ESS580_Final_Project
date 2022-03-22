@@ -31,7 +31,7 @@ c) How does the correlation in snow cover and vegetation growth (from question b
 ## Methods 
 
 
-### Data Acquistion 
+### Data Acquistion {-}
 
 
 ```{r dataread, warning=F,message=F}
@@ -70,7 +70,7 @@ full_long <- rbind(ndvi,ndmi,ndsi) %>%
 ## Results
 
 
-### Question A: NDVI and NDMI
+### Question A: NDVI and NDMI {-}
 
 ```{r longformat, echo=T}
 #Convert from long to wide data with spread() 
@@ -144,7 +144,7 @@ full_wide2 <- full_long %>%
 ```
 
 
-### Question B: Winter NDSI and Summer NDVI 
+### Question B: Winter NDSI and Summer NDVI {-}
 
 
 ```{r, echo=T, message=F}
@@ -202,10 +202,10 @@ plot(LMFit2, which= c(1:2))
 The p-value from a test of correlation for average summer NDVI and average winter NDSI is 0.0002124 and less than 0.05. We have evidence of a positive linear association between average summer NDVI and average winter NDSI. For every 1 unit increase in average winter NDSI, there is a 0.042658 increase in average summer NDVI.
 
 
-### Question C: NDVI-NDSI correlations
+### Question C: NDVI-NDSI correlations {-}
 
 
-#### NDVI-NDSI: Pre- versus post-fire figure and analyses
+#### NDVI-NDSI: Pre- versus post-fire figure and analyses {-}
 
 
 ```{r, echo=T, message=F}
@@ -253,7 +253,7 @@ cor.test(postfire$mean_ndsi,postfire$mean_ndvi)
 In pre-fire years, we do not have evidence of an association between average summer NDVI and average winter NDSI (p-value=0.1721). However, in post-fire years, we have evidence of an association between average summer NDVI and average winter NDSI (p-value=0.01048).
 
 
-#### NDVI-NDSI: Burned versus unburned figure and analyses
+#### NDVI-NDSI: Burned versus unburned figure and analyses {-}
 
 
 ```{r, echo = T, message=F}
@@ -303,7 +303,7 @@ cor.test(unburned$mean_ndsi,unburned$mean_ndvi)
 When analyzing all years included in the dataset, we do not have evidence of an association between average summer NDVI and average winter NDSI within the unburned area (p-value= 0.6589) and burned area (p-value=0.1825). When analyzing only years postfire, we still do not have evidence of an association between average summer NDVI and average winter NDSI in the unburned (p-value=0.905) and burned areas (p-value=0.3226).
 
 
-### Additional findings
+### Additional findings {-}
 
 
 Lastly, when looking at overall trends in NDVI and NDSI, we found August is the greenest month on average while February is the snowiest month on average.

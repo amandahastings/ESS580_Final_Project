@@ -356,7 +356,7 @@ precip_xts2 <- xts(precip_daily2 %>%
                      select(SASP), order.by = precip_daily2$date)
 
 dygraph(precip_xts2, ylab = "") %>%
-  dyOptions(fillGraph = TRUE, axisLabelFontSize=10) %>% 
+  dyOptions(fillGraph = TRUE, axisLabelFontSize=12) %>% 
   dySeries("SASP", label = "Average Daily Precipitation (kgm2 per day)")%>% 
   dyLegend(width=400,show="always")
 ```
