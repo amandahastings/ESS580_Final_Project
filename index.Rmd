@@ -6,10 +6,7 @@ site: bookdown::bookdown_site
 documentclass: book
 output: 
   bookdown::gitbook: default
-bibliography: [packages.bib]
-biblio-style: apalike
-link-citations: yes
-github-repo: amandahastings/ESS580_Final_Project
+# github-repo: amandahastings/ESS580_Final_Project
 description: "This is book consists of six different projects completed in ESS580: Introduction to Environmental Data Science at Colorado State University in Spring 2022."
 ---
 
@@ -19,9 +16,9 @@ library(bookdown)
 
 
 ```{r,include=FALSE}
-knitr::write_bib(c(
-  .packages(), 'bookdown', 'knitr', 'rmarkdown'
-), 'packages.bib')
+# knitr::write_bib(c(
+#   .packages(), 'bookdown', 'knitr', 'rmarkdown'
+# ), 'packages.bib')
 ```
 
 # Preface {-}

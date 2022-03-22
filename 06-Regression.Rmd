@@ -37,7 +37,7 @@ prism <- readMat("dataRegression/prismiowa.mat")
 ```
 
 
-```{r tmax data, include=F}
+```{r tmax, include=F}
 #Explore the data: county #1
 t_1981_c1 <- prism$tmaxdaily.iowa[1,,1]
 t_1981_c1[366]

@@ -1,4 +1,4 @@
-# Geospatial analysis: water quality {-}
+# Geospatial Analysis: Water Quality 
 
 
 ```{r, include=FALSE}
@@ -12,6 +12,8 @@ library(lubridate) #For dealing with date and time
 
 
 ## Introduction
+
+
 
 ### First download and then specifically grab the locus (or site lat longs)
 ```{r, cache=TRUE}

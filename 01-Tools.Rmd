@@ -1,4 +1,4 @@
-# Workflow tools
+# Workflow Tools
 
 
 ```{r include=FALSE}
