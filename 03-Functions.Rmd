@@ -25,7 +25,9 @@ This project served as an introduction to webscraping, iteration, and  functions
 Project objectives: 
 
 a) Extract data URLS or CSV links from website
+
 b) Download data using a for loop or map function 
+
 c) Write custom functions
 
 
