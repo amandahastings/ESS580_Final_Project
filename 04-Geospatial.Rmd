@@ -10,7 +10,6 @@ library(USAboundaries) #USA states and counties
 library(RApiSerialize)
 library(ggthemes)
 library(scales)
-library(leaflet)
 ```
 
 
