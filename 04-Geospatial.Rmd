@@ -31,7 +31,7 @@ c) Assess the distribution of lake size across states
 ## Methods 
 
 
-### Data Acquisition
+### Data Acquisition {-}
 
 
 ```{r data-read, warning=F}
@@ -47,7 +47,7 @@ lake_centers <- lagos$locus
 ```
 
 
-### Data Processing
+### Data Processing {-}
 
 
 ```{r include=F}
@@ -222,5 +222,5 @@ Additional useful sources for assessing reservoir and lake size:
 
 Meyer, MF, Labou, SG, Cramer, AN, Brousil, MR, & Luff, BT. (2020). The global lake area, climate, and population dataset. Scientific Data, 7(1), 1–12. https://doi.org/10.1038/s41597-020-0517-4
 
-Soranno, P. and K. Cheruvelil. (2017). LAGOS-NE-LIMNO v1.087.1: A module for LAGOS-NE, a multi-scaled geospatial and temporal database of lake ecological context and water quality for thousands of U.S. Lakes: 1925-2013 ver 2. Environmental Data Initiative. https://doi.org/10.6073/pasta/56cc5f1f753d48edfea170a5401dd6df (Accessed 2022-03-23).
+Soranno, P. and K. Cheruvelil. (2017). LAGOS-NE-LIMNO v1.087.1: A module for LAGOS-NE, a multi-scaled geospatial and temporal database of lake ecological context and water quality for thousands of U.S. Lakes: 1925-2013 ver 2. Environmental Data Initiative. https://doi.org/10.6073/pasta/56cc5f1f753d48edfea170a5401dd6df
 
