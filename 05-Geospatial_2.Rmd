@@ -8,6 +8,7 @@ library(mapview) #Interactive maps
 library(LAGOSNE) #Lots and lots of clean lake data
 library(USAboundaries) #USA states and counties
 library(lubridate) #For dealing with date and time
+library(ggthemes)
 ```
 
 
@@ -15,8 +16,17 @@ library(lubridate) #For dealing with date and time
 
 
 
-### First download and then specifically grab the locus (or site lat longs)
-```{r, cache=TRUE}
+
+
+
+## Methods 
+
+
+Similar to Geospatial Analysis part I, we retrieved lake water quality data using the LAGOSNE R package. 
+
+
+### Data Acquisition {-}
+```{r, cache=TRUE, include=F}
 #Lagos download script
 #lagosne_get(dest_folder = LAGOSNE:::lagos_path(),overwrite=T)
 
@@ -38,57 +48,43 @@ nutr <- lagos$epi_nutr
 #names(nutr)
 ```
 
-### Subset columns nutr to only keep key info that we want
-
 
 ```{r}
+#Select clarity variables from LAGOS water quality data 
 clarity_only <- nutr %>%
   select(lagoslakeid,sampledate,chla,doc,secchi) %>%
   mutate(sampledate = as.character(sampledate) %>% ymd(.))
-
 ```
 
 
-### Keep sites with at least 200 observations 
+### Data Processing {-}
+
 
 ```{r}
-
-#Look at the number of rows of dataset
-#nrow(clarity_only)
-
+#Filter data to remove na values from variables of interest: Chla and Secchi Disk Depth
 chla_secchi <- clarity_only %>%
   filter(!is.na(chla),
          !is.na(secchi))
 
-# How many observations did we lose?
-# nrow(clarity_only) - nrow(chla_secchi)
-
-
-# Keep only the lakes with at least 200 observations of secchi and chla
+#Include only lakes with at least 200 observations for Chla and Secchi Disk Depth
 chla_secchi_200 <- chla_secchi %>%
   group_by(lagoslakeid) %>%
   mutate(count = n()) %>%
   filter(count > 200)
-
-
 ```
 
 
-### Join water quality data to spatial data
-
 ```{r}
+#Join water quality data to spatial data
 spatial_200 <- inner_join(spatial_lakes,chla_secchi_200 %>%
                             distinct(lagoslakeid,.keep_all=T),
                           by='lagoslakeid')
-
-
 ```
 
-### Mean Chl_a map
+
 
 ```{r}
 ### Take the mean chl_a and secchi by lake
-
 mean_values_200 <- chla_secchi_200 %>%
   # Take summary by lake id
   group_by(lagoslakeid) %>%
@@ -119,13 +115,11 @@ sites with at least 200 observations?
 
 ```{r}
 #Plot secchi disk depth by cholorphyll a 
-library(ggthemes)
-ggplot(chla_secchi_200, aes(x = secchi, y = chla)) +
+ggplot(data=chla_secchi_200, aes(x = secchi, y = chla)) +
   geom_point(shape = 1, color="#48680E")+ 
   theme_few()+
-  labs(y="Chlorophyll A", x="Secchi Disk Depth")+ 
+  labs(y=expression("Chlorophyll A"~(mu*"g/L")), x="Secchi Disk Depth (m)")+ 
   xlim(0,16)
-
 ```
 
 
@@ -197,7 +191,7 @@ summed_overlay <- overlay %>%
 
 #Print first six rows of dataframe
 
-head(summed_overlay)
+knittr::kable(head(summed_overlay))
 
 ```
 
@@ -237,11 +231,12 @@ spatial_secchi200 <- st_as_sf(secchi200_locus,coords=c('nhd_long','nhd_lat'),
 
 #Visualize secchi data within interactive plot/map
 
-mapview(spatial_secchi200, zcol='mean_secchi', layer.name='Secchi Disk Depth', canvas=TRUE)
+mapview(spatial_secchi200, zcol='mean_secchi', layer.name='Secchi Disk Depth (m)', canvas=TRUE)
 
 ```
 
-I do not see an exceptionally strong spatial pattern in secchi disk depth in lakes with at least 200 observations, given the number of observations above 200 is small. However, the patch of lakes near/surrounding the Minneapolis-Saint Paul sprawl in Minnesota have broadly shallower secchi disk depths. Meanwhile, lakes in more remote areas in northern Wisconsin and near the Adirondacks in New York have broadly deeper secchi disk depths. It could be a stretch, but sufficient to say that lakes within more remote areas have generally deeper secchi depths and urban areas shallower depths. 
+
+I do not find an exceptionally strong spatial pattern in secchi disk depth in lakes with at least 200 observations, given the number of observations above 200 is small. However, the patch of lakes near/surrounding the Minneapolis-Saint Paul sprawl in Minnesota have broadly shallower secchi disk depths. Meanwhile, lakes in more remote areas in northern Wisconsin and near the Adirondacks in New York have generally deeper secchi disk depths. Despite a weaker spatial pattern, it is probable lakes within more remote areas have generally deeper secchi depths and urban areas shallower depths. 
 
 
 

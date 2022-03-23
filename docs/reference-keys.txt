@@ -14,3 +14,8 @@ data-acquisiton-snowpack-depth
 results-snowpack-depth
 data-acquisition-meterological-data
 results-meterological-data
+geospatial-analysis
+introduction-3
+methods-2
+results-2
+references-1
