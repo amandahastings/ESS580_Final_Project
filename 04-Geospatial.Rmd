@@ -17,7 +17,7 @@ library(leaflet)
 ## Introduction
 
 
-This project served as an introduction to spatial analysis in R and consisted of two parts. In part I, we utilized data from the LAGOS program to investigate the spatial distribution and size of lakes in three midwestern US states: Illinois, Iowa, and Minnesota. 
+This project served as an introduction to spatial analysis in R and consisted of two parts. In part I, we utilized data from the LAGOS program to investigate the spatial distribution and size of lakes in three midwestern US states: Illinois, Iowa, and Minnesota. LAGOS-NE is a geospatial and temporal database of lake water quality and ecological context within the United States (Soranno and Cheruvelil 2017). 
 
 Project objectives: 
 
@@ -34,7 +34,7 @@ c) Assess the distribution of lake size across states
 ### Data Acquisition
 
 
-```{r data-read}
+```{r data-read, warning=F}
 #Download LAGOS data
 # LAGOSNE::lagosne_get(dest_folder = LAGOSNE:::lagos_path())
 
@@ -75,8 +75,10 @@ subset_spatial <- spatial_lakes %>%
 subset_baser <- spatial_lakes[1:100,]
 
 #Dynamic mapviewer
-mapview(subset_spatial)
+mapview(subset_spatial, layer.name="LAGOS lake subset")
 ```
+
+<small> Figure 1. A subset of lakes within the LAGOS dataset for an introduction to dynamic mapping with the mapview R package. </small>
 
 
 ```{r}
@@ -111,7 +113,7 @@ minnesota_lakes %>%
   mapview(.,zcol = 'lake_area_ha', at=c(0,500,1500,3000,7500,15000,30000,65000,125000),layer.name='Lake area (ha)')+ mapview(minnesota,layer.name="Minnesota", alpha.regions=0.35, col.regions="#fcf87f")
 ```
 
-<small> Figure 1. Interactive map of Minnesota Lakes, colored by lake area in hectares. </small> 
+<small> Figure 2. Interactive map of Minnesota Lakes, colored by lake area in hectares. </small> 
 
 
 ```{r, include=F}
@@ -119,6 +121,14 @@ minnesota_lakes %>%
 i_states <- states %>% 
   filter(name %in% c('Iowa','Illinois')) %>% 
   st_transform(2163)
+```
+
+
+```{r, include=F}
+#Subset LAGOS data
+istate_lakes <- spatial_lakes[i_states,]
+
+nrow(minnesota_lakes)-nrow(istate_lakes)
 ```
 
 
@@ -132,18 +142,10 @@ istate_lakes %>%
 ```
 
 
-<small> Figure 2. Interactive map of Iowa and Illinois lakes, colored by lake area in hectares. </small> 
+<small> Figure 3. Interactive map of Iowa and Illinois lakes, colored by lake area in hectares. </small> 
 
 
-```{r, include=F}
-#Subset LAGOS data
-istate_lakes <- spatial_lakes[i_states,]
-
-nrow(minnesota_lakes)-nrow(istate_lakes)
-```
-
-
-```{r, include=F}
+```{r, echo=F}
 #Create histogram of Minnesota lake size
 ggplot(minnesota_lakes, aes(x=lake_area_ha))+ 
   geom_histogram(bins=40, alpha=0.25, color="black", fill="#03D1E2")+ 
@@ -153,10 +155,10 @@ ggplot(minnesota_lakes, aes(x=lake_area_ha))+
 ```
 
 
-<small> Figure 3. Distribution of Minnesota lake size. </small> 
+<small> Figure 4. Distribution of Minnesota lake size in hectares. </small> 
 
 
-```{r, include=F}
+```{r, echo=F}
 # states_lagos <- lagos$state 
 iowa <- states %>%
   filter(name == 'Iowa') %>%
@@ -174,10 +176,10 @@ ggplot(iowa_lakes, aes(x=lake_area_ha))+
 ```
 
 
-<small> Figure 4. Distribution of Iowa lake size in hectares. </small>
+<small> Figure 5. Distribution of Iowa lake size in hectares. </small>
 
 
-```{r, include=F}
+```{r, echo=F}
 illinois <- states %>%
   filter(name == 'Illinois') %>%
   st_transform(2163)
@@ -194,7 +196,7 @@ ggplot(illinois_lakes, aes(x=lake_area_ha))+
 ```
 
 
-<small> Figure 5. Distribution of Illinois lake size in hectares. </small>
+<small> Figure 6. Distribution of Illinois lake size in hectares. </small>
 
 
 In our analysis of the spatial distribution and size of lakes in Minnesota, Iowa, and Illinois, we found Minnesota exceeded the other two states both in the number of sites included in the LAGOS dataset and the size of lakes recorded in each state. There are 16446 sites in the LAGOS dataset for Illinois and Iowa combined. Meanwhile, there are 29038 Minnesota sites, exceeding the number of sites in Illinois/Iowa by 12572 sites. Furthermore, Minnesota lake size was generally greater than Iowa and Illinois lake size. Though, the distributions of lake size for all states are positively skewed. 
@@ -219,4 +221,6 @@ Additional useful sources for assessing reservoir and lake size:
 
 
 Meyer, MF, Labou, SG, Cramer, AN, Brousil, MR, & Luff, BT. (2020). The global lake area, climate, and population dataset. Scientific Data, 7(1), 1–12. https://doi.org/10.1038/s41597-020-0517-4
+
+Soranno, P. and K. Cheruvelil. (2017). LAGOS-NE-LIMNO v1.087.1: A module for LAGOS-NE, a multi-scaled geospatial and temporal database of lake ecological context and water quality for thousands of U.S. Lakes: 1925-2013 ver 2. Environmental Data Initiative. https://doi.org/10.6073/pasta/56cc5f1f753d48edfea170a5401dd6df (Accessed 2022-03-23).
 
