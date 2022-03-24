@@ -1,0 +1,2132 @@
+---
+title: "Introduction to Environmental Data Science: Final Project"
+author: "Amanda Hastings"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+output: 
+  bookdown::gitbook: default
+# github-repo: amandahastings/ESS580_Final_Project
+description: "This is book consists of six different projects completed in ESS580: Introduction to Environmental Data Science at Colorado State University in Spring 2022."
+---
+
+```{r, include=F}
+library(bookdown)
+```
+
+
+```{r,include=FALSE}
+# knitr::write_bib(c(
+#   .packages(), 'bookdown', 'knitr', 'rmarkdown'
+# ), 'packages.bib')
+```
+
+# Preface {-}
+
+
+This book contains six different projects completed in ESS580: Introduction to Environmental Data Science taught by Dr. Matt Ross and Dr. Nathan Mueller at Colorado State University. Each chapter details the purpose, data acquisition, analyses, and results of an individual project completed in the 2022 spring semester. For each project, Dr. Matt Ross and/or Dr. Nathan Mueller wrote the preliminary code and outlined project objectives. Amanda Hastings completed the remaining portions of each project and compiled this book. 
+
+
+
+
+
+<!--chapter:end:index.Rmd-->
+
+# Workflow tools
+
+
+```{r include=FALSE}
+#Load libraries
+library(tidyverse)
+library(dataRetrieval)
+library(dygraphs)
+library(xts)
+library(revealjs)
+library(ggthemes)
+```
+
+
+## Introduction
+
+
+This project served as an introduction to workflow tools: R Markdown, Git, and GitHub. To complete project objectives, we utilized USGS discharge data for the Cache la Poudre River at the Lincoln Avenue bridge in Fort Collins, CO. 
+
+Project objectives included: 
+
+a) Fork example repository to personal GitHub 
+
+b) Explore R Markdown formatting 
+
+c) Utilize dygraphs package for interactive plotting
+
+d) Commit and push work to GitHub
+
+
+## Methods 
+
+
+### Site Description {-}
+
+
+The Poudre River at Lincoln Bridge is:
+
+  - Near Old Town Fort Collins, CO and multiple craft breweries, including Odell Brewing 
+  
+  - Near an open space and the Poudre River Trail
+
+  - Downstream of only some urban stormwater
+  
+  - **Downstream of many agricultural diversions**
+  
+
+![](https://www.otak.com/wp-content/uploads/2019/04/0543_The_Unfound_Door_OTAK_two.jpg)
+
+
+<small>Figure 1. The Lincoln Avenue bridge was reconstructed in 2017 to accommodate sidewalks and bike lanes. Photograph courtesy of Otak. </small>
+
+
+![](https://waterdata.usgs.gov/nwisweb/local/state/co/text/pics/06752260big.jpg)
+
+
+<small>Figure 2. USGS Station at the Lincoln Bridge location, Poudre River - Fort Collins, CO. Photograph courtesy of USGS.</small>
+
+
+### Data Acquistion {-}
+
+
+We retrieved discharge data using the dataRetrieval R package from the USGS NWIS web service. 
+
+
+```{r downloader}
+#Download Poudre River discharge data at Lincoln Bridge site from NWIS web service
+DischargeData <- readNWISdv(
+  siteNumbers = '06752260',
+  parameterCd = '00060',
+  startDate = '2017-01-01',
+  endDate = '2022-01-01') %>%
+  rename(discharge = 'X_00060_00003')
+```
+
+
+## Results 
+
+
+### Static Plot {-}
+
+
+```{r static plot, warning = FALSE, echo=FALSE}
+#Create statis plot of Poudre discharge data with ggplot
+ggplot(DischargeData, aes(x = Date, y = discharge)) + 
+  geom_line(color="#0c7f83") + 
+  theme_few()+
+  ylab('Discharge (cfs)') + 
+  theme(axis.title.y = element_text(size = 12)) +
+  theme(axis.text.y = element_text(
+    color = "black",
+    size = 9,
+    vjust = .8,
+    hjust = .8
+  )) +
+  theme(axis.title.x = element_blank()) +
+  theme(axis.text.x = element_text(
+    color = "black",
+    size = 10,
+    vjust = .8,
+    hjust = .8
+  )) +
+  ggtitle('Discharge in the Poudre River, Fort Collins, CO')
+```
+
+
+### Interactive Plot {-}
+
+
+```{r interactive plot, echo=FALSE}
+#Create time series object for discharge data
+discharge_xts <- xts(DischargeData$discharge, order.by = DischargeData$Date)
+
+#Create interactive plot with dygraphs 
+dygraph(discharge_xts) %>%
+  dyOptions(strokeWidth = 0.7, drawPoints = TRUE, pointSize = 1.25, fillGraph=TRUE,fillAlpha=0.25) %>%
+  dyAxis("y",label = "") %>%
+  dyAxis("x", axisLabelFontSize = 12) %>%
+  dySeries("V1", label = "Discharge (cfs)")%>% 
+  dyLegend(show="always")
+```
+
+
+## Poudre River Information
+
+
+![](https://cdn.5280.com/2019/08/Cache-la-Poudre-River_Marek-Uliasz_Alamy-Stock-Photo-960x720.jpg)
+
+<small>Figure 3. Cache la Poudre River. Photograph courtesy of Marek Uliasz.</small> 
+
+
+Meandering through Roosevelt National Forest and dropping approximately 7,000 feet in elevation, the Cache la Poudre River stretches from peaks along the Continental Divide to foothills of the Front Range near Fort Collins, CO (USFS). Despite the great length of the river, stretches of uninterrupted habitat for resident fishes are becoming increasingly limited— particularly with the construction of man-made diversion structures (Bloom, 2018). As of 2018, researchers estimated approximately **82%** Great Plains fish are in decline, with species such as the common shiner, [*Luxilus cornutus*]( https://nas.er.usgs.gov/queries/factsheet.aspx?SpeciesID=563), and the central stoneroller, [*Campostoma anomalum*](https://nas.er.usgs.gov/queries/factsheet.aspx?SpeciesID=506), potentially lost to northern Colorado waterways (Bloom, 2018). Species including small minnows— such as the red shiner, *Cyprinella lutrensis*, and orangespotted sunfish, *Lepomis humilis*– require stretches of **at least** 30 miles to migrate and spawn (Bloom, 2018). However, could another man-made structure potentially offset the necessary, yet imperiling, structures in place? CSU researcher Dr. Chris Myrick and his graduate students built a fish ladder for small fishes, similar to those previously built for larger fishes, to essentially extend their, otherwise interrupted, habitat. [Here]( https://youtu.be/7x7O9r5j5fE) is a fish eye’s view of the fish ladder the team created. While the only fish ladder within Larimer County, the research team hopes the design will be transferable and a means to protect small fish across other states as well (Bloom, 2018). 
+
+
+Another noteworthy fact about the Poudre river: it is the **only** designated National Wild and Scenic River within the state of Colorado (USFS). 
+
+
+A map of the National Wild and Scenic Rivers system can be found [here](https://www.rivers.gov/documents/nwsrs-map.pdf).
+
+
+### Presentation link {-}
+
+
+This chapter has also been formatted into a presentation/talk using the reveal.js package. The formatted version can be found [here](https://amandahastings.github.io/1_rmarkdown_examples/index_talk.html#/).
+
+
+## References 
+
+
+Bloom, Matt.(2018, March) To Reverse The Disappearance of Native Fish, North Colorado Is Turning to Fish Ladders. *NPR for Northern Colorado*. [kunc.org](https://www.kunc.org/environment/2018-03-21/to-reverse-the-disappearance-of-native-fish-northern-colorado-is-turning-to-fish-ladders)
+
+
+Interagency Wild & Scenic Rivers Council. *MAPS & GIS*.  National Wild and Scenic Rivers System. [rivers.gov/mapping-gis.php](https://www.rivers.gov/mapping-gis.php). Accessed January 26, 2022. 
+
+
+Uliasz, Marek.(2019, August) *Cache la Poudre River*, "Colorado’s Scenic and Historic Byways: Cache La Poudre/North Park", 5280 Denver's Mile High Magazine, [5280.com](https://www.5280.com/2019/08/colorados-scenic-and-historic-byways-cache-la-poudre-north-park/)
+
+
+USDA Forest Service (USFS). *Cache la Poudre Wild and Scenic River*. [fs.usda.gov](https://www.fs.usda.gov/detail/arp/specialplaces/?cid=stelprdb5150293). Accessed January 26, 2022. 
+
+
+
+
+<!--chapter:end:01-Tools.Rmd-->
+
+# Data wrangling
+
+
+```{r, include=FALSE, warning=F,message=F}
+#Load libraries
+library(tidyverse)
+library(tidyr)
+library(ggthemes)
+library(lubridate)
+library(broom)
+
+# knitr::opts_knit$set(root.dir='..')
+```
+
+
+## Introduction
+
+
+This project served as an introduction and exploration in data munging. We utilized data from Climate Engine to investigate vegetation recovery following the 2002 Hayman Fire in Colorado. We specifically looked at normalized difference vegetation index (NDVI), normalized difference snow index (NDSI), and normalized difference moisture index (NDMI), between unburned and burned sites and before and after the fire event. 
+
+
+Once manipulating the data, we performed basic analyses to address the following project questions: 
+
+a) What is the correlation between NDVI and NDMI? 
+
+b) What is the correlation between average NDSI for winter months: January - April and average NDVI for summer months: June-August? How does snow cover from the previous year influence vegetation growth in the following summer? 
+
+c) How does the correlation in snow cover and vegetation growth (from question b) vary between burned and unburned sites and pre- and post-fire time periods? 
+
+
+## Methods 
+
+
+### Data Acquistion {-}
+
+
+```{r dataread, warning=F,message=F}
+#Read in files and store in data folder
+files <- list.files('dataDataWrangle',full.names=T)
+```
+
+
+```{r, warning=F,message=F}
+#Read in individual data files separately
+#NDMI data
+ndmi <- read_csv(files[1]) %>% 
+  rename(burned=2,unburned=3) %>%
+  mutate(data='ndmi')
+
+#NDSI data
+ndsi <- read_csv(files[2]) %>% 
+  rename(burned=2,unburned=3) %>%
+  mutate(data='ndsi')
+
+#NDVI data
+ndvi <- read_csv(files[3])%>% 
+  rename(burned=2,unburned=3) %>%
+  mutate(data='ndvi')
+```
+
+
+```{r, warning=F,message=F}
+# Stack data as a tidy dataset
+full_long <- rbind(ndvi,ndmi,ndsi) %>%
+  gather(key='site',value='value',-DateTime,-data) %>%
+  filter(!is.na(value))
+```
+
+
+## Results
+
+
+### Question A: NDVI and NDMI {-}
+
+```{r longformat, echo=T}
+#Convert from long to wide data with spread() 
+#Add month and year columns to wide data
+full_wide1 <- full_long %>%
+  spread(key='data', value='value') %>% 
+  mutate(month=month(DateTime)) %>% 
+  mutate(year=year(DateTime))
+```
+
+
+```{r plot ndvi vs ndmi, echo=T, warning=F,message=F}
+#Limit data to only summer months using filter() 
+summer_wide <- full_wide1 %>%
+  filter(month %in% c(6,7,8))
+
+#Plot ndvi as response and ndmi as predictor
+#Distinguish between burn or unburned sites
+ggplot(summer_wide, aes(x=ndmi, y=ndvi, color=site))+
+  geom_point(alpha=0.25)+
+  labs(x="NDMI", y="NDVI")+
+  theme_few()+ 
+  scale_color_manual(name="Site",labels=c("Burned","Unburned"), values= c("#274a12","#babf28"))+ 
+  xlim(-0.6,0.7)+ 
+  ylim(0.05, 0.6)
+```
+
+
+```{r site labels, include=FALSE, warning=F,message=F}
+#Capitalize facet wrap labels 
+Site <- c("Burned","Unburned")
+names(Site) <- c("burned","unburned")
+```
+
+
+```{r plot ndvi vs ndmi, facet wrap site, echo=T, warning=F,message=F}
+# Plot ndvi vs ndmi with facet wrap over site type (burned or unburned)
+ggplot(summer_wide, aes(x=ndmi, y=ndvi))+
+  geom_point(alpha=0.25)+
+  labs(x="NDMI", y="NDVI")+
+  theme_few()+
+  facet_wrap('site', labeller = labeller(site = Site))
+```
+
+
+```{r, echo=TRUE, results='hide'}
+#Test correlation between ndvi and ndmi
+cor.test(summer_wide$ndmi, summer_wide$ndvi, method='pearson')
+
+#Fit lm model for ndvi by ndmi
+LMFit1 <- lm(ndvi~ndmi, data =summer_wide)
+summary(LMFit1)
+```
+
+
+```{r LMFit1 diagnostics, echo = FALSE, fig.show = 'hide'}
+#LMFit1 diagnostic plots 
+par(mfrow=c(1,2))
+plot(LMFit1, which= c(1:2))
+```
+
+
+Based upon a test of correlation, we have evidence of a positive linear association between summer NDMI and summer NDVI, with a p-value < 2.2e-16 (less than 0.05). For every 1 unit increase in summer NDMI, there is a 0.908772 increase in summer NDVI (p-value < 2.2e-16).
+
+
+```{r long format via pivot_wider, include=FALSE}
+#Bonus question 1
+#Convert from long to wide with pivot_wider() 
+full_wide2 <- full_long %>%
+  pivot_wider(names_from = 'data', values_from = 'value')
+```
+
+
+### Question B: Winter NDSI and Summer NDVI {-}
+
+
+```{r, echo=T, message=F}
+#Summarize data by average ndvi for summer months
+summer_ndvi<- full_wide1 %>%
+  group_by(site, year, month) %>%
+  filter(month %in% c(6, 7, 8)) %>%
+  summarize(mean_ndvi = mean(ndvi)) %>%
+  filter(!is.na(mean_ndvi))
+
+#Summarize data by average ndsi over winter months 
+winter_ndsi <- full_wide1 %>%
+  group_by(site, year, month) %>%
+  filter(month %in% c(1, 2, 3, 4)) %>%
+  summarize(mean_ndsi = mean(ndsi)) %>%
+  filter(!is.na(mean_ndsi))
+```
+
+
+```{r, echo=T}
+#Join average summer ndvi and average winter ndsi by year and site
+#Add burnperiod column to distinguish pre- and post-fire years
+wide_averages <- inner_join(winter_ndsi, summer_ndvi, by= c('site', 'year')) %>%
+  mutate(burnperiod = as.factor(ifelse(year < 2002,"prefire", "postfire"))) 
+```
+
+  
+```{r, echo=T, message=F}
+#Plot and evaluate relationship between ndvi and ndsi
+ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi))+
+  geom_point(alpha=0.25, color = "#22AA99")+
+  geom_smooth(method=lm, color="#22AA99", size=0.1, se=FALSE)+
+  theme_few()+ 
+  labs(x="Average Winter NDSI", y="Average Summer NDVI")
+```
+
+
+```{r, echo=T, results='hide'}
+#Test correlation between ndvi and ndsi overall
+cor.test(wide_averages$mean_ndsi, wide_averages$mean_ndvi)
+
+#Fit lm model for ndvi by ndsi overall
+LMFit2 <- lm(mean_ndvi~mean_ndsi, data = wide_averages)
+summary(LMFit2)
+```
+
+
+```{r LMFit2 diagnostics, echo = FALSE, fig.show='hide'}
+#LMFit2 diagnostics
+par(mfrow=c(1,2))
+plot(LMFit2, which= c(1:2))
+```
+
+
+The p-value from a test of correlation for average summer NDVI and average winter NDSI is 0.0002124 and less than 0.05. We have evidence of a positive linear association between average summer NDVI and average winter NDSI. For every 1 unit increase in average winter NDSI, there is a 0.042658 increase in average summer NDVI.
+
+
+### Question C: NDVI-NDSI correlations {-}
+
+
+#### NDVI-NDSI: Pre- versus post-fire figure and analyses {-}
+
+
+```{r, echo=T, message=F}
+#Plot and compare ndvi-ndsi relationship between pre- and post-burn periods
+ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi, color=burnperiod))+
+  geom_point(alpha=0.25)+
+  theme_few()+
+  geom_smooth(method=lm, size=0.1, se=FALSE)+
+  labs(x="Average Winter NDSI", y="Average Summer NDVI")+
+  scale_color_manual(name="",labels=c("Pre-fire","Post-fire"), values= c("#2f94b5","#b5982f"))
+```
+
+
+```{r, echo = T, results='hide'}
+#Fit lm model to evaluate ndvi-ndsi correlation pre- and post-fire 
+LMFit3 <- lm(mean_ndvi~mean_ndsi*burnperiod, data= wide_averages)
+summary(LMFit3)
+```
+
+
+```{r LMFit3 diagnostics, echo = FALSE, fig.show='hide'}
+#LMFit3 diagnostic plots
+par(mfrow=c(1,2))
+plot(LMFit3, which= c(1:2))
+```
+
+
+```{r, echo=T}
+#Create separate data frames for prefire and postfire 
+prefire <- wide_averages %>% 
+  filter(burnperiod %in% 'prefire')
+  
+postfire <- wide_averages %>% 
+  filter(burnperiod %in% 'postfire')
+```
+
+
+```{r, echo=T, results='hide'}
+#Test correlation between ndvi and ndsi prefire and postfire 
+cor.test(prefire$mean_ndsi,prefire$mean_ndvi)
+cor.test(postfire$mean_ndsi,postfire$mean_ndvi)
+```
+
+
+In pre-fire years, we do not have evidence of an association between average summer NDVI and average winter NDSI (p-value=0.1721). However, in post-fire years, we have evidence of an association between average summer NDVI and average winter NDSI (p-value=0.01048).
+
+
+#### NDVI-NDSI: Burned versus unburned figure and analyses {-}
+
+
+```{r, echo = T, message=F}
+#Plot and compare ndvi-ndsi relationship across burned versus unburned sites
+ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi, color=site))+
+  geom_point(alpha=0.25)+
+  theme_few()+ 
+  geom_smooth(method=lm, size=0.1, se=FALSE)+
+  labs(x="Average Winter NDSI", y="Average Summer NDVI")+ 
+  scale_color_manual(name="Site",labels=c("Burned","Unburned"), values= c("#292423","#a4a823"))
+```
+
+
+```{r, echo = T, results='hide'}
+#Fit lm model to evaluate ndvi-ndsi correlation between burned and unburned sites
+LMFit4 <- lm(mean_ndvi~mean_ndsi*site, data=wide_averages)
+summary(LMFit4)
+```
+
+
+```{r LMFit4 diagnostics, echo = FALSE, fig.show='hide'}
+#LMFit4 diagnostics
+par(mfrow=c(1,2))
+plot(LMFit4, which= c(1:2))
+```
+
+
+```{r, echo=T}
+#Create separate data frames for burned and unburned sites
+burned <- wide_averages %>% 
+  # filter(burnperiod %in% 'postfire') %>%
+  filter(site %in% 'burned')
+  
+unburned <- wide_averages %>% 
+  # filter(burnperiod %in% 'postfire') %>%
+  filter(site %in% 'unburned')
+```
+
+
+```{r, echo=T,results='hide'}
+#Test correlation between ndvi and ndsi in burned and unburned sites separately 
+cor.test(burned$mean_ndsi, burned$mean_ndvi)
+cor.test(unburned$mean_ndsi,unburned$mean_ndvi)
+```
+
+
+When analyzing all years included in the dataset, we do not have evidence of an association between average summer NDVI and average winter NDSI within the unburned area (p-value= 0.6589) and burned area (p-value=0.1825). When analyzing only years postfire, we still do not have evidence of an association between average summer NDVI and average winter NDSI in the unburned (p-value=0.905) and burned areas (p-value=0.3226).
+
+
+### Additional findings {-}
+
+
+Lastly, when looking at overall trends in NDVI and NDSI, we found August is the greenest month on average while February is the snowiest month on average.
+
+
+```{r, include=F}
+#Calculate maximum, monthly mean ndvi over time
+ndvi_stats<- wide_averages %>% 
+  group_by(month.y) %>% 
+  summarize(max_ndvi=max(mean_ndvi))
+ndvi_stats
+```
+
+
+```{r, include=F}
+#Calculate maximum, monthly mean ndsi over time
+ndsi_stats <- wide_averages %>% 
+  group_by(month.x) %>% 
+  summarize(max_ndsi=max(mean_ndsi))
+ndsi_stats
+```
+
+
+
+
+<!--chapter:end:02-DataWrangle.Rmd-->
+
+# Key programming concepts  
+
+
+```{r, include=FALSE}
+#Load libraries
+library(rvest)
+library(tidyverse)
+library(lubridate)
+library(readxl)
+library(ggthemes)
+library(tibble)
+library(pdftools)
+library(dygraphs)
+library(xts)
+library(lubridate)
+library(kableExtra)
+```
+
+
+## Introduction
+
+
+This project served as an introduction to webscraping, iteration, and  functions. We extracted data from the Center for Snow and Avalanche Studies (CSAS) [website](https://snowstudies.org/archived-data/): home to incredibly rich snow, temperature, and precipitation data. 
+
+Project objectives: 
+
+a) Extract data URLS or CSV links from website
+b) Download data using a for loop or map function 
+c) Write custom functions
+
+
+## Data Acquisiton: Snowpack Depth 
+
+
+#### Webscraping: extract links from webpage {-}
+
+
+```{r}
+#Save site URL
+site_url <- 'https://snowstudies.org/archived-data/'
+
+#Read the web URL
+webpage <- read_html(site_url)
+
+#Extract only weblinks and then URLs
+links <- webpage %>%
+  html_nodes('a') %>%
+  .[grepl('24hr',.)] %>%
+  html_attr('href')
+```
+
+
+```{r, include=F}
+#Code for extracting from tables (didn't work)
+tables <- webpage %>%
+  html_nodes('table') %>%
+  magrittr::extract2(3) %>%
+  html_table(fill = TRUE)
+```
+
+
+#### Download data using a for loop {-}
+
+
+```{r, cache=TRUE}
+#Split by forward slashes to parse out name of file
+splits <- str_split_fixed(links,'/',8)
+
+#Select column containing file name
+dataset <- splits[,8] 
+
+#Generate a file list to hold the data
+file_names <- paste0('dataFunctions/',dataset)
+
+#Download data in a for loop
+for(i in 1:3){
+  download.file(links[i],destfile=file_names[i])
+}
+
+downloaded <- file.exists(file_names)
+
+evaluate <- !all(downloaded)
+```
+
+
+#### Download data using map function(s) {-}
+
+
+```{r, cache=T, results='hide'}
+#Utilize map for same operation as above, download the same 3 files 
+if(evaluate == T) {
+  map2(links[1:3], file_names[1:3], download.file)
+} else{
+  print('data already downloaded')
+}
+```
+
+
+#### Read in snow data with pattern matching {-}
+
+
+```{r}
+#Read in only snow data as a loop
+#Use pattern matching to only keep certain files
+snow_files <- file_names %>%
+  .[!grepl('SG_24',.)] %>%
+  .[!grepl('PTSP',.)]
+```
+
+
+```{r, include=F}
+#empty_data <- list()
+
+# snow_data <- for(i in 1:length(snow_files)){
+#   empty_data[[i]] <- read_csv(snow_files[i]) %>%
+#     select(Year,DOY,Sno_Height_M)
+# }
+
+#snow_data_full <- do.call('rbind',empty_data)
+
+#summary(snow_data_full)
+```
+
+
+#### Read in snow data with map function {-}
+
+
+```{r, results='hide', message=F}
+#Create function to read in snow files
+our_snow_reader <- function(file){
+  name = str_split_fixed(file,'/',2)[,2] %>%
+    gsub('_24hr.csv','',.)
+  df <- read_csv(file) %>%
+    select(Year,DOY,Sno_Height_M) %>%
+    mutate(site = name)
+}
+
+snow_data_full <- map_dfr(snow_files,our_snow_reader)
+```
+
+
+## Results: Snowpack Depth 
+
+
+```{r, message=F, warning=FALSE}
+#Create column for yearly mean snow height by site
+snow_yearly <- snow_data_full %>%
+  group_by(Year,site) %>%
+  summarize(mean_height = mean(Sno_Height_M,na.rm=T))
+
+#Plot yearly mean snow height by site
+ggplot(snow_yearly,aes(x=Year,y=mean_height,color=site)) + 
+  geom_point(alpha=0.75) +
+  ggthemes::theme_few() + 
+  scale_color_manual(name="Study Plots", labels=c("Swamp Angel","Senator Beck"), values= c("#58A3EB","#58E8EB"))+
+  labs(y="Depth of Snowpack (m)",title="Average Snow Height over Time")
+```
+
+<small> **Figure 1. Yearly snow pack depth for Swamp Angel and Senator Beck study plots, Center for Snow and Avalanche Studies. Height of snow was sampled once at the end of an array.** </small>
+
+
+## Data Acquisition: Meterological Data 
+
+
+### Webscraping: extract meterological data URLs {-}
+
+
+```{r}
+#Extract data URLs for SASP forcing and SBSP forcing datasets
+site_url2 <- 'https://snowstudies.org/archived-data/'
+
+webpage2 <- read_html(site_url2)
+
+links2 <- webpage2 %>% 
+  html_nodes('a') %>% 
+  .[grepl('forcing',.)] %>% 
+  html_attr('href')
+```
+
+
+### Download meteorological data {-}
+
+
+```{r, results='hide'}
+#Download the meterological data and save within data folder 
+splits2 <- str_split_fixed(links2,'/',8)
+
+dataset2 <- splits2[,8]
+
+filenames2 <- paste0('dataFunctions/',dataset2)
+
+#Utilize map2() to download data 
+map2(links2,filenames2,download.file)
+```
+
+
+```{r include=F}
+#Download data in a for loop 
+# for (i in 1:length(filenames2)) {
+#   download.file(links2[i], destfile = filenames2[i])
+# }
+```
+
+
+### Write a custom function to read in data {-}
+
+
+```{r}
+#Retrieve variable names from the metadata pdf file
+headers <- pdf_text('https://snowstudies.org/wp-content/uploads/2022/02/Serially-Complete-Metadata-text08.pdf') %>%
+  readr::read_lines(.) %>%
+  trimws(.) %>%
+  str_split_fixed(.,'\\.',2) %>%
+  .[,2] %>%
+  .[1:26] %>%
+  str_trim(side = "left")
+
+#Write a function to read in the data and append site column 
+forcing_files <- filenames2  
+
+file <- forcing_files[1]
+
+forcefile_reader <- function(file) {
+  name2 = str_split_fixed(file, '_', 3)[, 2] 
+    df <- read.csv(file, header = FALSE, sep = '') %>%
+      select(V1, V2, V3, V7, V10) %>%
+      rename(
+        year = 1,
+        month = 2,
+        day = 3,
+        precip = 4,
+        airtemp = 5
+      ) %>%
+      mutate(site = name2)
+    
+}
+```
+
+
+### Read in meterological data files with map function {-}
+
+
+```{r}
+#Use map function to read in meteorological files 
+forcing_data_full <- map_dfr(forcing_files, forcefile_reader)
+
+#Display summary as tibble 
+forcing_tibble <-as_tibble(forcing_data_full)
+knitr::kable(head(forcing_tibble))
+```
+
+
+## Results: Meterological Data 
+
+
+```{r, message=F}
+#Create data frame with mean air temperature by year by site 
+temp_yearly <- forcing_data_full %>% 
+  filter(!year %in% 2003) %>% 
+  group_by(year,site) %>% 
+  summarize(mean_yrtemp = mean(airtemp, na.rm=T))
+  
+#Make line plot of mean temperature by year by site 
+ggplot(temp_yearly, aes(x=year, y=mean_yrtemp, color=site))+
+  geom_line(size=.75)+ 
+  theme_few()+ 
+  scale_color_manual(name="Study Plots", labels=c("Swamp Angel","Senator Beck"), values= c("#58A3EB","#58E8EB"))+ 
+  labs(x='Year', y='Average Air Temperature (K)')
+```
+
+
+<small> **Figure 2. Yearly mean air temperature for Swamp Angel and Senator Beck study plots, CSAS. Records from 2003 were excluded given data was only available for two months out of the year.** </small>
+
+
+```{r, message=F}
+#Write function to make line plots of monthly average temps per site per year
+line_plotter <- function(df, year) {
+  temp_monthly <- df %>%
+    group_by(year, month, site) %>%
+    summarize(mean_motemp = mean(airtemp, na.rm = T)) %>%
+    filter(i == year)
+  
+  print(
+    ggplot(temp_monthly, aes(
+      x = month, y = mean_motemp, color = site
+    )) +
+      geom_line(size = .75) +
+      theme_few() +
+      scale_color_manual(name="Study Plots", labels=c("Swamp Angel","Senator Beck"), values = c("#762448", "#B1D374")) +
+      labs(x="Month",y = 'Average Air Temperature (K)', title = i)+
+      scale_x_continuous(
+        breaks = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12),
+        labels = c('January','February','March','April','May','June','July','August','September','October','November','December')) +
+      theme(
+        axis.text.x = element_text(
+          color = "black",
+          size = 8,
+          angle = 30,
+          vjust = .8,
+          hjust = .8
+        )
+      ))
+}
+
+#Use for loop to plot years 2005 to 2010
+yrs = c(2005:2010)
+
+for (i in yrs){
+  line_plotter(forcing_data_full,year)
+}
+```
+
+
+<small> **Figures 3-9. Monthly average temperature at study plots: Swamp Angel and Senator Beck, years 2005-2010.** </small>
+
+
+```{r, message=F}
+#Add date column to data frame
+#Use lubridate:: yday for day of year 
+precip_daily <- forcing_data_full %>%
+  group_by(month, day, year, site) %>%
+  summarize(mean_precip = mean(precip, na.rm = T)) %>%
+  mutate(date = as.Date(paste(year, month, day, sep = "/"))) %>%
+  mutate(yday = yday(date)) %>%
+  pivot_wider(names_from = site, values_from = mean_precip) %>%
+  dplyr::select(-SBSP)%>% 
+  group_by(yday)%>% 
+  summarize(mean_dy_precip = mean(SASP))
+
+#Create plot with mean daily precip by day of year using ggplot 
+ggplot(precip_daily, aes(x = yday, y = mean_dy_precip)) +
+  geom_point(alpha=0.5) +
+  theme_few() +
+  labs(x = 'Day of Year', y = expression('Average Precipitation' ~ ('kg' *
+                                                    m ^ 2 * ' per day')))+
+  scale_x_continuous(breaks=c(1,90,180,270,360))
+```
+
+
+<small> **Figure 10. Average daily precipitation by day of year at the Swamp Angel study plot, averaged across available years.** </small>
+
+
+```{r, message=F}
+#Create plot with mean daily precip by day of year using dygraphs
+#This is not averaged across available years 
+
+precip_daily2 <- forcing_data_full %>%
+  group_by(month, day, year, site) %>%
+  summarize(mean_precip = mean(precip, na.rm = T)) %>%
+  mutate(date = as.Date(paste(year, month, day, sep = "/"))) %>%
+  pivot_wider(names_from = site, values_from = mean_precip) %>%
+  ungroup() %>%
+  select(-SBSP, -month, -day, -year)
+
+precip_xts2 <- xts(precip_daily2 %>%
+                     select(SASP), order.by = precip_daily2$date)
+
+dygraph(precip_xts2, ylab = "") %>%
+  dyOptions(fillGraph = TRUE, axisLabelFontSize=12) %>% 
+  dySeries("SASP", label = "Average Daily Precipitation (kgm2 per day)")%>% 
+  dyLegend(width=400,show="always")
+```
+
+
+<small> **Figure 11. Interactive plot of average precipitation by day of year at Swamp Angel study plot.** </small>
+
+
+```{r ggplot, yearly precip plot, message=F}
+#Write a function to create yearly plots for precip by day of year with ggplot
+precip_plotter2 <- function(df, year) {
+  precip_daily4 <- df %>%
+    group_by(month, day, year, site) %>%
+    summarize(mean_precip = mean(precip, na.rm = T)) %>%
+    mutate(date = as.Date(paste(year, month, day, sep = "/"))) %>%
+    mutate(yday = yday(date)) %>%
+    pivot_wider(names_from = site, values_from = mean_precip) %>%
+    select(-SBSP) %>%
+    filter(year == i)
+  
+  print(
+    ggplot(precip_daily4, aes(x = yday, y = SASP)) +
+      geom_point(alpha=0.5) +
+      theme_few() +
+      labs(
+        title = i,
+        x = 'Day of Year',
+        y = expression('Average Precipitation' ~ ('kg' *
+                                                    m ^ 2 * ' per day'))) +
+      scale_x_continuous(breaks = c(1, 90, 180, 270, 360))
+  )
+}
+
+#Use for loop to plot years 2005 to 2010
+yrs = c(2005:2010)
+
+for (i in yrs){
+  precip_plotter2(forcing_data_full,year)
+}
+```
+
+
+<small> **Figures 12-17. Yearly plots (2005-2010) of precipitation by day of year at the Swamp Angel study plot.** </small> 
+
+
+```{r dygraphs, yearly precip plots, include=F}
+# #Write function to create yearly plots of precipitation by day of year with dygraphs
+# dy_precip_plotter <- function(df, year) {
+#   precip_daily3 <- df %>%
+#     group_by(month, day, year, site) %>%
+#     summarize(mean_precip = mean(precip, na.rm = T)) %>%
+#     mutate(date = as.Date(paste(year, month, day, sep = "/"))) %>%
+#     pivot_wider(names_from = site, values_from = mean_precip) %>%
+#     filter(year == i) %>%
+#     ungroup() %>%
+#     select(-SBSP,-month,-day,-year)
+#   
+#   precip_xts3 <- xts(precip_daily3 %>%
+#                       select(SASP), order.by = precip_daily3$date)
+#   
+#   print(
+#     dygraph(precip_xts3, main = i, ylab = "Average Daily Precipitation") %>%
+#       dyOptions(fillGraph = TRUE, axisLabelFontSize=10)
+#   )
+# }
+# 
+# #Use for loop to plot years 2005 to 2010
+# yrs = c(2005:2010)
+#  
+# for (i in yrs){
+#   dy_precip_plotter(forcing_data_full,year)
+# }
+```
+
+
+<!--chapter:end:03-Functions.Rmd-->
+
+# Geospatial analysis 
+
+
+```{r, include=FALSE}
+library(tidyverse) # Tidy packages
+library(sf) #Spatial package that can read and create shapefiles 
+library(mapview) #Interactive maps
+library(LAGOSNE) #Lots and lots of clean lake data
+library(USAboundaries) #USA states and counties
+library(RApiSerialize)
+```
+
+
+## Introduction
+
+
+## LAGOS Analysis
+
+
+## Methods 
+
+
+### Data Acquisition
+
+
+```{r data-read}
+#Lagos download script
+# LAGOSNE::lagosne_get(dest_folder = LAGOSNE:::lagos_path())
+
+#Load in lagos data
+lagos <- lagosne_load()
+
+#Parse out lake centroid information
+lake_centers <- lagos$locus
+# load('lake_centers.Rdata')
+```
+
+
+### Convert to spatial data
+
+
+```{r include=F}
+#Look at the column names
+#names(lake_centers)
+
+#Look at the structure
+#str(lake_centers)
+
+#View the full dataset
+#View(lake_centers %>% slice(1:100))
+```
+
+
+```{r}
+#Create spatial object for lakes 
+spatial_lakes <- st_as_sf(lake_centers,coords=c('nhd_long','nhd_lat'),
+                          crs=4326) %>%
+  st_transform(2163)
+
+#Subset number of lakes for plotting
+subset_spatial <- spatial_lakes %>%
+  slice(1:100) 
+
+subset_baser <- spatial_lakes[1:100,]
+
+#Dynamic mapviewer
+mapview(subset_spatial)
+```
+
+
+### Subset to only Minnesota
+
+
+```{r include=F}
+#Create states variable 
+states <- us_states()
+
+#Plot all the states to check if they loaded
+#mapview(states)
+```
+
+
+## Results
+
+
+```{r}
+#Select only Minnesota from states data 
+minnesota <- states %>%
+  filter(name == 'Minnesota') %>%
+  st_transform(2163)
+
+#Subset lakes based on spatial position
+minnesota_lakes <- spatial_lakes[minnesota,]
+
+#Plot the first 1000 lakes
+minnesota_lakes %>%
+  arrange(-lake_area_ha) %>%
+    slice(1:1000) %>%
+  mapview(.,zcol = 'lake_area_ha')
+```
+
+
+## 1) Show a map outline of Iowa and Illinois (similar to Minnesota map upstream)
+
+```{r}
+#Show a map outline of Iowa and Illinois 
+i_states <- states %>% 
+  filter(name %in% c('Iowa','Illinois')) %>% 
+  st_transform(2163)
+
+mapview(i_states, layer.name='States of Interest')
+```
+
+
+
+## 2) Subset LAGOS data to these sites, how many sites are in Illinois and Iowa combined? How does this compare to Minnesota?
+
+```{r}
+#Subset LAGOS data
+istate_lakes <- spatial_lakes[i_states,]
+
+nrow(minnesota_lakes)-nrow(istate_lakes)
+```
+
+There are 16446 sites in Illinois and Iowa combined. Meanwhile, there are 29038 Minnesota sites, exceeding the number of sites in Illinois/Iowa by 12572 sites.
+
+
+## 3) What is the distribution of lake size in Iowa vs. Minnesota?
+
+
+```{r}
+# states_lagos <- lagos$state 
+
+iowa <- states %>%
+  filter(name == 'Iowa') %>%
+  st_transform(2163)
+
+#Subset lakes based upon spatial position
+iowa_lakes <- spatial_lakes[iowa,]
+  
+#Create histogram of Iowa lake size 
+ggplot(iowa_lakes, aes(x=lake_area_ha))+ 
+  geom_histogram(bins=40)+ 
+  scale_x_log10(labels= scales::comma)+
+  labs(x= "Lake size (hectares)", y= "Frequency", title='Iowa Lakes')
+
+#Create histogram of Minnesota lake size
+ggplot(minnesota_lakes, aes(x=lake_area_ha))+ 
+  geom_histogram(bins=40)+ 
+  scale_x_log10(labels=scales::comma)+
+  labs(x= "Lake size (hectares)", y= "Frequency", title='Minnesota Lakes')
+```
+
+
+The distributions of lake size for both Iowa and Minnesota are positively skewed. Generally, Iowa lake size is smaller than Minnesota.
+
+
+## 4) Make an interactive plot of lakes in Iowa and Illinois and color them by lake area in hectares. 
+
+
+```{r}
+#Create interactive plot of Iowa and Illinois lakes 
+#Color by lake area in hectares
+istate_lakes %>%
+  arrange(-lake_area_ha) %>%
+  slice(1:1000) %>%
+  mapview(., zcol = 'lake_area_ha', at=c(0,100,250,500,1000,2500,5000,10000), layer.name='Lake area (ha)', canvas=TRUE)
+```
+
+
+### Additional data sources: reservoirs and natural lakes size 
+
+
+*The Global Lake area, Climate, and Population (GLCP) dataset is comprised of lake surface area data (from the datasets listed below), as well as temperature, precipitation, and population data (Meyer et al. 2020).
+
+*The HydroLAKES dataset combines information from multiple lake datasets, including NASA SRTM, Water Body Data, and the Global Lakes and Wetlands Database (Meyer et al. 2020). This dataset consists of shapefiles with attributes such as lake surface area, total volume, average depth, geographic coordinates of pour points, and more (Meyer et al. 2020). 
+
+*The Global Surface Water Dataset, derived from LANDSAT imagery and hosted by the Joint Research Centre (JRC), provides information regarding surface water area for lakes, as well as rivers, streams, and wetlands (Meyer et al. 2020). A subset of this data based upon yearly water classification history is available via Google Earth Engine (Meyer et al. 2020). 
+
+*Also, the [Central Midwest Water Science Center](https://www.usgs.gov/centers/cm-water/science/real-time-data-links?qt-science_center_objects=0#qt-science_center_objects) is another resource, for Iowa and Illinois lake data specifically.
+
+
+## References
+
+
+Meyer, MF, Labou, SG, Cramer, AN, Brousil, MR, & Luff, BT. (2020). The global lake area, climate, and population dataset. Scientific Data, 7(1), 1–12. https://doi.org/10.1038/s41597-020-0517-4
+
+
+<!--chapter:end:04-Geospatial.Rmd-->
+
+# Geospatial analysis: water quality {-}
+
+
+```{r, include=FALSE}
+library(tidyverse) # Tidy packages
+library(sf) #Spatial package that can read and create shapefiles 
+library(mapview) #Interactive maps
+library(LAGOSNE) #Lots and lots of clean lake data
+library(USAboundaries) #USA states and counties
+library(lubridate) #For dealing with date and time
+```
+
+
+## Introduction
+
+### First download and then specifically grab the locus (or site lat longs)
+```{r, cache=TRUE}
+#Lagos download script
+#lagosne_get(dest_folder = LAGOSNE:::lagos_path(),overwrite=T)
+
+#Load in lagos
+lagos <- lagosne_load()
+
+
+#Grab the lake centroid info
+lake_centers <- lagos$locus
+
+# Make an sf object 
+spatial_lakes <- st_as_sf(lake_centers,coords=c('nhd_long','nhd_lat'),
+                          crs=4326)
+
+#Grab the water quality data
+nutr <- lagos$epi_nutr
+
+#Look at column names
+#names(nutr)
+```
+
+### Subset columns nutr to only keep key info that we want
+
+
+```{r}
+clarity_only <- nutr %>%
+  select(lagoslakeid,sampledate,chla,doc,secchi) %>%
+  mutate(sampledate = as.character(sampledate) %>% ymd(.))
+
+```
+
+
+### Keep sites with at least 200 observations 
+
+```{r}
+
+#Look at the number of rows of dataset
+#nrow(clarity_only)
+
+chla_secchi <- clarity_only %>%
+  filter(!is.na(chla),
+         !is.na(secchi))
+
+# How many observations did we lose?
+# nrow(clarity_only) - nrow(chla_secchi)
+
+
+# Keep only the lakes with at least 200 observations of secchi and chla
+chla_secchi_200 <- chla_secchi %>%
+  group_by(lagoslakeid) %>%
+  mutate(count = n()) %>%
+  filter(count > 200)
+
+
+```
+
+
+### Join water quality data to spatial data
+
+```{r}
+spatial_200 <- inner_join(spatial_lakes,chla_secchi_200 %>%
+                            distinct(lagoslakeid,.keep_all=T),
+                          by='lagoslakeid')
+
+
+```
+
+### Mean Chl_a map
+
+```{r}
+### Take the mean chl_a and secchi by lake
+
+mean_values_200 <- chla_secchi_200 %>%
+  # Take summary by lake id
+  group_by(lagoslakeid) %>%
+  # take mean chl_a per lake id
+  summarize(mean_chl = mean(chla,na.rm=T),
+            mean_secchi=mean(secchi,na.rm=T)) %>%
+  #Get rid of NAs
+  filter(!is.na(mean_chl),
+         !is.na(mean_secchi)) %>%
+  # Take the log base 10 of the mean_chl
+  mutate(log10_mean_chl = log10(mean_chl))
+
+#Join datasets
+mean_spatial <- inner_join(spatial_lakes,mean_values_200,
+                          by='lagoslakeid') 
+
+#Make a map
+mapview(mean_spatial,zcol='log10_mean_chl')
+```
+
+
+# Class work
+
+## 1) What is the correlation between Secchi Disk Depth and Chlorophyll a for 
+sites with at least 200 observations?
+
+- Here, I just want a plot of chla vs secchi for all sites 
+
+```{r}
+#Plot secchi disk depth by cholorphyll a 
+library(ggthemes)
+ggplot(chla_secchi_200, aes(x = secchi, y = chla)) +
+  geom_point(shape = 1, color="#48680E")+ 
+  theme_few()+
+  labs(y="Chlorophyll A", x="Secchi Disk Depth")+ 
+  xlim(0,16)
+
+```
+
+
+```{r echo=TRUE, include=FALSE}
+cor.test(chla_secchi_200$chla,chla_secchi_200$secchi)
+```
+
+There is a negative correlation between secchi disk depth and chlorophyll a levels, where shallower secchi disk depths are associated with higher chlorophyll a levels. 
+
+
+## Why might this be the case? 
+
+High cholorphyll a concentrations are associated with high density(s) of photosynthetic organisms, such as algae. Meanwhile, secchi disks are used to assess water turbidity, where the depth of disk disappearance indicates the transparency of the water (Fuller and Minnerick 2007). Where algae abundance is high, the depth where light can penetrate a water body diminishes; thus, secchi disk depth decreases (Fuller and Minnerick 2007).
+
+Fuller, LM & Minnerick, RJ (2007). Predicting Water Quality by Relating Secchi-Disk Transparency and Chlorophyll a Measurements to Landsat Satellite Imagery for Michigan Inland Lakes, 2001–2006. USGS, August 2007, 1–4. [http://pubs.usgs.gov/fs/2007/3022/pdf/FS2007-3022.pdf]
+
+
+## 2) What states have the most data? 
+
+### 2a) First you will need to make a lagos spatial dataset that has the total 
+number of counts per site.
+
+```{r spatial object lagos, cache=TRUE}
+#Create lagos spatial dataset with total number of counts per site 
+
+site_counts <- chla_secchi %>%
+  group_by(lagoslakeid) %>%
+  mutate(count = n())
+
+#Add geographic information to site counts data 
+
+geo_counts <- inner_join(site_counts,lake_centers, by= 'lagoslakeid')%>% 
+  select(lagoslakeid,nhd_long,nhd_lat, count, secchi, chla)
+
+#Create spatial object for lagos dataset 
+
+spatial_counts <- st_as_sf(geo_counts,coords=c('nhd_long','nhd_lat'),
+                          crs=4326)
+  
+```
+
+
+### 2b) Second, you will need to join this point dataset to the us_boundaries data.
+
+```{r}
+#Use a spatial join to combine point dataset and us_boundaries data
+
+#Parse out state boundaries from us_boundaries data   
+
+states <- us_states()
+
+#Use spatial join to overlay point dataset (original lagos spatial dataset) and state boundaries 
+
+overlay <- st_join(spatial_counts,states)
+
+```
+
+
+### 2c) Then you will want to group by state and sum all the observations in 
+that state and arrange that data from most to least total observations per state. 
+
+```{r, cache=TRUE}
+# Group by state and sum number of observations by state
+
+summed_overlay <- overlay %>%
+  group_by(state_name) %>%
+  summarize(sum_count = sum(count)) %>%
+  arrange(desc(sum_count))
+
+#Print first six rows of dataframe
+
+head(summed_overlay)
+
+```
+
+
+```{r echo=TRUE,include=FALSE}
+#Plot/map number of observations per state
+
+mapview(summed_overlay,zcol='sum_count', layer.name = 'Observations per state',canvas=TRUE)
+```
+
+
+The top five states with the most data include: Minnesota, Vermont, New York, Wisconsin, and Rhode Island. 
+
+
+##3 Is there a spatial pattern in Secchi disk depth for lakes with at least 200 
+observations?
+
+```{r}
+#Filter by 200 or more observations
+#Calculate the mean secchi depth by lake
+
+secchi200 <- chla_secchi %>%
+  group_by(lagoslakeid) %>%
+  mutate(count = n()) %>%
+  filter(count > 200) %>% 
+  summarize(mean_secchi = mean(secchi))
+  
+#Add geographic information, joining by lagoslakeid
+
+secchi200_locus <- inner_join(secchi200, lake_centers, by='lagoslakeid') %>%
+  select(lagoslakeid, nhd_long, nhd_lat, mean_secchi)
+
+#Create a spatial object with lagoslakeid and mean secchi data
+
+spatial_secchi200 <- st_as_sf(secchi200_locus,coords=c('nhd_long','nhd_lat'),
+                          crs=4326)
+
+#Visualize secchi data within interactive plot/map
+
+mapview(spatial_secchi200, zcol='mean_secchi', layer.name='Secchi Disk Depth', canvas=TRUE)
+
+```
+
+I do not see an exceptionally strong spatial pattern in secchi disk depth in lakes with at least 200 observations, given the number of observations above 200 is small. However, the patch of lakes near/surrounding the Minneapolis-Saint Paul sprawl in Minnesota have broadly shallower secchi disk depths. Meanwhile, lakes in more remote areas in northern Wisconsin and near the Adirondacks in New York have broadly deeper secchi disk depths. It could be a stretch, but sufficient to say that lakes within more remote areas have generally deeper secchi depths and urban areas shallower depths. 
+
+
+
+
+
+
+<!--chapter:end:05-Geospatial_2.Rmd-->
+
+# Regression models
+
+
+```{r, include=FALSE}
+library(tidyverse)
+library(R.matlab)
+library(rnassqs)
+library(ggthemes)
+library(broom)
+library(viridis)
+library(viridisLite)
+```
+
+
+## Introduction 
+
+
+NEED description
+Weather Data Analysis
+
+
+Is there evidence for slowing yield growth? 
+
+### Question 2 -- Time Series: Let's analyze the relationship between temperature and yields for the Winneshiek County time series. Use data on yield and summer avg Tmax. Is adding year or Tmax^2^ to your model helpful? Make a plot and interpret the results.
+
+
+## Methods 
+
+
+### Data Acquisition: PRISM Temperature Data {-}
+
+
+```{r tmax data}
+#Load PRISM daily max temperature 
+#Dimensions: counties x days x years
+prism <- readMat("dataRegression/prismiowa.mat")
+```
+
+
+```{r tmax data, include=F}
+#Explore the data: county #1
+t_1981_c1 <- prism$tmaxdaily.iowa[1,,1]
+t_1981_c1[366]
+plot(1:366, t_1981_c1, type = "l")
+```
+
+
+```{r tmax data, message=F}
+#Plot daily maximum temp for #1 Iowa county
+ggplot() +
+  geom_line(mapping = aes(x=1:366, y = t_1981_c1)) +
+  theme_few() +
+  xlab("Day of Year") +
+  ylab("Daily Maximum Temperature (°C)") +
+  ggtitle("Daily Maximum Temperature, Iowa County #1")
+
+```
+
+
+### Data Cleaning {-}
+
+
+```{r tidying up}
+#Assign dimension names to tmax matrix
+dimnames(prism$tmaxdaily.iowa) <- list(prism$COUNTYFP, 1:366, prism$years)
+
+#Convert 3d matrix into a data frame
+tmaxdf <- as.data.frame.table(prism$tmaxdaily.iowa)
+
+#Relabel columns within data frame
+colnames(tmaxdf) <- c("countyfp","doy","year","tmax")
+tmaxdf <- tibble(tmaxdf)
+```
+
+
+## Analyses - Temperature trends in Winneshiek County, Iowa 
+
+
+### Summer temperature trends {-}
+
+
+```{r temp trends, message=F}
+#Save doy and year as numeric variables
+tmaxdf$doy <- as.numeric(tmaxdf$doy)
+tmaxdf$year <- as.numeric(as.character(tmaxdf$year))
+
+#Create data frame for Winneshiek County summer mean max temp
+winnesummer <- tmaxdf %>%
+  filter(countyfp==191 & doy >= 152 & doy <= 243) %>%
+  group_by(year) %>%
+  summarize(meantmax = mean(tmax))
+
+#Plot Winneshiek County summer mean max temp by year
+ggplot(winnesummer, mapping = aes(x = year, y = meantmax)) +
+  geom_point(alpha=0.5) +
+  theme_few() +
+  labs(x = "Year", y = "Average Maximum Summer Temperature (°C)") +
+  geom_smooth(method = lm)
+
+#Fit linear model for Winneshiek County mean summer max temp by year 
+lm_summertmax <- lm(meantmax ~ year, winnesummer)
+knitr::kable(lm_summertmax)
+```
+
+
+### Winter temperatures trends {-}
+
+
+```{r winter temps, message=F}
+#Create data frame for Winneshiek County winter mean max temp
+winnewinter <- tmaxdf %>%
+  filter(countyfp==191 & (doy <= 59 | doy >= 335) & !is.na(tmax)) %>%
+  group_by(year) %>%
+  summarize(meantmax = mean(tmax))
+
+#Plot Winneshiek County winter mean max temp by year
+ggplot(winnewinter, mapping = aes(x = year, y = meantmax)) +
+  geom_point(alpha=0.5) +
+  theme_few() +
+  labs(x = "Year", y = "Average Maximum Winter Temperature (°C)") +
+  geom_smooth(method = lm)
+
+#Fit linear model for Winneshiek County mean winter max temp by year 
+lm_wintertmax <- lm(meantmax ~ year, winnewinter)
+summary(lm_wintertmax)
+```
+
+
+### Quadratic time trend {-}
+
+
+```{r quadratic temp trend}
+#Save year^2 variable
+winnewinter$yearsq <- winnewinter$year^2
+
+#Fit lm for quadratic time trend 
+lm_wintertmaxquad <- lm(meantmax ~ year + yearsq, winnewinter)
+summary(lm_wintertmaxquad)
+winnewinter$fitted <- lm_wintertmaxquad$fitted.values
+
+#Plot mean max winter temp and quadratic time trend 
+ggplot(winnewinter) +
+  geom_point(mapping = aes(x = year, y = meantmax)) +
+  geom_line(mapping = aes(x = year, y = fitted)) +
+  theme_few() +
+  labs(x = "Year", y = "Average Maximum Winter Temperature (°C)")
+```
+
+
+## Data Acquisition: NASS Corn Yield Data 
+
+
+```{r yield download, echo=TRUE, include=FALSE}
+#Set API key with NASS
+nassqs_auth(key = "AA4F0FBD-6240-3D5A-902F-54E62A4E05F0")
+
+#Parameter list for query
+params <- list(commodity_desc = "CORN", util_practice_desc = "GRAIN", prodn_practice_desc = "ALL PRODUCTION PRACTICES", year__GE = 1981, agg_level_desc="COUNTY", state_alpha = "IA")
+
+#Download corn yield data
+cornyieldsall <- nassqs_yields(params)
+
+#Save county_ansi and corn yield as numeric variables
+cornyieldsall$county_ansi <- as.numeric(cornyieldsall$county_ansi)
+cornyieldsall$yield <- as.numeric(cornyieldsall$Value)
+
+#Clean and filter raw corn yield data
+cornyields <- dplyr::select(cornyieldsall, county_ansi, county_name, yield, year) %>%
+  filter(!is.na(county_ansi) & !is.na(yield))
+cornyields <- tibble(cornyields)
+```
+
+
+## Analyses and Results - Corn Yield in Winneshiek County, Iowa 
+
+### Linear time trend analysis within Winneshiek County, Iowa
+
+#### Simple Linear Regression - Yield by Covariate: Year
+
+
+```{r}
+#Extract Winneshiek County corn yields 
+winne_yields <- cornyields %>%
+  filter(county_ansi == 191)
+
+# Fit a model for yield as the response (y) and year as predictor (x) 
+winne_timeLM <- lm(yield ~ year, data = winne_yields)
+summary(winne_timeLM)
+
+#Add fitted values from linear model to data frame 
+winne_yields$fitted_l <- winne_timeLM$fitted.values
+
+#Plot corn yield(y) by year(x)
+#Add line for linear time trend 
+ggplot(aes(x = year, y = yield), data = winne_yields) +
+  geom_point(alpha=0.5) +
+  geom_line(mapping = aes(x = year, y = fitted_l)) +
+  theme_few() +
+  labs(x = "Year", y = "Yield (Bu/Acre)", title = "Winneshiek County, IA - Corn Yield (Linear Time Trend)") 
+```
+
+
+With a p-value of 1.77e-13 and less than $\alpha$ = 0.05, we reject the null hypothesis $H_0:\beta_1$ = 0. We have enough evidence to suggest there is a significant time trend and a positive linear relationship between year and yield. There is an estimated 2.457 bu/acre increase in corn yield with each increasing year. 75.51% of the variation in corn yield is explained by the regression on year. 
+
+
+### Quadratic time trend analysis within Winneshiek County, Iowa
+
+#### Quadratic Regression - Yield by Covariates: Year,Year^2^*
+
+
+```{r}
+# Create column for year^2 
+winne_yields$yearsq <- winne_yields$year^2
+
+#Fit quadratic time trend with yield(y) and year and year^2 as covariates(x)
+quad_timeLM <- lm(yield~year + yearsq, data = winne_yields)
+summary(quad_timeLM)
+
+#Add fitted values from the quad model to data frame 
+winne_yields$fitted_q <- quad_timeLM$fitted.values
+
+#Plot yield(y) by year (x) 
+#Add line for quadratic time trend
+ggplot(winne_yields) +
+  geom_point(mapping = aes(x = year, y = yield), alpha=0.5) +
+  geom_line(mapping = aes(x = year, y = fitted_q)) +
+  theme_few() +
+  labs(x = expression("Year"), y = "Yield (Bu/Acre)", title = "Winneshiek County, IA - Corn Yield (Quadratic Time Trend)")
+```
+
+
+There is not strong evidence to suggest there is slowing yield growth over time. The p-value associated with the overall quadratic regression on year and year^2^ is 2.311e-12 and less than $\alpha$ = 0.5, suggesting there is a relationship between yield and one of the covariates in the model. However, the p-value(s) for each variable independently, year (p-value = 0.745) and year^2^ (p-value = 0.723), are greater than $\alpha$ = 0.5. Given the results of the regression on year alone suggest a linear relationship between yield and year, the linear year term is likely contributing to overall model significance. Thus, this implies the quadratic year^2^ term is not applicable. 
+
+Furthermore, the R-squared values between the linear model and quadratic model with regressor(s) year and/or year^2^ are comparable at 75.51% or 75.59%, respectively. However, with reference to the adjusted R-squared value, 74.31% of the variation in yield is explained by the quadratic regression on year (and year^2^); this is slightly less the variation in yield explained by the regression on year alone (75.51%). These pieces of information suggest the higher order model, with adding in year^2^, does not provide greater predictive ability.
+
+
+```{r}
+
+#Plot time trend lines combined 
+ggplot(winne_yields) +
+  geom_point(mapping = aes(x = year, y = yield), alpha=0.5) +
+  geom_line(mapping = aes(x = year, y = fitted_l, col="Linear Time Trend"), size=1) +
+  geom_line(mapping = aes(x = year, y = fitted_q, col="Quadratic Time Trend"),size=1) +
+  theme_few() +
+  labs(colour = NULL) +
+  scale_color_manual(values=c("#FFC300","#900C3F"))+
+  labs(x = expression("Year"), y = "Yield (Bu/Acre)", title = "Winneshiek County, IA - Corn Yield Over Time")
+```
+
+
+```{r include=FALSE}
+
+#Plot yield(y) by year^2 (x), use geom_smooth for quadratic line 
+# 
+# ggplot(aes(x = yearsq, y = yield), data = winne_yields) +
+#   geom_point(shape = 1) +
+#   theme_few() +
+#   labs(x = expression("Year" ^ 2),
+#        y = "Corn Yields",
+#        title = "Winneshiek County Corn Yield") +
+#   geom_smooth(
+#     method = "lm",
+#     formula = y ~ poly(x, 2),
+#     se = FALSE,
+#     size = 0.5
+#     ,
+#     color = "black"
+#   )
+```
+
+
+### Time series analysis within Winneshiek County, Iowa
+
+#### Simple Linear Regression - Yield by Covariate: Average Summer Maximum Temperature
+
+
+```{r}
+
+#Add average summer Tmax to winne_yield data 
+winne_summer_yield <- left_join(winne_yields,winnesummer, by = "year")%>% 
+  filter(!is.na(meantmax))
+
+#Fit a model for yield(y) and average summer maximum temperature(x) alone 
+winne_tempLM <- lm(yield~meantmax, data=winne_summer_yield)
+summary(winne_tempLM)
+
+#Add fitted values to data frame 
+winne_summer_yield$fitted_2 <- winne_tempLM$fitted.values
+```
+
+
+With a p-value of 0.2902 and greater than $\alpha$ = 0.05, we fail to reject the null hypothesis $H_0:\beta_1$ = 0. We do not have sufficient evidence to suggest there is a linear relationship between average summer maximum temperature and yield. 3.1% of the variation in corn yield is explained by the regression on average summer maximum temperature alone. 
+
+
+### Multiple Regression - Yield by Covariates: Average Summer Maximum Temperature, Year 
+
+
+```{r}
+#Add summer Tmax^2 to winne_summer_yield 
+winne_summer_yield$meantmaxsq <- winne_summer_yield$meantmax^2
+
+#Fit a model for yield(y) with covariates(x): average summer max temp and year 
+temp_yearLM <- lm(yield~meantmax + year, data=winne_summer_yield)
+summary(temp_yearLM)
+
+#Add fitted values from model to data frame 
+winne_summer_yield$fitted_2a <- temp_yearLM$fitted.values
+```
+
+
+With a p-value of 1.01e-11 and less than $\alpha$ = 0.05, we reject the null hypothesis $H_0:\beta_1 = \beta_2$ = 0. We have evidence of a positive linear relationship between year and yield, when average summer max temp is held constant. There is an estimated 2.514 bu/acre increase in corn yield with each increasing year, holding all else constant. 73.18% (Adjusted R-squared) of the variation in corn yield is explained by the regression on average summer maximum temperature and year. Thus, adding year to the original model analyzing yield by average summer maximum temperature improves model predictive ability. 
+
+
+### Quadratic Regression - Yield by Covariates: Average Summer Max Temperature, Max Temperature^2^
+
+
+```{r}
+
+#Fit a model for yield with covariates: average summer max temp and max temp^2 
+quad_tempLM <- lm(yield~meantmax + meantmaxsq, data=winne_summer_yield)
+summary(quad_tempLM)
+
+#Add fitted values from model to data frame 
+winne_summer_yield$fitted_2b <- quad_tempLM$fitted.values
+```
+
+
+In prior analyses, we found there was not sufficient evidence of a linear relationship between yield and average summer max temp (p-value = 0.2902, R^2^ = 3.1%). However, in adding the quadratic term to the model (Tmax^2^), 19.84% (Adjusted R-squared) of the variation in corn yield is explained by the regression on average summer max temp and average summer max temp squared. The quadratic model, therefore, describes greater variability in yield above and beyond the regression on average summer max temp alone. Furthermore, the p-value from the F-statistic for the quadratic model overall is 0.007887 and less than $\alpha$ = 0.05, whereas the p-value from the linear model F-statistic is 0.2902. This suggests the higher order model serves as a better predictive model.
+
+When looking at the plot of yield by average summer maximum temperature, we can see there is high variability. However, the curvature of the line for the fitted quadratic model suggests corn yield increases with temperature until reaching an optimal temperature for plant growth, then declines with temperatures exceeding the optimal temperature. 
+
+
+```{r}
+
+#Plot corn yield (y) by Average Summer Maximum Temperature(x) with fitted values from regressions 
+
+ggplot(winne_summer_yield) +
+  geom_point(mapping = aes(x = meantmax, y = yield), alpha=0.5) +
+  geom_line(mapping = aes(x = meantmax, y = fitted_2, col="SLR")) +
+  geom_line(mapping = aes(x = meantmax, y = fitted_2a, col="MR with year")) +
+  geom_line(mapping = aes(x = meantmax, y = fitted_2b, col="QR")) +
+  labs(colour = NULL) +
+  theme_few() +
+  scale_color_viridis(discrete=TRUE)+
+  labs(x = expression("Average Summer Maximum Temperature ("*degree*C*")"), y = "Yield (Bu/Acre)", title = "Winneshiek County, IA - Corn Yield")
+```
+
+
+### Question 3 -- Cross-Section: Analyze the relationship between temperature and yield across all counties in 2018. Is there a relationship? Interpret the results.
+
+#### **Cross-section analysis across all Iowa Counties in 2018**
+
+
+```{r}
+#Rename county_ansi to countyfp 
+corn_yields <- cornyields %>% 
+  rename('countyfp'= county_ansi)
+
+#Save countyfp as factor 
+corn_yields$countyfp <- as.factor(corn_yields$countyfp)
+
+#Filter for 2018 yields only 
+county2018_yields <- corn_yields %>% 
+  filter(year==2018)
+
+#Add average summer maximum temp for 2018 
+tmax2018 <- tmaxdf %>% 
+  filter(year==2018)%>% 
+  group_by(countyfp) %>% 
+  filter(doy >= 152 & doy <= 243) %>%
+  summarize(meantmax = mean(tmax))
+
+#Combine average summer max temperature with county yield data for 2018 
+countytmax2018 <- inner_join(county2018_yields, tmax2018, by='countyfp')
+```
+
+
+#### *SLR - Yield by Covariate: Average Summer Max Temperature*
+
+```{r}
+#Fit a linear model with yield (y) and average summer Tmax (x) 
+yield_2018LM <- lm(yield~meantmax, data=countytmax2018)
+summary(yield_2018LM)
+
+#Add fitted values from model to data frame 
+countytmax2018$fitted_l <-yield_2018LM$fitted.values
+
+#Plot yield(y) by average summer maximum temperature (x)
+
+# ggplot(aes(x = meantmax, y = yield), data = countytmax2018) +
+#   geom_point(shape = 1) +
+#   geom_line(mapping = aes(x=meantmax, y=fitted_l))+
+#   theme_few() +
+#   labs(x = expression("Average Summer Maximum Temperature ("*degree*C*")"), y = "Yield (Bu/Acre)", title = "Corn Yields across Iowa Counties in 2018")
+```
+
+
+2.7% of the variation in corn yields is explained by a simple linear regression on average summer max temp across all Iowa counties in 2018. With a p-value of 0.0631 and greater than $\alpha$ = 0.05, we fail to reject the null hypothesis $H_0:\beta_1$ = 0. We do not have sufficient evidence to suggest there is a linear relationship between yield and average summer max temp across all Iowa counties in 2018.
+
+
+#### *QR - Yield by Covariates: Average Summer Max Temperature, Max Temperature^2^*
+
+
+```{r}
+
+#Add Tmax^2 to data frame 
+countytmax2018$meantmaxsq <- countytmax2018$meantmax^2
+
+#Fit a quadratic model with yield (y) and average summer Tmax and Tmax^2
+yield_2018_QR<- lm(yield~meantmax + meantmaxsq, data=countytmax2018)
+summary(yield_2018_QR)
+
+#Add fitted values from model to data frame 
+countytmax2018$fitted_q <-yield_2018_QR$fitted.values
+
+#Plot yield(y) by average summer maximum temperature (x)
+
+# ggplot(aes(x = meantmax, y = yield), data = countytmax2018) +
+#   geom_point(shape = 1) +
+#   geom_line(mapping = aes(x=meantmax, y=fitted_q))+
+#   theme_few() +
+#   labs(x = expression("Average Summer Maximum Temperature ("*degree*C*")"), y = "Yield (Bu/Acre)", title = "Corn Yields across Iowa Counties in 2018")
+```
+
+
+While we did not find enough evidence of a linear relationship between average summer max temp and yield across all Iowa counties in 2018 (p-value 0.0631 > $\alpha$), there is evidence of an overall significant quadratic temperature trend (p-value = 0.001736). 11.24% of the variation in corn yield is explained by the quadratic regression on mean max temperature and mean max temperature squared, across all Iowa counties in 2018. 
+
+
+```{r}
+#Combined plot of linear and quadratic temperature models
+ggplot(aes(x = meantmax, y = yield), data = countytmax2018) +
+  geom_point(alpha=0.5) +
+  geom_line(mapping = aes(x=meantmax, y=fitted_l, col="Linear Temperature Trend"), size=1)+
+  geom_line(mapping = aes(x=meantmax, y=fitted_q, col="Quadratic Temperature Trend"), size=1)+
+  labs(colour = NULL) +
+  theme_few() +
+  scale_color_viridis(discrete=TRUE)+
+  labs(x = expression("Average Summer Maximum Temperature ("*degree*C*")"), y = "Yield (Bu/Acre)", title = "Corn Yields across Iowa Counties in 2018")
+```
+
+
+### Question 4 -- Panel: One way to leverage multiple time series is to group all data into what is called a "panel" regression. Convert the county ID code ("countyfp" or "county_ansi") into factor using as.factor, then include this variable in a regression using all counties' yield and summer temperature data. How does the significance of your temperature coefficients (Tmax, Tmax^2^) change? Make a plot comparing actual and fitted yields and interpret the results of your model.
+
+
+```{r}
+#Combine county and temperature data 
+yearly_co_temp <- tmaxdf %>% 
+  group_by(countyfp,year)%>% 
+  filter(doy >= 152 & doy <= 243) %>%
+  summarize(meantmax = mean(tmax))
+
+  
+co_yearly_join <- left_join(yearly_co_temp, corn_yields, by= c('countyfp','year'))%>% 
+  filter(!is.na(yield))
+
+#Add Tmax^2 to data frame 
+co_yearly_join$meantmaxsq <- co_yearly_join$meantmax^2
+```
+
+
+#### *SLR - Yield by Covariate: Year*
+
+```{r}
+
+SLR_LM <- lm(yield~ year, data = co_yearly_join)
+summary(SLR_LM)
+
+co_yearly_join$fit_SLR <- SLR_LM$fitted.values
+
+# Plot actual versus fitted yields 
+ggplot(co_yearly_join) +
+  geom_point(mapping = aes(x = yield, y = fit_SLR), alpha=0.5) +
+  geom_abline(color="#B3B61A", size=0.75)+
+  theme_few() +
+  labs(x = "Actual Yield", y = "Fitted Values", title="Simple Linear Regression: Yield by Year")
+```
+
+
+#### *Quadratic Regression - Yield by Covariates: Average Summer Maximum Temperature, Max Temperature^2^*
+
+```{r}
+
+QR_LM <- lm(yield~ meantmax+ meantmaxsq, data = co_yearly_join)
+summary(QR_LM)
+
+co_yearly_join$fit_QR <- QR_LM$fitted.values
+
+# Plot actual versus fitted yields 
+ggplot(co_yearly_join) +
+  geom_point(mapping = aes(x = yield, y = fit_QR), alpha=0.5) +
+   geom_abline(color="#B3B61A", size=0.75)+
+  theme_few() +
+  labs(x = "Actual Yield", y = "Fitted Values", title="Quadratic Regression: Yield by Average Summer Maximum Temperature")
+```
+
+
+#### *Multiple Regression - Yield by Covariates: Average Summer Maximum Temperature, Max Temperature^2^, Year* 
+
+```{r}
+
+# Fit multiple regression yield by Average Summer Maximum Temperature, Max Temperature^2, Year
+MR_LM <- lm(yield~ meantmax+ meantmaxsq+ year, data = co_yearly_join)
+summary(MR_LM)
+
+co_yearly_join$fit_MR <- MR_LM$fitted.values
+
+# Plot actual versus fitted yields 
+ggplot(co_yearly_join) +
+  geom_point(mapping = aes(x = yield, y = fit_MR), alpha=0.5) +
+  geom_abline(color="#B3B61A", size=0.75)+
+  theme_few() +
+  labs(x = "Actual Yield", y = "Fitted Values", title="Multiple Regression: Yield by Year and Quadratic Temperature")
+```
+
+
+#### *Panel Regression - Yield by Covariates: Average Summer Maximum Temperature, Max Temperature^2^, Year, County code* 
+
+
+```{r}
+#Fit a panel regression
+panelLM <- lm(yield~ meantmax+ meantmaxsq+ year+countyfp, data = co_yearly_join)
+summary(panelLM)
+
+co_yearly_join$fit_panel <- panelLM$fitted.values
+
+# Plot actual versus fitted yields 
+ggplot(co_yearly_join) +
+  geom_point(mapping = aes(x = yield, y = fit_panel), alpha=0.5) +
+  geom_abline(color="#B3B61A", size=0.75)+
+  theme_few()+
+  labs(x = "Actual Yield", y = "Fitted Values", title="Panel Regression")
+```
+
+
+In order to assess the applicability of the panel regression model (later referred to as model D), I ran the following models for comparison: a) a simple linear regression with yield by year, b) a quadratic regression with yield by average summer max temp and average summer max temp^2^, and c) a multiple regression with yield by year, average summer max temp, and max temp^2^. For model A, 52.41% of the variability in corn yield is explained by the regression on year. For model B, 19.43% (adjusted R^2^) of the variation in corn yield is explained by the quadratic regression on average summer max temperature. For model C, 65.65% (adjusted R^2^) of the variation in yield is explained by the regression on the model covariates. Finally, for model D, 71.29% (adjusted R^2^) of the variation in corn yield is explained by all covariates in the model including county code.
+
+The following list includes the p-values associated with the coefficients for average summer max temperature and average summer max temp^2^, while holding all else constant, in the models: 
+
+Model B: Average Max Temp (p-value = <2e-16), Max Temp^2^ (p-value = <2e-16)
+
+Model C: Average Max Temp (p-value = <2e-16), Max Temp^2^ (p-value = <2e-16)
+
+Model D: Average Max Temp (p-value = <2e-16), Max Temp^2^ (p-value = <2e-16)
+
+As evidenced by the information above, the significance of the temperature coefficients remained consistent across models. In the case of the panel regression, when incorporating county ID into the model, it could be that the coefficients for temperature remained consistent given counties within Iowa may experience broadly similar weather (and thus temperature regimes). 
+
+
+### Question 5 -- Soybeans: Download NASS data on soybean yields and explore either a time series relationship for a given county, the cross-sectional relationship for a given year, or a panel across all counties and years.
+
+
+```{r soybean download, echo=TRUE, include=FALSE}
+#Download NASS data on soybean yields
+
+#Parameters for soybean data
+params2 <- list(commodity_desc = "SOYBEANS", prodn_practice_desc = "ALL PRODUCTION PRACTICES", year__GE = 1981, agg_level_desc="COUNTY", state_alpha = "IA")
+
+
+soyyieldall <- nassqs_yields(params2)
+```
+
+
+```{r echo=TRUE, include=FALSE}
+#Set variables as numeric 
+soyyieldall$county_ansi <- as.numeric(soyyieldall$county_ansi)
+soyyieldall$yield <- as.numeric(soyyieldall$Value)
+
+#Tidy dataset
+soyyields <-
+  select(soyyieldall, county_ansi, county_name, yield, year)%>% 
+  filter(!is.na(county_ansi) & !is.na(yield))
+
+soyyields <- tibble(soyyields)
+```
+
+
+#### **Cross-section analysis of soy yields across all Iowa Counties in 2018**
+
+```{r}
+#Rename county_ansi to countyfp 
+soy_yields <- soyyields %>% 
+  rename('countyfp'= county_ansi)
+
+#Save countyfp as factor 
+soy_yields$countyfp <- as.factor(soy_yields$countyfp)
+
+#Filter for 2018 yields only 
+county2018_soy <- soy_yields %>% 
+  filter(year==2018)
+
+#Combine average summer max temperature with county yield data for 2018 
+soytmax2018 <- inner_join(county2018_soy, tmax2018, by='countyfp')
+```
+
+
+#### *SLR - Soy Yield by Covariate: Average Summer Max Temperature*
+
+```{r}
+
+#Fit a linear model with soy yield (y) and average summer Tmax (x) 
+soy_2018LM <- lm(yield~meantmax, data=soytmax2018)
+summary(soy_2018LM)
+
+#Add fitted values from model to data frame 
+soytmax2018$fitted_l <-soy_2018LM$fitted.values
+
+```
+
+
+With a p-value of 0.189 and greater than $\alpha$ = 0.05, we fail to reject the null hypothesis $H_0:\beta_1$ = 0. We do not have sufficient evidence to suggest there is a linear relationship between soy yield and average summer max temp across all Iowa counties in 2018. 0.78% of the variation in soy yields is explained by a simple linear regression on average summer max temp across all Iowa counties in 2018.
+
+
+#### *QR - Soy Yield by Covariates: Average Summer Max Temperature, Max Temperature^2^*
+
+
+```{r}
+#Add Tmax^2 to data frame 
+soytmax2018$meantmaxsq <- soytmax2018$meantmax^2
+
+#Fit a quadratic model with soy yield (y) and average summer Tmax and Tmax^2
+soy_2018_QR<- lm(yield~meantmax + meantmaxsq, data=soytmax2018)
+summary(soy_2018_QR)
+
+#Add fitted values from model to data frame 
+soytmax2018$fitted_q <-soy_2018_QR$fitted.values
+
+```
+
+
+Similar to as observed with corn yields, soy yields in response to average summer max temp are better predicted by a quadratic regression. The p-value from the F-statistic for the linear model is 0.1893 and greater than $\alpha$ = 0.5, while the p-value for the overall quadratic model F-statistic is 0.00274 < $\alpha$. 10.02% (Adjusted R^2^) of the variation in soy yield is explained by the quadratic regression on mean max temperature and mean max temperature^2^, across all Iowa counties in 2018. By adding the quadratic term to the model, the R^2^ value increased from 0.78% in the linear model to 10.02% with the quadratic regression. A similar temperature trend is present in soy yields as to corn yields. There is high variability in the data and the curvature of the fitted line for the quadratic model suggests increasing yield with increasing temperatures, until reaching a peak temperature for plant growth, then declining at temperatures exceeding optimal temperatures. One final note: overall, in bushels/acre units, corn yield was higher that soy yield in 2018. 
+
+
+```{r}
+
+#Combined plot of linear and quadratic temperature models
+ggplot(aes(x = meantmax, y = yield), data = soytmax2018) +
+  geom_point(alpha=0.5) +
+  geom_line(mapping = aes(x=meantmax, y=fitted_l, col="Linear Temperature Trend"), size=1)+
+  geom_line(mapping = aes(x=meantmax, y=fitted_q, col="Quadratic Temperature Trend"),size=1)+
+  labs(colour = NULL) +
+  theme_few() +
+  scale_color_manual(values=c("#581845","#CBA823"))+
+  labs(x = expression("Average Summer Maximum Temperature ("*degree*C*")"), y = "Yield (Bu/Acre)", title = "Soy Yields across Iowa Counties in 2018")
+```
+
+
+
+### Bonus: Find a package to make a county map of Iowa displaying some sort of information about yields or weather. Interpret your map.
+
+
+```{r, include=F}
+#Load packages to create county map of Iowa 
+library(USAboundaries)
+library(USAboundariesData)
+library(mapview)
+
+#Select needed columns 
+counties <- us_counties(states = 'iowa') %>%
+  dplyr::select(name, geometry)
+
+#Adjust capitalization of county names 
+counties$name <- toupper(counties$name)
+
+```
+
+
+```{r}
+#Simplify data by only mapping yield data from one year 
+cornyield_2017 <- corn_yields %>%
+  filter(year==2017) %>% 
+  dplyr::select(county_name, yield, countyfp)
+  
+#Combine yield and spatial county data 
+co_yields <- merge(counties, cornyield_2017, by.x = "name", by.y = "county_name", all.x=TRUE)
+
+#Map yield by county 
+mapview(co_yields, zcol= 'yield', layer.name="2017 Corn Yield - Bu per Acre")
+```
+
+
+Viewing the map of 2017 corn yields across Iowa counties (especially in tandem with the maps below), there appears to be a spatial pattern where corn yields are generally lowest in southern Iowa counties. Furthermore, specifically for the 2017 year, there appears to be higher corn yields in the eastern portion of the state versus the western side. 
+
+
+### Bonus #2: Challenge question - map trends in corn yields by county across Iowa. Interpret your map.
+
+```{r}
+#Create data frame with corn yield from last 9 years 
+cornyield_time <- corn_yields %>% 
+  filter (year %in% c(1985,1990,1995,2000,2005,2010,2015,2020,2021)) %>% 
+   dplyr::select(year, county_name, yield, countyfp)
+
+#Join to counties spatial data 
+co_yields_time <- merge(counties, cornyield_time, by.x="name", by.y="county_name", all.x=TRUE)
+
+
+#Use facet wrap by year to show corn yield over the last 9 years
+ggplot(na.omit(co_yields_time), aes(fill = yield)) + geom_sf() +
+  scale_fill_viridis() + theme_few() +
+  facet_wrap( ~ year, nrow = 3) +
+  theme(axis.text.x = element_text(
+    color = "black",
+    size = 7,
+    angle = 30,
+    vjust = .8,
+    hjust = .8
+  )) +
+  theme(axis.text.y = element_text(size = 8))+ 
+  labs(title="Iowa County Corn Yields Over Time", fill="Yield (Bu/Acre)")+ 
+  theme(legend.position = "right",
+        legend.key.width = unit(5, "mm"), legend.title=element_text(size=10))
+
+```
+
+
+The map(s) above shows corn yields across Iowa counties in 5 year intervals, in addition to the two most recent years with yield data. Broadly, this map is supportive of earlier findings from our analyses, where corn yields have generally increased with time. Spatially, the map indicates that south-central Iowa counties produce lower corn yields consistently over time, in comparison to other counties.
+
+
+
+
+
+
+
+
+<!--chapter:end:06-Regression.Rmd-->
+

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Data wrangling | Introduction to Environmental Data Science: Final Project</title>
+  <meta name="description" content="This is book consists of six different projects completed in ESS580: Introduction to Environmental Data Science at Colorado State University in Spring 2022." />
+  <meta name="generator" content="bookdown 0.25 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Data wrangling | Introduction to Environmental Data Science: Final Project" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="This is book consists of six different projects completed in ESS580: Introduction to Environmental Data Science at Colorado State University in Spring 2022." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Data wrangling | Introduction to Environmental Data Science: Final Project" />
+  
+  <meta name="twitter:description" content="This is book consists of six different projects completed in ESS580: Introduction to Environmental Data Science at Colorado State University in Spring 2022." />
+  
+
+<meta name="author" content="Amanda Hastings" />
+
+
+<meta name="date" content="2022-03-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="workflow-tools.html"/>
+<link rel="next" href="key-programming-concepts.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/dygraphs-1.1.1/dygraph.css" rel="stylesheet" />
+<script src="libs/dygraphs-1.1.1/dygraph-combined.js"></script>
+<script src="libs/dygraphs-1.1.1/shapes.js"></script>
+<script src="libs/moment-2.8.4/moment.js"></script>
+<script src="libs/moment-timezone-0.2.5/moment-timezone-with-data.js"></script>
+<script src="libs/moment-fquarter-1.0.0/moment-fquarter.min.js"></script>
+<script src="libs/dygraphs-binding-1.1.1.6/dygraphs.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="index.html#preface">Preface<span></span></a></li>
+<li class="chapter" data-level="1" data-path="workflow-tools.html"><a href="workflow-tools.html"><i class="fa fa-check"></i><b>1</b> Workflow tools<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="workflow-tools.html"><a href="workflow-tools.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="workflow-tools.html"><a href="workflow-tools.html#methods"><i class="fa fa-check"></i><b>1.2</b> Methods<span></span></a>
+<ul>
+<li><a href="workflow-tools.html#site-description">Site Description<span></span></a></li>
+<li><a href="workflow-tools.html#data-acquistion">Data Acquistion<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="workflow-tools.html"><a href="workflow-tools.html#results"><i class="fa fa-check"></i><b>1.3</b> Results<span></span></a>
+<ul>
+<li><a href="workflow-tools.html#static-plot">Static Plot<span></span></a></li>
+<li><a href="workflow-tools.html#interactive-plot">Interactive Plot<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="workflow-tools.html"><a href="workflow-tools.html#poudre-river-information"><i class="fa fa-check"></i><b>1.4</b> Poudre River Information<span></span></a>
+<ul>
+<li><a href="workflow-tools.html#presentation-link">Presentation link<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="workflow-tools.html"><a href="workflow-tools.html#references"><i class="fa fa-check"></i><b>1.5</b> References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>2</b> Data wrangling<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-wrangling.html"><a href="data-wrangling.html#introduction-1"><i class="fa fa-check"></i><b>2.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="data-wrangling.html"><a href="data-wrangling.html#methods-1"><i class="fa fa-check"></i><b>2.2</b> Methods<span></span></a>
+<ul>
+<li><a href="data-wrangling.html#data-acquistion-1">Data Acquistion<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-wrangling.html"><a href="data-wrangling.html#results-1"><i class="fa fa-check"></i><b>2.3</b> Results<span></span></a>
+<ul>
+<li><a href="data-wrangling.html#question-a-ndvi-and-ndmi">Question A: NDVI and NDMI<span></span></a></li>
+<li><a href="data-wrangling.html#question-b-winter-ndsi-and-summer-ndvi">Question B: Winter NDSI and Summer NDVI<span></span></a></li>
+<li><a href="data-wrangling.html#question-c-ndvi-ndsi-correlations">Question C: NDVI-NDSI correlations<span></span></a></li>
+<li><a href="data-wrangling.html#additional-findings">Additional findings<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html"><i class="fa fa-check"></i><b>3</b> Key programming concepts<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html#introduction-2"><i class="fa fa-check"></i><b>3.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html#data-acquisiton-snowpack-depth"><i class="fa fa-check"></i><b>3.2</b> Data Acquisiton: Snowpack Depth<span></span></a></li>
+<li class="chapter" data-level="3.3" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html#results-snowpack-depth"><i class="fa fa-check"></i><b>3.3</b> Results: Snowpack Depth<span></span></a></li>
+<li class="chapter" data-level="3.4" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html#data-acquisition-meterological-data"><i class="fa fa-check"></i><b>3.4</b> Data Acquisition: Meterological Data<span></span></a>
+<ul>
+<li><a href="key-programming-concepts.html#webscraping-extract-meterological-data-urls">Webscraping: extract meterological data URLs<span></span></a></li>
+<li><a href="key-programming-concepts.html#download-meteorological-data">Download meteorological data<span></span></a></li>
+<li><a href="key-programming-concepts.html#write-a-custom-function-to-read-in-data">Write a custom function to read in data<span></span></a></li>
+<li><a href="key-programming-concepts.html#read-in-meterological-data-files-with-map-function">Read in meterological data files with map function<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html#results-meterological-data"><i class="fa fa-check"></i><b>3.5</b> Results: Meterological Data<span></span></a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Introduction to Environmental Data Science: Final Project</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-wrangling" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Data wrangling<a href="data-wrangling.html#data-wrangling" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="introduction-1" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Introduction<a href="data-wrangling.html#introduction-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This project served as an introduction and exploration in data munging. We utilized data from Climate Engine to investigate vegetation recovery following the 2002 Hayman Fire in Colorado. We specifically looked at normalized difference vegetation index (NDVI), normalized difference snow index (NDSI), and normalized difference moisture index (NDMI), between unburned and burned sites and before and after the fire event.</p>
+<p>Once manipulating the data, we performed basic analyses to address the following project questions:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>What is the correlation between NDVI and NDMI?</p></li>
+<li><p>What is the correlation between average NDSI for winter months: January - April and average NDVI for summer months: June-August? How does snow cover from the previous year influence vegetation growth in the following summer?</p></li>
+<li><p>How does the correlation in snow cover and vegetation growth (from question b) vary between burned and unburned sites and pre- and post-fire time periods?</p></li>
+</ol>
+</div>
+<div id="methods-1" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Methods<a href="data-wrangling.html#methods-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="data-acquistion-1" class="section level3 unnumbered hasAnchor">
+<h3>Data Acquistion<a href="data-wrangling.html#data-acquistion-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="data-wrangling.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Read in files and store in data folder</span></span>
+<span id="cb2-2"><a href="data-wrangling.html#cb2-2" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&#39;dataDataWrangle&#39;</span>,<span class="at">full.names=</span>T)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="data-wrangling.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Read in individual data files separately</span></span>
+<span id="cb3-2"><a href="data-wrangling.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#NDMI data</span></span>
+<span id="cb3-3"><a href="data-wrangling.html#cb3-3" aria-hidden="true" tabindex="-1"></a>ndmi <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(files[<span class="dv">1</span>]) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="data-wrangling.html#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">burned=</span><span class="dv">2</span>,<span class="at">unburned=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="data-wrangling.html#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">data=</span><span class="st">&#39;ndmi&#39;</span>)</span>
+<span id="cb3-6"><a href="data-wrangling.html#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="data-wrangling.html#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#NDSI data</span></span>
+<span id="cb3-8"><a href="data-wrangling.html#cb3-8" aria-hidden="true" tabindex="-1"></a>ndsi <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(files[<span class="dv">2</span>]) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-9"><a href="data-wrangling.html#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">burned=</span><span class="dv">2</span>,<span class="at">unburned=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-10"><a href="data-wrangling.html#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">data=</span><span class="st">&#39;ndsi&#39;</span>)</span>
+<span id="cb3-11"><a href="data-wrangling.html#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="data-wrangling.html#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#NDVI data</span></span>
+<span id="cb3-13"><a href="data-wrangling.html#cb3-13" aria-hidden="true" tabindex="-1"></a>ndvi <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(files[<span class="dv">3</span>])<span class="sc">%&gt;%</span> </span>
+<span id="cb3-14"><a href="data-wrangling.html#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">burned=</span><span class="dv">2</span>,<span class="at">unburned=</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-15"><a href="data-wrangling.html#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">data=</span><span class="st">&#39;ndvi&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="data-wrangling.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Stack data as a tidy dataset</span></span>
+<span id="cb4-2"><a href="data-wrangling.html#cb4-2" aria-hidden="true" tabindex="-1"></a>full_long <span class="ot">&lt;-</span> <span class="fu">rbind</span>(ndvi,ndmi,ndsi) <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="data-wrangling.html#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key=</span><span class="st">&#39;site&#39;</span>,<span class="at">value=</span><span class="st">&#39;value&#39;</span>,<span class="sc">-</span>DateTime,<span class="sc">-</span>data) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="data-wrangling.html#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(value))</span></code></pre></div>
+</div>
+</div>
+<div id="results-1" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> Results<a href="data-wrangling.html#results-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="question-a-ndvi-and-ndmi" class="section level3 unnumbered hasAnchor">
+<h3>Question A: NDVI and NDMI<a href="data-wrangling.html#question-a-ndvi-and-ndmi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="data-wrangling.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Convert from long to wide data with spread() </span></span>
+<span id="cb5-2"><a href="data-wrangling.html#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Add month and year columns to wide data</span></span>
+<span id="cb5-3"><a href="data-wrangling.html#cb5-3" aria-hidden="true" tabindex="-1"></a>full_wide1 <span class="ot">&lt;-</span> full_long <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="data-wrangling.html#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">spread</span>(<span class="at">key=</span><span class="st">&#39;data&#39;</span>, <span class="at">value=</span><span class="st">&#39;value&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-5"><a href="data-wrangling.html#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month=</span><span class="fu">month</span>(DateTime)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="data-wrangling.html#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year=</span><span class="fu">year</span>(DateTime))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="data-wrangling.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Limit data to only summer months using filter() </span></span>
+<span id="cb6-2"><a href="data-wrangling.html#cb6-2" aria-hidden="true" tabindex="-1"></a>summer_wide <span class="ot">&lt;-</span> full_wide1 <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="data-wrangling.html#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>))</span>
+<span id="cb6-4"><a href="data-wrangling.html#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="data-wrangling.html#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot ndvi as response and ndmi as predictor</span></span>
+<span id="cb6-6"><a href="data-wrangling.html#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Distinguish between burn or unburned sites</span></span>
+<span id="cb6-7"><a href="data-wrangling.html#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(summer_wide, <span class="fu">aes</span>(<span class="at">x=</span>ndmi, <span class="at">y=</span>ndvi, <span class="at">color=</span>site))<span class="sc">+</span></span>
+<span id="cb6-8"><a href="data-wrangling.html#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.25</span>)<span class="sc">+</span></span>
+<span id="cb6-9"><a href="data-wrangling.html#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;NDMI&quot;</span>, <span class="at">y=</span><span class="st">&quot;NDVI&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-10"><a href="data-wrangling.html#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_few</span>()<span class="sc">+</span> </span>
+<span id="cb6-11"><a href="data-wrangling.html#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="st">&quot;Site&quot;</span>,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Burned&quot;</span>,<span class="st">&quot;Unburned&quot;</span>), <span class="at">values=</span> <span class="fu">c</span>(<span class="st">&quot;#274a12&quot;</span>,<span class="st">&quot;#babf28&quot;</span>))<span class="sc">+</span> </span>
+<span id="cb6-12"><a href="data-wrangling.html#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="fl">0.6</span>,<span class="fl">0.7</span>)<span class="sc">+</span> </span>
+<span id="cb6-13"><a href="data-wrangling.html#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylim</span>(<span class="fl">0.05</span>, <span class="fl">0.6</span>)</span></code></pre></div>
+<p><img src="ESS580_Final_files/figure-html/plot%20ndvi%20vs%20ndmi-1.png" width="672" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="data-wrangling.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot ndvi vs ndmi with facet wrap over site type (burned or unburned)</span></span>
+<span id="cb7-2"><a href="data-wrangling.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(summer_wide, <span class="fu">aes</span>(<span class="at">x=</span>ndmi, <span class="at">y=</span>ndvi))<span class="sc">+</span></span>
+<span id="cb7-3"><a href="data-wrangling.html#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.25</span>)<span class="sc">+</span></span>
+<span id="cb7-4"><a href="data-wrangling.html#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;NDMI&quot;</span>, <span class="at">y=</span><span class="st">&quot;NDVI&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-5"><a href="data-wrangling.html#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_few</span>()<span class="sc">+</span></span>
+<span id="cb7-6"><a href="data-wrangling.html#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="st">&#39;site&#39;</span>, <span class="at">labeller =</span> <span class="fu">labeller</span>(<span class="at">site =</span> Site))</span></code></pre></div>
+<p><img src="ESS580_Final_files/figure-html/plot%20ndvi%20vs%20ndmi,%20facet%20wrap%20site-1.png" width="672" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="data-wrangling.html#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Test correlation between ndvi and ndmi</span></span>
+<span id="cb8-2"><a href="data-wrangling.html#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(summer_wide<span class="sc">$</span>ndmi, summer_wide<span class="sc">$</span>ndvi, <span class="at">method=</span><span class="st">&#39;pearson&#39;</span>)</span>
+<span id="cb8-3"><a href="data-wrangling.html#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="data-wrangling.html#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Fit lm model for ndvi by ndmi</span></span>
+<span id="cb8-5"><a href="data-wrangling.html#cb8-5" aria-hidden="true" tabindex="-1"></a>LMFit1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(ndvi<span class="sc">~</span>ndmi, <span class="at">data =</span>summer_wide)</span>
+<span id="cb8-6"><a href="data-wrangling.html#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(LMFit1)</span></code></pre></div>
+<p>Based upon a test of correlation, we have evidence of a positive linear association between summer NDMI and summer NDVI, with a p-value &lt; 2.2e-16 (less than 0.05). For every 1 unit increase in summer NDMI, there is a 0.908772 increase in summer NDVI (p-value &lt; 2.2e-16).</p>
+</div>
+<div id="question-b-winter-ndsi-and-summer-ndvi" class="section level3 unnumbered hasAnchor">
+<h3>Question B: Winter NDSI and Summer NDVI<a href="data-wrangling.html#question-b-winter-ndsi-and-summer-ndvi" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="data-wrangling.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Summarize data by average ndvi for summer months</span></span>
+<span id="cb9-2"><a href="data-wrangling.html#cb9-2" aria-hidden="true" tabindex="-1"></a>summer_ndvi<span class="ot">&lt;-</span> full_wide1 <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="data-wrangling.html#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site, year, month) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="data-wrangling.html#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="data-wrangling.html#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_ndvi =</span> <span class="fu">mean</span>(ndvi)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="data-wrangling.html#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(mean_ndvi))</span>
+<span id="cb9-7"><a href="data-wrangling.html#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="data-wrangling.html#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Summarize data by average ndsi over winter months </span></span>
+<span id="cb9-9"><a href="data-wrangling.html#cb9-9" aria-hidden="true" tabindex="-1"></a>winter_ndsi <span class="ot">&lt;-</span> full_wide1 <span class="sc">%&gt;%</span></span>
+<span id="cb9-10"><a href="data-wrangling.html#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(site, year, month) <span class="sc">%&gt;%</span></span>
+<span id="cb9-11"><a href="data-wrangling.html#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(month <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-12"><a href="data-wrangling.html#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_ndsi =</span> <span class="fu">mean</span>(ndsi)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-13"><a href="data-wrangling.html#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(mean_ndsi))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="data-wrangling.html#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Join average summer ndvi and average winter ndsi by year and site</span></span>
+<span id="cb10-2"><a href="data-wrangling.html#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Add burnperiod column to distinguish pre- and post-fire years</span></span>
+<span id="cb10-3"><a href="data-wrangling.html#cb10-3" aria-hidden="true" tabindex="-1"></a>wide_averages <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(winter_ndsi, summer_ndvi, <span class="at">by=</span> <span class="fu">c</span>(<span class="st">&#39;site&#39;</span>, <span class="st">&#39;year&#39;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="data-wrangling.html#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">burnperiod =</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(year <span class="sc">&lt;</span> <span class="dv">2002</span>,<span class="st">&quot;prefire&quot;</span>, <span class="st">&quot;postfire&quot;</span>))) </span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="data-wrangling.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot and evaluate relationship between ndvi and ndsi</span></span>
+<span id="cb11-2"><a href="data-wrangling.html#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(wide_averages, <span class="fu">aes</span>(<span class="at">x=</span>mean_ndsi, <span class="at">y=</span>mean_ndvi))<span class="sc">+</span></span>
+<span id="cb11-3"><a href="data-wrangling.html#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.25</span>, <span class="at">color =</span> <span class="st">&quot;#22AA99&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-4"><a href="data-wrangling.html#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm, <span class="at">color=</span><span class="st">&quot;#22AA99&quot;</span>, <span class="at">size=</span><span class="fl">0.1</span>, <span class="at">se=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb11-5"><a href="data-wrangling.html#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_few</span>()<span class="sc">+</span> </span>
+<span id="cb11-6"><a href="data-wrangling.html#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Average Winter NDSI&quot;</span>, <span class="at">y=</span><span class="st">&quot;Average Summer NDVI&quot;</span>)</span></code></pre></div>
+<p><img src="ESS580_Final_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="data-wrangling.html#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Test correlation between ndvi and ndsi overall</span></span>
+<span id="cb12-2"><a href="data-wrangling.html#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(wide_averages<span class="sc">$</span>mean_ndsi, wide_averages<span class="sc">$</span>mean_ndvi)</span>
+<span id="cb12-3"><a href="data-wrangling.html#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="data-wrangling.html#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Fit lm model for ndvi by ndsi overall</span></span>
+<span id="cb12-5"><a href="data-wrangling.html#cb12-5" aria-hidden="true" tabindex="-1"></a>LMFit2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mean_ndvi<span class="sc">~</span>mean_ndsi, <span class="at">data =</span> wide_averages)</span>
+<span id="cb12-6"><a href="data-wrangling.html#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(LMFit2)</span></code></pre></div>
+<p>The p-value from a test of correlation for average summer NDVI and average winter NDSI is 0.0002124 and less than 0.05. We have evidence of a positive linear association between average summer NDVI and average winter NDSI. For every 1 unit increase in average winter NDSI, there is a 0.042658 increase in average summer NDVI.</p>
+</div>
+<div id="question-c-ndvi-ndsi-correlations" class="section level3 unnumbered hasAnchor">
+<h3>Question C: NDVI-NDSI correlations<a href="data-wrangling.html#question-c-ndvi-ndsi-correlations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="ndvi-ndsi-pre--versus-post-fire-figure-and-analyses" class="section level4 unnumbered hasAnchor">
+<h4>NDVI-NDSI: Pre- versus post-fire figure and analyses<a href="data-wrangling.html#ndvi-ndsi-pre--versus-post-fire-figure-and-analyses" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="data-wrangling.html#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot and compare ndvi-ndsi relationship between pre- and post-burn periods</span></span>
+<span id="cb13-2"><a href="data-wrangling.html#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(wide_averages, <span class="fu">aes</span>(<span class="at">x=</span>mean_ndsi, <span class="at">y=</span>mean_ndvi, <span class="at">color=</span>burnperiod))<span class="sc">+</span></span>
+<span id="cb13-3"><a href="data-wrangling.html#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.25</span>)<span class="sc">+</span></span>
+<span id="cb13-4"><a href="data-wrangling.html#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_few</span>()<span class="sc">+</span></span>
+<span id="cb13-5"><a href="data-wrangling.html#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm, <span class="at">size=</span><span class="fl">0.1</span>, <span class="at">se=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb13-6"><a href="data-wrangling.html#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Average Winter NDSI&quot;</span>, <span class="at">y=</span><span class="st">&quot;Average Summer NDVI&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-7"><a href="data-wrangling.html#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="st">&quot;&quot;</span>,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Pre-fire&quot;</span>,<span class="st">&quot;Post-fire&quot;</span>), <span class="at">values=</span> <span class="fu">c</span>(<span class="st">&quot;#2f94b5&quot;</span>,<span class="st">&quot;#b5982f&quot;</span>))</span></code></pre></div>
+<p><img src="ESS580_Final_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="data-wrangling.html#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Fit lm model to evaluate ndvi-ndsi correlation pre- and post-fire </span></span>
+<span id="cb14-2"><a href="data-wrangling.html#cb14-2" aria-hidden="true" tabindex="-1"></a>LMFit3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mean_ndvi<span class="sc">~</span>mean_ndsi<span class="sc">*</span>burnperiod, <span class="at">data=</span> wide_averages)</span>
+<span id="cb14-3"><a href="data-wrangling.html#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(LMFit3)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="data-wrangling.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create separate data frames for prefire and postfire </span></span>
+<span id="cb15-2"><a href="data-wrangling.html#cb15-2" aria-hidden="true" tabindex="-1"></a>prefire <span class="ot">&lt;-</span> wide_averages <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="data-wrangling.html#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(burnperiod <span class="sc">%in%</span> <span class="st">&#39;prefire&#39;</span>)</span>
+<span id="cb15-4"><a href="data-wrangling.html#cb15-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-5"><a href="data-wrangling.html#cb15-5" aria-hidden="true" tabindex="-1"></a>postfire <span class="ot">&lt;-</span> wide_averages <span class="sc">%&gt;%</span> </span>
+<span id="cb15-6"><a href="data-wrangling.html#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(burnperiod <span class="sc">%in%</span> <span class="st">&#39;postfire&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="data-wrangling.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Test correlation between ndvi and ndsi prefire and postfire </span></span>
+<span id="cb16-2"><a href="data-wrangling.html#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(prefire<span class="sc">$</span>mean_ndsi,prefire<span class="sc">$</span>mean_ndvi)</span>
+<span id="cb16-3"><a href="data-wrangling.html#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(postfire<span class="sc">$</span>mean_ndsi,postfire<span class="sc">$</span>mean_ndvi)</span></code></pre></div>
+<p>In pre-fire years, we do not have evidence of an association between average summer NDVI and average winter NDSI (p-value=0.1721). However, in post-fire years, we have evidence of an association between average summer NDVI and average winter NDSI (p-value=0.01048).</p>
+</div>
+<div id="ndvi-ndsi-burned-versus-unburned-figure-and-analyses" class="section level4 unnumbered hasAnchor">
+<h4>NDVI-NDSI: Burned versus unburned figure and analyses<a href="data-wrangling.html#ndvi-ndsi-burned-versus-unburned-figure-and-analyses" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="data-wrangling.html#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot and compare ndvi-ndsi relationship across burned versus unburned sites</span></span>
+<span id="cb17-2"><a href="data-wrangling.html#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(wide_averages, <span class="fu">aes</span>(<span class="at">x=</span>mean_ndsi, <span class="at">y=</span>mean_ndvi, <span class="at">color=</span>site))<span class="sc">+</span></span>
+<span id="cb17-3"><a href="data-wrangling.html#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha=</span><span class="fl">0.25</span>)<span class="sc">+</span></span>
+<span id="cb17-4"><a href="data-wrangling.html#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_few</span>()<span class="sc">+</span> </span>
+<span id="cb17-5"><a href="data-wrangling.html#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method=</span>lm, <span class="at">size=</span><span class="fl">0.1</span>, <span class="at">se=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb17-6"><a href="data-wrangling.html#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Average Winter NDSI&quot;</span>, <span class="at">y=</span><span class="st">&quot;Average Summer NDVI&quot;</span>)<span class="sc">+</span> </span>
+<span id="cb17-7"><a href="data-wrangling.html#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">name=</span><span class="st">&quot;Site&quot;</span>,<span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Burned&quot;</span>,<span class="st">&quot;Unburned&quot;</span>), <span class="at">values=</span> <span class="fu">c</span>(<span class="st">&quot;#292423&quot;</span>,<span class="st">&quot;#a4a823&quot;</span>))</span></code></pre></div>
+<p><img src="ESS580_Final_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="data-wrangling.html#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Fit lm model to evaluate ndvi-ndsi correlation between burned and unburned sites</span></span>
+<span id="cb18-2"><a href="data-wrangling.html#cb18-2" aria-hidden="true" tabindex="-1"></a>LMFit4 <span class="ot">&lt;-</span> <span class="fu">lm</span>(mean_ndvi<span class="sc">~</span>mean_ndsi<span class="sc">*</span>site, <span class="at">data=</span>wide_averages)</span>
+<span id="cb18-3"><a href="data-wrangling.html#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(LMFit4)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="data-wrangling.html#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Create separate data frames for burned and unburned sites</span></span>
+<span id="cb19-2"><a href="data-wrangling.html#cb19-2" aria-hidden="true" tabindex="-1"></a>burned <span class="ot">&lt;-</span> wide_averages <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="data-wrangling.html#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter(burnperiod %in% &#39;postfire&#39;) %&gt;%</span></span>
+<span id="cb19-4"><a href="data-wrangling.html#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site <span class="sc">%in%</span> <span class="st">&#39;burned&#39;</span>)</span>
+<span id="cb19-5"><a href="data-wrangling.html#cb19-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-6"><a href="data-wrangling.html#cb19-6" aria-hidden="true" tabindex="-1"></a>unburned <span class="ot">&lt;-</span> wide_averages <span class="sc">%&gt;%</span> </span>
+<span id="cb19-7"><a href="data-wrangling.html#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter(burnperiod %in% &#39;postfire&#39;) %&gt;%</span></span>
+<span id="cb19-8"><a href="data-wrangling.html#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(site <span class="sc">%in%</span> <span class="st">&#39;unburned&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="data-wrangling.html#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Test correlation between ndvi and ndsi in burned and unburned sites separately </span></span>
+<span id="cb20-2"><a href="data-wrangling.html#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(burned<span class="sc">$</span>mean_ndsi, burned<span class="sc">$</span>mean_ndvi)</span>
+<span id="cb20-3"><a href="data-wrangling.html#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(unburned<span class="sc">$</span>mean_ndsi,unburned<span class="sc">$</span>mean_ndvi)</span></code></pre></div>
+<p>When analyzing all years included in the dataset, we do not have evidence of an association between average summer NDVI and average winter NDSI within the unburned area (p-value= 0.6589) and burned area (p-value=0.1825). When analyzing only years postfire, we still do not have evidence of an association between average summer NDVI and average winter NDSI in the unburned (p-value=0.905) and burned areas (p-value=0.3226).</p>
+</div>
+</div>
+<div id="additional-findings" class="section level3 unnumbered hasAnchor">
+<h3>Additional findings<a href="data-wrangling.html#additional-findings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Lastly, when looking at overall trends in NDVI and NDSI, we found August is the greenest month on average while February is the snowiest month on average.</p>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="workflow-tools.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="key-programming-concepts.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
