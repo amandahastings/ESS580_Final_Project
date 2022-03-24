@@ -26,7 +26,7 @@ Weather Data Analysis
 ### Data Acquisition: PRISM Temperature Data {-}
 
 
-```{r tmax data}
+```{r tmax data download}
 #Load PRISM daily max temperature 
 #Dimensions: counties x days x years
 prism <- readMat("dataRegression/prismiowa.mat")
@@ -41,7 +41,7 @@ plot(1:366, t_1981_c1, type = "l")
 ```
 
 
-```{r tmax data, message=F}
+```{r tmax data, message=F, echo=FALSE}
 #Plot daily maximum temp for #1 Iowa county
 ggplot() +
   geom_line(mapping = aes(x=1:366, y = t_1981_c1)) +
@@ -85,7 +85,10 @@ winnesummer <- tmaxdf %>%
   filter(countyfp==191 & doy >= 152 & doy <= 243) %>%
   group_by(year) %>%
   summarize(meantmax = mean(tmax))
+```
 
+
+```{r temp trends figure, message=F, echo=F}
 #Plot Winneshiek County summer mean max temp by year
 ggplot(winnesummer, mapping = aes(x = year, y = meantmax)) +
   geom_point(alpha=0.5) +
@@ -95,20 +98,23 @@ ggplot(winnesummer, mapping = aes(x = year, y = meantmax)) +
 
 #Fit linear model for Winneshiek County mean summer max temp by year 
 lm_summertmax <- lm(meantmax ~ year, winnesummer)
-knitr::kable(lm_summertmax)
+tidy(lm_summertmax)
 ```
 
 
 ### Winter temperatures trends {-}
 
 
-```{r winter temps, message=F}
+```{r winter temps, message=F, include=F}
 #Create data frame for Winneshiek County winter mean max temp
 winnewinter <- tmaxdf %>%
   filter(countyfp==191 & (doy <= 59 | doy >= 335) & !is.na(tmax)) %>%
   group_by(year) %>%
   summarize(meantmax = mean(tmax))
+```
 
+
+```{r winter temps figure, message=F, echo=F}
 #Plot Winneshiek County winter mean max temp by year
 ggplot(winnewinter, mapping = aes(x = year, y = meantmax)) +
   geom_point(alpha=0.5) +
@@ -118,20 +124,23 @@ ggplot(winnewinter, mapping = aes(x = year, y = meantmax)) +
 
 #Fit linear model for Winneshiek County mean winter max temp by year 
 lm_wintertmax <- lm(meantmax ~ year, winnewinter)
-summary(lm_wintertmax)
+tidy(summary(lm_wintertmax))
 ```
 
 
-### Quadratic time trend {-}
+### Quadratic time trend - Winneshiek County, Iowa temperature {-}
 
 
-```{r quadratic temp trend}
+```{r quadratic temp trend, include=F}
 #Save year^2 variable
 winnewinter$yearsq <- winnewinter$year^2
+```
 
+
+```{r quadratic temp trend figure, echo=F}
 #Fit lm for quadratic time trend 
 lm_wintertmaxquad <- lm(meantmax ~ year + yearsq, winnewinter)
-summary(lm_wintertmaxquad)
+tidy(summary(lm_wintertmaxquad))
 winnewinter$fitted <- lm_wintertmaxquad$fitted.values
 
 #Plot mean max winter temp and quadratic time trend 
@@ -155,7 +164,10 @@ params <- list(commodity_desc = "CORN", util_practice_desc = "GRAIN", prodn_prac
 
 #Download corn yield data
 cornyieldsall <- nassqs_yields(params)
+```
 
+
+```{r yield data cleaning, include=FALSE}
 #Save county_ansi and corn yield as numeric variables
 cornyieldsall$county_ansi <- as.numeric(cornyieldsall$county_ansi)
 cornyieldsall$yield <- as.numeric(cornyieldsall$Value)
@@ -169,12 +181,17 @@ cornyields <- tibble(cornyields)
 
 ## Analyses and Results - Corn Yield in Winneshiek County, Iowa 
 
-### Linear time trend analysis within Winneshiek County, Iowa
 
-#### Simple Linear Regression - Yield by Covariate: Year
+### Question A: Is there a signicant time trend? 
 
 
-```{r}
+#### Linear time trend analysis 
+
+
+#### *Simple Linear Regression - Yield by Covariate: Year* {-}
+
+
+```{r, include=F}
 #Extract Winneshiek County corn yields 
 winne_yields <- cornyields %>%
   filter(county_ansi == 191)
@@ -185,7 +202,10 @@ summary(winne_timeLM)
 
 #Add fitted values from linear model to data frame 
 winne_yields$fitted_l <- winne_timeLM$fitted.values
+```
 
+
+```{r, echo=F}
 #Plot corn yield(y) by year(x)
 #Add line for linear time trend 
 ggplot(aes(x = year, y = yield), data = winne_yields) +
@@ -199,18 +219,20 @@ ggplot(aes(x = year, y = yield), data = winne_yields) +
 With a p-value of 1.77e-13 and less than $\alpha$ = 0.05, we reject the null hypothesis $H_0:\beta_1$ = 0. We have enough evidence to suggest there is a significant time trend and a positive linear relationship between year and yield. There is an estimated 2.457 bu/acre increase in corn yield with each increasing year. 75.51% of the variation in corn yield is explained by the regression on year. 
 
 
-### Quadratic time trend analysis within Winneshiek County, Iowa
+### Question B: Is there evidence for slowing yield growth?
 
-#### Quadratic Regression - Yield by Covariates: Year,Year^2^*
+#### Quadratic time trend analysis 
+
+#### *Quadratic Regression - Yield by Covariates: Year,Year^2^** {-}
 
 
-```{r}
+```{r, echo=F}
 # Create column for year^2 
 winne_yields$yearsq <- winne_yields$year^2
 
 #Fit quadratic time trend with yield(y) and year and year^2 as covariates(x)
 quad_timeLM <- lm(yield~year + yearsq, data = winne_yields)
-summary(quad_timeLM)
+tidy(summary(quad_timeLM))
 
 #Add fitted values from the quad model to data frame 
 winne_yields$fitted_q <- quad_timeLM$fitted.values
@@ -230,8 +252,7 @@ There is not strong evidence to suggest there is slowing yield growth over time.
 Furthermore, the R-squared values between the linear model and quadratic model with regressor(s) year and/or year^2^ are comparable at 75.51% or 75.59%, respectively. However, with reference to the adjusted R-squared value, 74.31% of the variation in yield is explained by the quadratic regression on year (and year^2^); this is slightly less the variation in yield explained by the regression on year alone (75.51%). These pieces of information suggest the higher order model, with adding in year^2^, does not provide greater predictive ability.
 
 
-```{r}
-
+```{r, echo=F}
 #Plot time trend lines combined 
 ggplot(winne_yields) +
   geom_point(mapping = aes(x = year, y = yield), alpha=0.5) +
@@ -265,12 +286,14 @@ ggplot(winne_yields) +
 ```
 
 
-### Time series analysis within Winneshiek County, Iowa
+### Question C: 
 
-#### Simple Linear Regression - Yield by Covariate: Average Summer Maximum Temperature
+#### Time series analysis within Winneshiek County, Iowa
+
+#### *SLR - Yield by Covariate: Average Summer Maximum Temperature*
 
 
-```{r}
+```{r,echo=F}
 
 #Add average summer Tmax to winne_yield data 
 winne_summer_yield <- left_join(winne_yields,winnesummer, by = "year")%>% 
@@ -278,7 +301,7 @@ winne_summer_yield <- left_join(winne_yields,winnesummer, by = "year")%>%
 
 #Fit a model for yield(y) and average summer maximum temperature(x) alone 
 winne_tempLM <- lm(yield~meantmax, data=winne_summer_yield)
-summary(winne_tempLM)
+tidy(summary(winne_tempLM))
 
 #Add fitted values to data frame 
 winne_summer_yield$fitted_2 <- winne_tempLM$fitted.values
@@ -288,16 +311,16 @@ winne_summer_yield$fitted_2 <- winne_tempLM$fitted.values
 With a p-value of 0.2902 and greater than $\alpha$ = 0.05, we fail to reject the null hypothesis $H_0:\beta_1$ = 0. We do not have sufficient evidence to suggest there is a linear relationship between average summer maximum temperature and yield. 3.1% of the variation in corn yield is explained by the regression on average summer maximum temperature alone. 
 
 
-### Multiple Regression - Yield by Covariates: Average Summer Maximum Temperature, Year 
+#### *Multiple Regression - Yield by Covariates: Average Summer Maximum Temperature, Year* 
 
 
-```{r}
+```{r, echo=F}
 #Add summer Tmax^2 to winne_summer_yield 
 winne_summer_yield$meantmaxsq <- winne_summer_yield$meantmax^2
 
 #Fit a model for yield(y) with covariates(x): average summer max temp and year 
 temp_yearLM <- lm(yield~meantmax + year, data=winne_summer_yield)
-summary(temp_yearLM)
+tidy(summary(temp_yearLM))
 
 #Add fitted values from model to data frame 
 winne_summer_yield$fitted_2a <- temp_yearLM$fitted.values
@@ -310,11 +333,11 @@ With a p-value of 1.01e-11 and less than $\alpha$ = 0.05, we reject the null hyp
 ### Quadratic Regression - Yield by Covariates: Average Summer Max Temperature, Max Temperature^2^
 
 
-```{r}
+```{r,echo=F}
 
 #Fit a model for yield with covariates: average summer max temp and max temp^2 
 quad_tempLM <- lm(yield~meantmax + meantmaxsq, data=winne_summer_yield)
-summary(quad_tempLM)
+tidy(summary(quad_tempLM))
 
 #Add fitted values from model to data frame 
 winne_summer_yield$fitted_2b <- quad_tempLM$fitted.values
@@ -326,10 +349,8 @@ In prior analyses, we found there was not sufficient evidence of a linear relati
 When looking at the plot of yield by average summer maximum temperature, we can see there is high variability. However, the curvature of the line for the fitted quadratic model suggests corn yield increases with temperature until reaching an optimal temperature for plant growth, then declines with temperatures exceeding the optimal temperature. 
 
 
-```{r}
-
+```{r, echo=F}
 #Plot corn yield (y) by Average Summer Maximum Temperature(x) with fitted values from regressions 
-
 ggplot(winne_summer_yield) +
   geom_point(mapping = aes(x = meantmax, y = yield), alpha=0.5) +
   geom_line(mapping = aes(x = meantmax, y = fitted_2, col="SLR")) +
@@ -342,12 +363,14 @@ ggplot(winne_summer_yield) +
 ```
 
 
-### Question 3 -- Cross-Section: Analyze the relationship between temperature and yield across all counties in 2018. Is there a relationship? Interpret the results.
+## Analyses and Results: Corn Yield in all Iowa Counties
 
-#### **Cross-section analysis across all Iowa Counties in 2018**
+### Question __: Is there a relationship between temperature and yield across all counties in 2018?
+
+#### Cross-section analysis across all Iowa Counties in 2018
 
 
-```{r}
+```{r, include=F}
 #Rename county_ansi to countyfp 
 corn_yields <- cornyields %>% 
   rename('countyfp'= county_ansi)
@@ -371,12 +394,13 @@ countytmax2018 <- inner_join(county2018_yields, tmax2018, by='countyfp')
 ```
 
 
-#### *SLR - Yield by Covariate: Average Summer Max Temperature*
+#### *SLR - Yield by Covariate: Average Summer Max Temperature* {-}
+
 
 ```{r}
 #Fit a linear model with yield (y) and average summer Tmax (x) 
 yield_2018LM <- lm(yield~meantmax, data=countytmax2018)
-summary(yield_2018LM)
+tidy(summary(yield_2018LM))
 
 #Add fitted values from model to data frame 
 countytmax2018$fitted_l <-yield_2018LM$fitted.values
@@ -394,17 +418,17 @@ countytmax2018$fitted_l <-yield_2018LM$fitted.values
 2.7% of the variation in corn yields is explained by a simple linear regression on average summer max temp across all Iowa counties in 2018. With a p-value of 0.0631 and greater than $\alpha$ = 0.05, we fail to reject the null hypothesis $H_0:\beta_1$ = 0. We do not have sufficient evidence to suggest there is a linear relationship between yield and average summer max temp across all Iowa counties in 2018.
 
 
-#### *QR - Yield by Covariates: Average Summer Max Temperature, Max Temperature^2^*
+#### *QR - Yield by Covariates: Average Summer Max Temperature, Max Temperature^2^** {-}
 
 
-```{r}
+```{r, echo=F}
 
 #Add Tmax^2 to data frame 
 countytmax2018$meantmaxsq <- countytmax2018$meantmax^2
 
 #Fit a quadratic model with yield (y) and average summer Tmax and Tmax^2
 yield_2018_QR<- lm(yield~meantmax + meantmaxsq, data=countytmax2018)
-summary(yield_2018_QR)
+tidy(summary(yield_2018_QR))
 
 #Add fitted values from model to data frame 
 countytmax2018$fitted_q <-yield_2018_QR$fitted.values
@@ -422,7 +446,7 @@ countytmax2018$fitted_q <-yield_2018_QR$fitted.values
 While we did not find enough evidence of a linear relationship between average summer max temp and yield across all Iowa counties in 2018 (p-value 0.0631 > $\alpha$), there is evidence of an overall significant quadratic temperature trend (p-value = 0.001736). 11.24% of the variation in corn yield is explained by the quadratic regression on mean max temperature and mean max temperature squared, across all Iowa counties in 2018. 
 
 
-```{r}
+```{r, echo=F}
 #Combined plot of linear and quadratic temperature models
 ggplot(aes(x = meantmax, y = yield), data = countytmax2018) +
   geom_point(alpha=0.5) +
