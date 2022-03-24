@@ -178,11 +178,14 @@ number of counts per site.
 #Create lagos spatial dataset with total number of counts per site 
 site_counts <- chla_secchi %>%
   group_by(lagoslakeid) %>%
-  mutate(count = n())
+  summarize(
+  mean_chla= mean(chla, na.rm=T), 
+  mean_secchi=mean(secchi,na.rm=T),
+  count = n())
 
 #Add geographic information to site counts data 
 geo_counts <- inner_join(site_counts,lake_centers, by= 'lagoslakeid')%>% 
-  select(lagoslakeid,nhd_long,nhd_lat, count, secchi, chla)
+  select(lagoslakeid,nhd_long,nhd_lat, count)
 
 #Create spatial object for lagos dataset 
 spatial_counts <- st_as_sf(geo_counts,coords=c('nhd_long','nhd_lat'),
@@ -205,7 +208,7 @@ overlay <- st_join(spatial_counts,states)
 ### 2c) Then you will want to group by state and sum all the observations in 
 that state and arrange that data from most to least total observations per state. 
 
-```{r summed overlay, cache=TRUE}
+```{r summed overlay}
 #Group by state and sum number of observations by state
 summed_overlay <- overlay %>%
   group_by(state_name) %>%
@@ -217,16 +220,17 @@ summed_overlay <- overlay %>%
 ```{r, cache=TRUE}
 #Print first six rows of dataframe
 knitr::kable(head(summed_overlay))
+head(summed_overlay)
 ```
 
 
 ```{r}
 #Plot/map number of observations per state
-mapview(summed_overlay,zcol='sum_count', layer.name = 'Observations per state')
+mapview(summed_overlay,zcol='sum_count',layer.name = 'Observations per state', alpha.regions=0.3, alpha=0.2)+mapview(states, col.regions="#8A9A5B",alpha.regions = 0.4, alpha=1, layer.name="States")
 ```
 
 
-The top five states with the most data include: Minnesota, Vermont, New York, Wisconsin, and Rhode Island. 
+The top five states with the most data include: Minnesota, Wisconsin, New York, Rhode Island, Missouri, and Vermont.
 
 
 ## References 

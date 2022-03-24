@@ -19,10 +19,6 @@ NEED description
 Weather Data Analysis
 
 
-Is there evidence for slowing yield growth? 
-
-### Question 2 -- Time Series: Let's analyze the relationship between temperature and yields for the Winneshiek County time series. Use data on yield and summer avg Tmax. Is adding year or Tmax^2^ to your model helpful? Make a plot and interpret the results.
-
 
 ## Methods 
 
