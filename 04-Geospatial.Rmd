@@ -16,7 +16,7 @@ library(scales)
 ## Introduction
 
 
-This project served as an introduction to spatial analysis in R and consisted of two parts. In part I, we utilized data from the LAGOS program to investigate the spatial distribution and size of lakes in three midwestern US states: Illinois, Iowa, and Minnesota. LAGOS-NE is a geospatial and temporal database of lake water quality and ecological context within the United States (Soranno and Cheruvelil 2017). 
+This project served as an introduction to spatial analysis in R and consisted of two parts. In part one, we utilized data from the LAGOS-NE Locus module to investigate the spatial distribution and size of lakes in three midwestern US states: Illinois, Iowa, and Minnesota. LAGOS-NE is a geospatial and temporal database of lake ecological context and water quality for 17 states in the midwestern and northeastern United States (Soranno and Cheruvelil 2017). 
 
 Project objectives: 
 
@@ -31,6 +31,9 @@ c) Assess the distribution of lake size across states
 
 
 ### Data Acquisition {-}
+
+
+We utilized the LAGOSNE R package to retrieve LAGOS-NE data. 
 
 
 ```{r data-read, warning=F}
@@ -73,7 +76,7 @@ subset_spatial <- spatial_lakes %>%
 
 subset_baser <- spatial_lakes[1:100,]
 
-#Dynamic mapviewer
+#Dynamic mapviewer for LAGOS lake subset
 mapview(subset_spatial, layer.name="LAGOS lake subset")
 ```
 

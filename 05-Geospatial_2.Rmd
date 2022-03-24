@@ -15,18 +15,19 @@ library(ggthemes)
 ## Introduction
 
 
-
-
+This chapter describes part two of our geospatial analysis project. For part two, we expanded upon our intial analysis and used data from the LAGOS-NE Limno module for in-situ water quality. We focused on two water quality metrics: chlorophyll a and secchi disk depth. 
 
 
 ## Methods 
 
 
-Similar to Geospatial Analysis part I, we retrieved lake water quality data using the LAGOSNE R package. 
+Similar to Geospatial Analysis part one, we retrieved lake water quality data using the LAGOSNE R package. 
 
 
 ### Data Acquisition {-}
-```{r, cache=TRUE, include=F}
+
+
+```{r load LAGOS, cache=TRUE, include=F}
 #Lagos download script
 #lagosne_get(dest_folder = LAGOSNE:::lagos_path(),overwrite=T)
 
@@ -40,17 +41,17 @@ lake_centers <- lagos$locus
 # Make an sf object 
 spatial_lakes <- st_as_sf(lake_centers,coords=c('nhd_long','nhd_lat'),
                           crs=4326)
+```
 
-#Grab the water quality data
+
+```{r, cache=TRUE, include=F}
+#Load LAGOS water quality data
 nutr <- lagos$epi_nutr
-
-#Look at column names
-#names(nutr)
 ```
 
 
 ```{r}
-#Select clarity variables from LAGOS water quality data 
+#Select clarity variables only from LAGOS water quality data 
 clarity_only <- nutr %>%
   select(lagoslakeid,sampledate,chla,doc,secchi) %>%
   mutate(sampledate = as.character(sampledate) %>% ymd(.))
@@ -61,7 +62,7 @@ clarity_only <- nutr %>%
 
 
 ```{r}
-#Filter data to remove na values from variables of interest: Chla and Secchi Disk Depth
+#Filter data to remove NA values from variables of interest: Chla and Secchi Disk Depth
 chla_secchi <- clarity_only %>%
   filter(!is.na(chla),
          !is.na(secchi))
@@ -75,45 +76,48 @@ chla_secchi_200 <- chla_secchi %>%
 
 
 ```{r}
-#Join water quality data to spatial data
+#Join chla/secchi data to spatial lake data with observations >200
 spatial_200 <- inner_join(spatial_lakes,chla_secchi_200 %>%
                             distinct(lagoslakeid,.keep_all=T),
                           by='lagoslakeid')
 ```
 
 
-
 ```{r}
-### Take the mean chl_a and secchi by lake
+#Calculate mean chla and secchi by lake
 mean_values_200 <- chla_secchi_200 %>%
-  # Take summary by lake id
+  #Group by lake id
   group_by(lagoslakeid) %>%
-  # take mean chl_a per lake id
+  #Calculate mean chla and secchi per lake id
   summarize(mean_chl = mean(chla,na.rm=T),
             mean_secchi=mean(secchi,na.rm=T)) %>%
-  #Get rid of NAs
+  #Filter NAs
   filter(!is.na(mean_chl),
          !is.na(mean_secchi)) %>%
-  # Take the log base 10 of the mean_chl
+  #Calculate log base 10 of the mean_chl
   mutate(log10_mean_chl = log10(mean_chl))
 
-#Join datasets
+#Join mean chla/secchi data to spatial lake data 
 mean_spatial <- inner_join(spatial_lakes,mean_values_200,
-                          by='lagoslakeid') 
-
-#Make a map
-mapview(mean_spatial,zcol='log10_mean_chl')
+                          by='lagoslakeid')
 ```
 
 
-# Class work
+## Results
 
-## 1) What is the correlation between Secchi Disk Depth and Chlorophyll a for 
-sites with at least 200 observations?
 
-- Here, I just want a plot of chla vs secchi for all sites 
+### Water clarity: chlorophyll a and secchi disk depth {-} 
 
-```{r}
+
+```{r, echo=F}
+#Dynamic mapviewer for lakes, colored by log base mean chla
+mapview(mean_spatial,zcol='log10_mean_chl', layer.name="Mean Chlorophyll A")
+```
+
+<small> Figure 1. Map visualizing (log transformed) average chlorophyll a concentrations across lakes. Includes lakes where the number of chlorophyll a observations exceed 200 within the LAGOS Limno dataset. </small>
+
+
+```{r, echo=F}
 #Plot secchi disk depth by cholorphyll a 
 ggplot(data=chla_secchi_200, aes(x = secchi, y = chla)) +
   geom_point(shape = 1, color="#48680E")+ 
@@ -122,19 +126,44 @@ ggplot(data=chla_secchi_200, aes(x = secchi, y = chla)) +
   xlim(0,16)
 ```
 
+<small> Figure 2. Chlorophyll a and secchi disk depth measurements across lakes (number of observations exceeding 200). </small> 
 
-```{r echo=TRUE, include=FALSE}
+
+```{r, include=FALSE}
 cor.test(chla_secchi_200$chla,chla_secchi_200$secchi)
 ```
 
-There is a negative correlation between secchi disk depth and chlorophyll a levels, where shallower secchi disk depths are associated with higher chlorophyll a levels. 
 
+We used a test of correlation to assess the relationship between chlorophyll a concentrations and secchi disk depths in lakes with greater than 200 observations of each variable. There is a negative correlation between secchi disk depth and chlorophyll a levels, where shallower secchi disk depths are associated with higher chlorophyll a levels (p-value = 2.2e-16). 
 
-## Why might this be the case? 
 
 High cholorphyll a concentrations are associated with high density(s) of photosynthetic organisms, such as algae. Meanwhile, secchi disks are used to assess water turbidity, where the depth of disk disappearance indicates the transparency of the water (Fuller and Minnerick 2007). Where algae abundance is high, the depth where light can penetrate a water body diminishes; thus, secchi disk depth decreases (Fuller and Minnerick 2007).
 
-Fuller, LM & Minnerick, RJ (2007). Predicting Water Quality by Relating Secchi-Disk Transparency and Chlorophyll a Measurements to Landsat Satellite Imagery for Michigan Inland Lakes, 2001–2006. USGS, August 2007, 1–4. [http://pubs.usgs.gov/fs/2007/3022/pdf/FS2007-3022.pdf]
+
+```{r}
+#Filter by 200 or more observations
+#Calculate the mean secchi depth by lake
+secchi200 <- chla_secchi %>%
+  group_by(lagoslakeid) %>%
+  mutate(count = n()) %>%
+  filter(count > 200) %>% 
+  summarize(mean_secchi = mean(secchi))
+  
+#Add geographic information, joining by lagoslakeid
+secchi200_locus <- inner_join(secchi200, lake_centers, by='lagoslakeid') %>%
+  select(lagoslakeid, nhd_long, nhd_lat, mean_secchi)
+
+#Create a spatial object with lagoslakeid and mean secchi data
+spatial_secchi200 <- st_as_sf(secchi200_locus,coords=c('nhd_long','nhd_lat'),
+                          crs=4326)
+
+#Visualize secchi data within interactive plot/map
+mapview(spatial_secchi200, zcol='mean_secchi', layer.name='Secchi Disk Depth (m)', canvas=TRUE)
+
+```
+
+
+I did not find an exceptionally strong spatial pattern in secchi disk depth in lakes with at least 200 observations, given the number of observations above 200 is small. However, the patch of lakes near/surrounding the Minneapolis-Saint Paul sprawl in Minnesota have broadly shallower secchi disk depths. Meanwhile, lakes in more remote areas in northern Wisconsin and near the Adirondacks in New York have generally deeper secchi disk depths. Despite a weaker spatial pattern, it is probable lakes within more remote areas have generally deeper secchi depths and urban areas shallower depths. 
 
 
 ## 2) What states have the most data? 
@@ -144,21 +173,17 @@ number of counts per site.
 
 ```{r spatial object lagos, cache=TRUE}
 #Create lagos spatial dataset with total number of counts per site 
-
 site_counts <- chla_secchi %>%
   group_by(lagoslakeid) %>%
   mutate(count = n())
 
 #Add geographic information to site counts data 
-
 geo_counts <- inner_join(site_counts,lake_centers, by= 'lagoslakeid')%>% 
   select(lagoslakeid,nhd_long,nhd_lat, count, secchi, chla)
 
 #Create spatial object for lagos dataset 
-
 spatial_counts <- st_as_sf(geo_counts,coords=c('nhd_long','nhd_lat'),
                           crs=4326)
-  
 ```
 
 
@@ -206,39 +231,10 @@ mapview(summed_overlay,zcol='sum_count', layer.name = 'Observations per state',c
 The top five states with the most data include: Minnesota, Vermont, New York, Wisconsin, and Rhode Island. 
 
 
-##3 Is there a spatial pattern in Secchi disk depth for lakes with at least 200 
-observations?
 
-```{r}
-#Filter by 200 or more observations
-#Calculate the mean secchi depth by lake
-
-secchi200 <- chla_secchi %>%
-  group_by(lagoslakeid) %>%
-  mutate(count = n()) %>%
-  filter(count > 200) %>% 
-  summarize(mean_secchi = mean(secchi))
-  
-#Add geographic information, joining by lagoslakeid
-
-secchi200_locus <- inner_join(secchi200, lake_centers, by='lagoslakeid') %>%
-  select(lagoslakeid, nhd_long, nhd_lat, mean_secchi)
-
-#Create a spatial object with lagoslakeid and mean secchi data
-
-spatial_secchi200 <- st_as_sf(secchi200_locus,coords=c('nhd_long','nhd_lat'),
-                          crs=4326)
-
-#Visualize secchi data within interactive plot/map
-
-mapview(spatial_secchi200, zcol='mean_secchi', layer.name='Secchi Disk Depth (m)', canvas=TRUE)
-
-```
+## References 
 
 
-I do not find an exceptionally strong spatial pattern in secchi disk depth in lakes with at least 200 observations, given the number of observations above 200 is small. However, the patch of lakes near/surrounding the Minneapolis-Saint Paul sprawl in Minnesota have broadly shallower secchi disk depths. Meanwhile, lakes in more remote areas in northern Wisconsin and near the Adirondacks in New York have generally deeper secchi disk depths. Despite a weaker spatial pattern, it is probable lakes within more remote areas have generally deeper secchi depths and urban areas shallower depths. 
-
-
-
+Fuller, LM & Minnerick, RJ (2007). Predicting Water Quality by Relating Secchi-Disk Transparency and Chlorophyll a Measurements to Landsat Satellite Imagery for Michigan Inland Lakes, 2001–2006. USGS, August 2007, 1–4. [http://pubs.usgs.gov/fs/2007/3022/pdf/FS2007-3022.pdf]
 
 
