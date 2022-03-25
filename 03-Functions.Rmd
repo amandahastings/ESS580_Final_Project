@@ -434,6 +434,9 @@ for (i in yrs){
 ## References 
 
 
+The Center for Snow and Avalanche Studies. (2021). *Archival Data From Senator Beck Study Basin*. https://snowstudies.org/archived-data/
+
+
 ### Data Retrieval R Packages {-}
 ```{r,include=FALSE}
 citation(package="readxl")
@@ -443,6 +446,7 @@ citation(package='rvest')
 
 Wickham, H. (2021). rvest: Easily Harvest (Scrape) Web Pages. R package version 1.0.2.
   https://CRAN.R-project.org/package=rvest
+  
   
 Wickham, H. and Bryan, J. (2019). readxl: Read Excel Files. R package version 1.3.1.
   https://CRAN.R-project.org/package=readxl

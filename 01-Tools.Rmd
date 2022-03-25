@@ -161,7 +161,10 @@ Bloom, Matt.(2018, March) To Reverse The Disappearance of Native Fish, North Col
 Interagency Wild & Scenic Rivers Council. *MAPS & GIS*.  National Wild and Scenic Rivers System. [rivers.gov/mapping-gis.php](https://www.rivers.gov/mapping-gis.php). Accessed January 26, 2022. 
 
 
-Uliasz, Marek.(2019, August) *Cache la Poudre River*, "Colorado’s Scenic and Historic Byways: Cache La         Poudre/North Park", 5280 Denver's Mile High Magazine, [5280.com](https://www.5280.com/2019/08/colorados-scenic-and-historic-byways-cache-la-poudre-north-park/)
+Otak (2017). *Lincoln Avenue Bridge*,”Our Project”, Otak. [otak.com]( https://www.otak.com/about/projects/lincoln-avenue-bridge/)
+
+
+Uliasz, Marek.(2019, August) *Cache la Poudre River*, "Colorado’s Scenic and Historic Byways: Cache La Poudre/North Park", 5280 Denver's Mile High Magazine, [5280.com](https://www.5280.com/2019/08/colorados-scenic-and-historic-byways-cache-la-poudre-north-park/)
 
 
 USDA Forest Service (USFS). *Cache la Poudre Wild and Scenic River*.                     [fs.usda.gov](https://www.fs.usda.gov/detail/arp/specialplaces/?cid=stelprdb5150293). Accessed January 26, 2022. 
@@ -172,7 +175,6 @@ USDA Forest Service (USFS). *Cache la Poudre Wild and Scenic River*.            
 citation(package = "dataRetrieval")
 ```
 
-De Cicco, LA., Hirsch, RM., Lorenz, D., Watkins, WD., (2021). dataRetrieval: R packages for
-  discovering and retrieving water data available from Federal hydrologic web services,
-  doi:10.5066/P9X4L3GE
+De Cicco, LA., Hirsch, RM., Lorenz, D., Watkins, WD., and Johnson, M. (2022). dataRetrieval: R packages for
+  discovering and retrieving water data available from federal hydrologic web services. https://code.usgs.gov/water/dataRetrieval.
 

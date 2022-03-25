@@ -58,7 +58,7 @@ plot(1:366, t_1981_c1, type = "l")
 ```
 
 
-```{r tmax data, message=F, echo=FALSE}
+```{r tmax data, message=F, echo=FALSE, warning=F}
 #Plot daily maximum temp for #1 Iowa county
 ggplot() +
   geom_line(mapping = aes(x=1:366, y = t_1981_c1)) +
@@ -269,7 +269,7 @@ ggplot(aes(x = year, y = yield), data = winne_yields) +
 ```
 
 
-With a p-value of 1.77e-13 and less than $\alpha$ = 0.05, we reject the null hypothesis H~0~:$\beta_1$ = 0. We have enough evidence to suggest there is a significant time trend and a positive linear relationship between year and yield. There is an estimated 2.457 bu/acre increase in corn yield with each increasing year. 75.51% of the variation in corn yield is explained by the regression on year. 
+With a p-value of 1.77e-13 and less than $\alpha$ = 0.05, we reject the null hypothesis $H_0:\beta_1$ = 0. We have enough evidence to suggest there is a significant time trend and a positive linear relationship between year and yield. There is an estimated 2.457 bu/acre increase in corn yield with each increasing year. 75.51% of the variation in corn yield is explained by the regression on year. 
 
 
 ### Question B: Is there evidence for slowing yield growth?
@@ -782,6 +782,7 @@ citation(package='R.matlab')
 
 Bengtsson, H. (2018). R.matlab: Read and Write MAT Files and Call MATLAB from Within R. R package
   version 3.6.2. https://CRAN.R-project.org/package=R.matlab
+
 
 Potter, NA. (2019). rnassqs: An `R` package to access agricultural data via the USDA National
   Agricultural Statistics Service (USDA-NASS) 'Quick Stats' API. Journal of Open Source Software,

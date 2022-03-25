@@ -16,7 +16,7 @@ library(broom)
 ## Introduction
 
 
-This project served as an introduction and exploration in data munging. We utilized data from Climate Engine to investigate vegetation recovery following the 2002 Hayman Fire in Colorado. We specifically looked at normalized difference vegetation index (NDVI), normalized difference snow index (NDSI), and normalized difference moisture index (NDMI), between unburned and burned sites and before and after the fire event. 
+This project served as an introduction and exploration in data munging. We retrieved data using the Climate Engine app to investigate vegetation recovery following the 2002 Hayman Fire in Colorado. We specifically looked at normalized difference vegetation index (NDVI), normalized difference snow index (NDSI), and normalized difference moisture index (NDMI), between unburned and burned sites and before and after the fire event. 
 
 
 Once manipulating the data, we performed basic analyses to address the following project questions: 
@@ -332,6 +332,15 @@ ndsi_stats <- wide_averages %>%
   summarize(max_ndsi=max(mean_ndsi))
 ndsi_stats
 ```
+
+
+## References
+
+
+Climate Engine. (2022). Desert Research Institute and University of Idaho. Accessed February 7,2022. http://climateengine.org.
+
+
+Huntington, J., Hegewisch, K., Daudert, B., Morton, C., Abatzoglou, J., McEvoy, D., and Erickson, T. (2017). Climate Engine: Cloud Computing of Climate and Remote Sensing Data for Advanced Natural Resource Monitoring and Process Understanding. Bulletin of the American Meteorological Society, http://journals.ametsoc.org/doi/abs/10.1175/BAMS-D-15-00324.1
 
 
 

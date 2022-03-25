@@ -30,6 +30,8 @@ This book contains six different projects completed in ESS580: Introduction to E
 
 ## References {-}
 
+<small>
+
 R packages used consistently throughout this book include: 
 
 ```{r, include=F}
@@ -44,7 +46,8 @@ citation(package="sf")
 citation(package="USAboundaries")
 ```
 
-Appelhans et al.(2021). mapview-package: Interactive viewing of spatial objects in R. R package version            2.10.0.https://github.com/r-spatial/mapview
+Appelhans et al. (2021). mapview-package: Interactive viewing of spatial objects in R. R package version 2.10.0. 
+  https://github.com/r-spatial/mapview
 
 Arnold, JB. (2021). ggthemes: Extra Themes, Scales and Geoms for 'ggplot2'. R package version
   4.2.4. https://CRAN.R-project.org/package=ggthemes
@@ -52,12 +55,12 @@ Arnold, JB. (2021). ggthemes: Extra Themes, Scales and Geoms for 'ggplot2'. R pa
 Grolemund, G. and Wickham, H. (2011). Dates and Times Made Easy with lubridate. Journal of
   Statistical Software, 40(3), 1-25. URL https://www.jstatsoft.org/v40/i03/.
 
-Mullen, LA. and Bratt, B.(2018). "USAboundaries: Historical and Contemporary Boundaries of the
+Mullen, LA. and Bratt, B. (2018). "USAboundaries: Historical and Contemporary Boundaries of the
   United States of America," Journal of Open Source Software, 3(23), 314.
   https://doi.org/10.21105/joss.00314.
   
 Pebesma, E. (2018). Simple Features for R: Standardized Support for Spatial Vector Data. The R Journal
-  10(1), 439-446, https://doi.org/10.32614/RJ-2018-009
+  10(1), 439-446. https://doi.org/10.32614/RJ-2018-009
   
 Robinson, D., Hayes, A., and Couch, S. (2022). broom: Convert Statistical Objects into Tidy
   Tibbles. R package version 0.7.11. https://CRAN.R-project.org/package=broom
@@ -65,11 +68,11 @@ Robinson, D., Hayes, A., and Couch, S. (2022). broom: Convert Statistical Object
 Ryan, JA. and Ulrich, JM. (2020). xts: eXtensible Time Series. R package version 0.12.1.
   https://CRAN.R-project.org/package=xts
   
-Vanderkam, D., Allaire, JJ., Owen, J., Gromer, D. and Thieurmel, B. (2018). dygraphs:
+Vanderkam, D., Allaire, JJ., Owen, J., Gromer, D., and Thieurmel, B. (2018). dygraphs:
   Interface to 'Dygraphs' Interactive Time Series Charting Library. R package version 1.1.1.6.
   https://CRAN.R-project.org/package=dygraphs
 
-Wickham et al.(2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43),
-  1686, https://doi.org/10.21105/joss.01686
+Wickham et al. (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43),
+  1686. https://doi.org/10.21105/joss.01686
 
-
+</small>

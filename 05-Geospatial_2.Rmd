@@ -268,7 +268,10 @@ I did not find an exceptionally strong spatial pattern in secchi disk depth in l
 ## References 
 
 
-Fuller, LM & Minnerick, RJ (2007). Predicting Water Quality by Relating Secchi-Disk Transparency and Chlorophyll a Measurements to Landsat Satellite Imagery for Michigan Inland Lakes, 2001–2006. USGS, August 2007, 1–4. [http://pubs.usgs.gov/fs/2007/3022/pdf/FS2007-3022.pdf]
+Fuller, LM. and Minnerick, RJ. (2007). Predicting Water Quality by Relating Secchi-Disk Transparency and Chlorophyll a Measurements to Landsat Satellite Imagery for Michigan Inland Lakes, 2001–2006. USGS, August 2007, 1–4. http://pubs.usgs.gov/fs/2007/3022/pdf/FS2007-3022.pdf
+
+
+Soranno, P. and Cheruvelil, K. (2017). LAGOS-NE-LIMNO v1.087.1: A module for LAGOS-NE, a multi-scaled geospatial and temporal database of lake ecological context and water quality for thousands of U.S. Lakes: 1925-2013 ver2. Environmental Data Initiative. https://doi.org/10.6073/pasta/56cc5f1f753d48edfea170a5401dd6df
 
 
 ### Data Retrieval R Packages {-}
@@ -278,9 +281,7 @@ Fuller, LM & Minnerick, RJ (2007). Predicting Water Quality by Relating Secchi-D
 citation(package = "LAGOSNE")
 ```
 
-Soranno et. al (2017). LAGOS-NE: a multi-scaled geospatial and temporal database of lake ecological       context and water quality for thousands of US lakes. Gigascience, 6(12)
-
-Stachelek J., Oliver S., Masrour, F. (2019). LAGOSNE: Interface to the Lake Multi-scaled
+Stachelek J., Oliver S., and Masrour, F. (2019). LAGOSNE: Interface to the Lake Multi-scaled
   Geospatial and Temporal Database. R package version 2.0.2.
   https://cran.r-project.org/package=LAGOSNE
 
