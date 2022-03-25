@@ -16,7 +16,7 @@ library(kableExtra)
 ## Introduction
 
 
-This chapter describes part two of our geospatial analysis project. For part two, we expanded upon our intial analysis and used data from the LAGOS-NE Limno module for in-situ water quality. We focused on two water quality metrics: chlorophyll a and secchi disk depth. 
+This chapter describes part two of our geospatial analysis project. For part two, we expanded upon our intial analysis and used in-situ water quality data from the LAGOS-NE Limno module. We focused on two water quality metrics: chlorophyll a concentrations and secchi disk depth. 
 
 
 ## Methods 
@@ -106,6 +106,86 @@ mean_spatial <- inner_join(spatial_lakes,mean_values_200,
 
 ## Results
 
+### Spatial distribution: LAGOS-NE Locus and Limno data
+
+
+```{r spatial object lagos, cache=TRUE}
+#Create lagos spatial dataset with total number of counts per site 
+site_counts <- chla_secchi %>%
+  group_by(lagoslakeid) %>%
+  summarize(
+  mean_chla= mean(chla, na.rm=T), 
+  mean_secchi=mean(secchi,na.rm=T),
+  count = n())
+
+#Add geographic information to site counts data 
+geo_counts <- inner_join(site_counts,lake_centers, by= 'lagoslakeid')%>% 
+  select(lagoslakeid,nhd_long,nhd_lat, count)
+
+#Create spatial object for lagos dataset 
+spatial_counts <- st_as_sf(geo_counts,coords=c('nhd_long','nhd_lat'),
+                          crs=4326)
+```
+
+
+```{r state boundaries}
+#Use a spatial join to combine point dataset and us_boundaries data
+#Parse out state boundaries from us_boundaries data   
+states <- us_states()
+
+#Use spatial join to overlay point dataset (original lagos spatial dataset) and state boundaries 
+overlay <- st_join(spatial_counts,states)
+```
+
+
+```{r summed overlay}
+#Group by state and sum number of observations by state
+summed_overlay <- overlay %>%
+  group_by(state_name) %>%
+  summarize(sum_count = sum(count)) %>%
+  arrange(desc(sum_count))
+
+```
+
+
+```{r}
+#Join state boundary data to summed counts of water quality observations
+summed_states <-  st_join(x = states, y = summed_overlay, left = TRUE)%>% 
+  select(state_name.y,sum_count,geometry)%>% 
+  filter(!is.na(sum_count))
+```
+
+
+```{r}
+#Visualize number of observations within each state
+mapview(summed_states,zcol="sum_count", layer.name='Observations Per State',alpha=0.2, legend.opacity=0.05)
+```
+
+<small> Figure 1. Interactive map visualizing the total number of observations within each state.</small>
+
+
+The top five states with the most data include: Minnesota, Wisconsin, New York, Rhode Island, Missouri, and Vermont.
+
+
+```{r, include=F}
+#Print first six rows of dataframe
+knitr::kable(head(summed_overlay))
+```
+
+
+```{r, include=F}
+#Plot/map number of observations per state
+mapview(summed_overlay,zcol='sum_count',layer.name = 'Observations per state', alpha.regions=0.3, alpha=0.2)+mapview(states, col.regions="#8A9A5B",alpha.regions = 0.4, alpha=1, layer.name="States")
+```
+
+
+```{r}
+mapview(spatial_counts, cex="count", zcol="count", layer.name="Observations Per Lake", legend.opacity=0.05)
+```
+
+
+<small> Figure 2. Map depicting the number of observations per lake by circle size.</small> 
+
 
 ### Water clarity: chlorophyll a and secchi disk depth {-} 
 
@@ -115,7 +195,7 @@ mean_spatial <- inner_join(spatial_lakes,mean_values_200,
 mapview(mean_spatial,zcol='log10_mean_chl', layer.name="Mean Chlorophyll A")
 ```
 
-<small> Figure 1. Map visualizing (log transformed) average chlorophyll a concentrations across lakes. Includes lakes where chlorophyll a observations exceed 200 within the LAGOS Limno dataset (n > 200). </small>
+<small> Figure 3. Map visualizing (log transformed) average chlorophyll a concentrations across lakes. Includes lakes where chlorophyll a observations exceed 200 within the LAGOS Limno dataset (n > 200). </small>
 
 
 ```{r, echo=F, warning=F}
@@ -127,7 +207,7 @@ ggplot(data=chla_secchi_200, aes(x = secchi, y = chla)) +
   xlim(0,16)
 ```
 
-<small> Figure 2. Chlorophyll a and secchi disk depth measurements across lakes (number of observations exceeding 200). </small> 
+<small> Figure 4. Chlorophyll a and secchi disk depth measurements across lakes (number of observations exceeding 200). </small> 
 
 
 ```{r, include=FALSE}
@@ -159,78 +239,13 @@ spatial_secchi200 <- st_as_sf(secchi200_locus,coords=c('nhd_long','nhd_lat'),
                           crs=4326)
 
 #Visualize secchi data within interactive plot/map
-mapview(spatial_secchi200, zcol='mean_secchi', layer.name='Secchi Disk Depth (m)')
+mapview(spatial_secchi200, zcol='mean_secchi', layer.name='Secchi Disk Depth')
 
 ```
 
-
-<Figure 3. Map visualizing average secchi disk depths across lakes. Includes lakes where secchi disk depth observations exceed 200 within the LAGOS Limno dataset (n > 200). </small> 
+<small> Figure 5. Map visualizing average secchi disk depths in meters across lakes. Includes lakes where secchi disk depth observations exceed 200 within the LAGOS Limno dataset (n > 200). </small> 
 
 I did not find an exceptionally strong spatial pattern in secchi disk depth in lakes with at least 200 observations, given the number of observations above 200 is small. However, the patch of lakes near/surrounding the Minneapolis-Saint Paul sprawl in Minnesota have broadly shallower secchi disk depths. Meanwhile, lakes in more remote areas in northern Wisconsin and near the Adirondacks in New York have generally deeper secchi disk depths. Despite a weaker spatial pattern, it is probable lakes within more remote areas have generally deeper secchi depths and urban areas shallower depths. 
-
-
-## 2) What states have the most data? 
-
-### 2a) First you will need to make a lagos spatial dataset that has the total 
-number of counts per site.
-
-```{r spatial object lagos, cache=TRUE}
-#Create lagos spatial dataset with total number of counts per site 
-site_counts <- chla_secchi %>%
-  group_by(lagoslakeid) %>%
-  summarize(
-  mean_chla= mean(chla, na.rm=T), 
-  mean_secchi=mean(secchi,na.rm=T),
-  count = n())
-
-#Add geographic information to site counts data 
-geo_counts <- inner_join(site_counts,lake_centers, by= 'lagoslakeid')%>% 
-  select(lagoslakeid,nhd_long,nhd_lat, count)
-
-#Create spatial object for lagos dataset 
-spatial_counts <- st_as_sf(geo_counts,coords=c('nhd_long','nhd_lat'),
-                          crs=4326)
-```
-
-
-### 2b) Second, you will need to join this point dataset to the us_boundaries data.
-
-```{r state boundaries}
-#Use a spatial join to combine point dataset and us_boundaries data
-#Parse out state boundaries from us_boundaries data   
-states <- us_states()
-
-#Use spatial join to overlay point dataset (original lagos spatial dataset) and state boundaries 
-overlay <- st_join(spatial_counts,states)
-```
-
-
-### 2c) Then you will want to group by state and sum all the observations in 
-that state and arrange that data from most to least total observations per state. 
-
-```{r summed overlay}
-#Group by state and sum number of observations by state
-summed_overlay <- overlay %>%
-  group_by(state_name) %>%
-  summarize(sum_count = sum(count)) %>%
-  arrange(desc(sum_count))
-```
-
-
-```{r, cache=TRUE}
-#Print first six rows of dataframe
-knitr::kable(head(summed_overlay))
-head(summed_overlay)
-```
-
-
-```{r}
-#Plot/map number of observations per state
-mapview(summed_overlay,zcol='sum_count',layer.name = 'Observations per state', alpha.regions=0.3, alpha=0.2)+mapview(states, col.regions="#8A9A5B",alpha.regions = 0.4, alpha=1, layer.name="States")
-```
-
-
-The top five states with the most data include: Minnesota, Wisconsin, New York, Rhode Island, Missouri, and Vermont.
 
 
 ## References 
