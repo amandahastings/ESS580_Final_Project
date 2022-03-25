@@ -28,7 +28,7 @@ library(bookdown)
 
 This book contains six different projects completed in ESS580: Introduction to Environmental Data Science taught by Dr. Matt Ross and Dr. Nathan Mueller at Colorado State University. Each chapter details the purpose, data acquisition, analyses (where applicable), and results of an individual project completed in the 2022 spring semester. For each project, Dr. Matt Ross and/or Dr. Nathan Mueller wrote the preliminary code and outlined project objectives. I completed the remaining portions of each project and compiled this book. 
 
-### R Packages {-}
+## References {-}
 
 R packages used consistently throughout this book include: 
 

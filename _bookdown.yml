@@ -5,7 +5,7 @@ language:
     chapter_name: "Chapter "
 delete_merged_file: true
 
-rmd_files: ["index.Rmd","01-Tools.Rmd","02-DataWrangle.Rmd","03-Functions.Rmd", "04-Geospatial.Rmd","05-Geospatial_2.Rmd"]
+rmd_files: ["index.Rmd","01-Tools.Rmd","02-DataWrangle.Rmd","03-Functions.Rmd", "04-Geospatial.Rmd","05-Geospatial_2.Rmd","06-Regression.Rmd"]
 # "01-Tools.Rmd","02-DataWrangle.Rmd","03-Functions.Rmd",
 # , "01-Tools.Rmd","02-DataWrangle.Rmd","04-Geospatial.Rmd","05-Geospatial_2.Rmd","06-Regression.Rmd"]
 
