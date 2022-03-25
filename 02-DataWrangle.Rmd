@@ -116,6 +116,9 @@ ggplot(summer_wide, aes(x=ndmi, y=ndvi))+
 ```
 
 
+<small> Figures 1-2. NDMI and NDVI spanning summer months in burned versus unburned sites in the Hayman fire area. </small>
+
+
 ```{r, echo=TRUE, results='hide'}
 #Test correlation between ndvi and ndmi
 cor.test(summer_wide$ndmi, summer_wide$ndvi, method='pearson')
@@ -175,11 +178,13 @@ wide_averages <- inner_join(winter_ndsi, summer_ndvi, by= c('site', 'year')) %>%
 ```{r, echo=T, message=F}
 #Plot and evaluate relationship between ndvi and ndsi
 ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi))+
-  geom_point(alpha=0.25, color = "#22AA99")+
+  geom_point(alpha=.5, color = "#22AA99")+
   geom_smooth(method=lm, color="#22AA99", size=0.1, se=FALSE)+
   theme_few()+ 
   labs(x="Average Winter NDSI", y="Average Summer NDVI")
 ```
+
+<small> Figure 3. Average winter NDSI and average summer NDVI across all sites over time. </small>
 
 
 ```{r, echo=T, results='hide'}
@@ -211,13 +216,14 @@ The p-value from a test of correlation for average summer NDVI and average winte
 ```{r, echo=T, message=F}
 #Plot and compare ndvi-ndsi relationship between pre- and post-burn periods
 ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi, color=burnperiod))+
-  geom_point(alpha=0.25)+
+  geom_point(alpha=0.5)+
   theme_few()+
   geom_smooth(method=lm, size=0.1, se=FALSE)+
   labs(x="Average Winter NDSI", y="Average Summer NDVI")+
   scale_color_manual(name="",labels=c("Pre-fire","Post-fire"), values= c("#2f94b5","#b5982f"))
 ```
 
+<small> Figure 4. Average winter NDSI and average summer NDVI in pre- and post-fire years. </small>
 
 ```{r, echo = T, results='hide'}
 #Fit lm model to evaluate ndvi-ndsi correlation pre- and post-fire 
@@ -259,13 +265,14 @@ In pre-fire years, we do not have evidence of an association between average sum
 ```{r, echo = T, message=F}
 #Plot and compare ndvi-ndsi relationship across burned versus unburned sites
 ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi, color=site))+
-  geom_point(alpha=0.25)+
+  geom_point(alpha=0.5)+
   theme_few()+ 
   geom_smooth(method=lm, size=0.1, se=FALSE)+
   labs(x="Average Winter NDSI", y="Average Summer NDVI")+ 
   scale_color_manual(name="Site",labels=c("Burned","Unburned"), values= c("#292423","#a4a823"))
 ```
 
+<small> Figure 5. Average winter NDSI and average summer NDVI between burned and unburned sites. </small>
 
 ```{r, echo = T, results='hide'}
 #Fit lm model to evaluate ndvi-ndsi correlation between burned and unburned sites

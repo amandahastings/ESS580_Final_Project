@@ -15,7 +15,7 @@ library(ggthemes)
 ## Introduction
 
 
-This project served as an introduction to workflow tools: R Markdown, Git, and GitHub. To complete project objectives, we utilized USGS discharge data for the Cache la Poudre River at the Lincoln Avenue bridge in Fort Collins, CO. 
+This project served as an introduction to workflow tools: R Markdown, Git, and GitHub. To complete project objectives, we utilized US Geological Survey (USGS) discharge data for the Cache la Poudre River at the Lincoln Avenue bridge in Fort Collins, CO. 
 
 Project objectives included: 
 
@@ -124,7 +124,7 @@ dygraph(discharge_xts) %>%
 ```
 
 
-<Figure 4. Interactive plot of discharge in the Poudre River using the dygraphs package in R.</small>
+<small> Figure 4. Interactive plot of discharge in the Poudre River using the dygraphs package in R.</small>
 
 
 ## Poudre River Information
@@ -135,7 +135,9 @@ dygraph(discharge_xts) %>%
 <small>Figure 5. Cache la Poudre River. Photograph courtesy of Marek Uliasz.</small> 
 
 
-Meandering through Roosevelt National Forest and dropping approximately 7,000 feet in elevation, the Cache la Poudre River stretches from peaks along the Continental Divide to foothills of the Front Range near Fort Collins, CO (USFS). Despite the great length of the river, stretches of uninterrupted habitat for resident fishes are becoming increasingly limited— particularly with the construction of man-made diversion structures (Bloom, 2018). As of 2018, researchers estimated approximately **82%** Great Plains fish are in decline, with species such as the common shiner, [*Luxilus cornutus*]( https://nas.er.usgs.gov/queries/factsheet.aspx?SpeciesID=563), and the central stoneroller, [*Campostoma anomalum*](https://nas.er.usgs.gov/queries/factsheet.aspx?SpeciesID=506), potentially lost to northern Colorado waterways (Bloom, 2018). Species including small minnows— such as the red shiner, *Cyprinella lutrensis*, and orangespotted sunfish, *Lepomis humilis*– require stretches of **at least** 30 miles to migrate and spawn (Bloom, 2018). However, could another man-made structure potentially offset the necessary, yet imperiling, structures in place? CSU researcher Dr. Chris Myrick and his graduate students built a fish ladder for small fishes, similar to those previously built for larger fishes, to essentially extend their, otherwise interrupted, habitat. [Here]( https://youtu.be/7x7O9r5j5fE) is a fish eye’s view of the fish ladder the team created. While the only fish ladder within Larimer County, the research team hopes the design will be transferable and a means to protect small fish across other states as well (Bloom, 2018). 
+Meandering through Roosevelt National Forest and dropping approximately 7,000 feet in elevation, the Cache la Poudre River stretches from peaks along the Continental Divide to foothills of the Front Range near Fort Collins, CO (USFS). Despite the great length of the river, stretches of uninterrupted habitat for resident fishes are becoming increasingly limited— particularly with the construction of man-made diversion structures (Bloom, 2018). As of 2018, researchers estimated approximately **82%** Great Plains fish are in decline, with species such as the common shiner, [*Luxilus cornutus*]( https://nas.er.usgs.gov/queries/factsheet.aspx?SpeciesID=563), and the central stoneroller, [*Campostoma anomalum*](https://nas.er.usgs.gov/queries/factsheet.aspx?SpeciesID=506), potentially lost to northern Colorado waterways (Bloom, 2018). Species including small minnows— such as the red shiner, *Cyprinella lutrensis*, and orangespotted sunfish, *Lepomis humilis*– require stretches of **at least** 30 miles to migrate and spawn (Bloom, 2018). However, could another man-made structure potentially offset the necessary, yet imperiling, structures in place? 
+
+CSU researcher Dr. Chris Myrick and his graduate students built a fish ladder for small fishes, similar to those previously built for larger fishes, to essentially extend their, otherwise interrupted, habitat. [Here]( https://youtu.be/7x7O9r5j5fE) is a fish eye’s view of the fish ladder the team created. While the only fish ladder within Larimer County, the research team hopes the design will be transferable and a means to protect small fish across other states as well (Bloom, 2018). 
 
 
 Another noteworthy fact about the Poudre river: it is the **only** designated National Wild and Scenic River within the state of Colorado (USFS). 
