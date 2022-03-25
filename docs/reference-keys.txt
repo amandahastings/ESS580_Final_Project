@@ -23,5 +23,4 @@ geospatial-analysis-water-quality
 introduction-4
 methods-3
 results-3
-spatial-distribution-lagos-ne-locus-and-limno-data
 references-2
