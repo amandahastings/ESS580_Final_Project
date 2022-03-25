@@ -18,6 +18,15 @@ library(kableExtra)
 
 This chapter describes part two of our geospatial analysis project. For part two, we expanded upon our intial analysis and used in-situ water quality data from the LAGOS-NE Limno module. We focused on two water quality metrics: chlorophyll a concentrations and secchi disk depth. 
 
+Project objectives: 
+
+a) Determine which states have the most water quality data for metrics of interest
+
+b) Assess the correlation between chlorophyll a concentrations and secchi disk depths
+
+c) Evaluate if there is a spatial pattern for secchi disk depth in lakes with observations exceeding 200
+
+
 
 ## Methods 
 
@@ -106,7 +115,8 @@ mean_spatial <- inner_join(spatial_lakes,mean_values_200,
 
 ## Results
 
-### Spatial distribution: LAGOS-NE Locus and Limno data {-}
+
+### Spatial Distribution: LAGOS-NE Locus and Limno Data {-}
 
 
 ```{r spatial object lagos, cache=TRUE}
@@ -134,6 +144,8 @@ mapview(spatial_counts, cex="count", zcol="count", layer.name="Observations Per 
 
 
 <small> **Figure 1. Map depicting the number of observations per lake by circle size.** </small> 
+
+The lakes with the highest number of observations are as follows: Lake Champlain, Vermont (n = 1466); Oneida Lake, New York (n = 653); Allequash Lake, Wisconsin (n = 503); Lake of the Ozarks, Missouri (n = 502); and Big Muskellunge Lake; Wisconsin (n = 497). 
 
 
 ```{r state boundaries}
@@ -188,16 +200,7 @@ mapview(summed_overlay,zcol='sum_count',layer.name = 'Observations per state', a
 ```
 
 
-### Water clarity: chlorophyll a and secchi disk depth {-} 
-
-
-```{r, echo=F}
-#Dynamic mapviewer for lakes, colored by log base mean chla
-mapview(mean_spatial,zcol='log10_mean_chl', layer.name="Mean Chlorophyll A")
-```
-
-
-<small> **Figure 3. Map visualizing (log transformed) average chlorophyll a concentrations across lakes, where chlorophyll a observations exceed 200 within the LAGOS Limno dataset (n > 200).** </small>
+### Water Clarity: Chlorophyll A and Secchi Disk Depth {-} 
 
 
 ```{r, echo=F, warning=F}
@@ -210,7 +213,7 @@ ggplot(data=chla_secchi_200, aes(x = secchi, y = chla)) +
 ```
 
 
-<small> **Figure 4. Chlorophyll a and secchi disk depth measurements across lakes (number of observations exceeding 200).** </small> 
+<small> **Figure 3. Chlorophyll a and secchi disk depth measurements across lakes (number of observations exceeding 200).** </small> 
 
 
 ```{r, include=FALSE}
@@ -222,6 +225,15 @@ I used a test of correlation to assess the relationship between chlorophyll a co
 
 
 High cholorphyll a concentrations are associated with high density(s) of photosynthetic organisms, such as algae. Meanwhile, secchi disks are used to assess water turbidity, where the depth of disk disappearance indicates the transparency of the water (Fuller and Minnerick 2007). Where algae abundance is high, the depth where light can penetrate a water body diminishes; thus, secchi disk depth decreases (Fuller and Minnerick 2007).
+
+
+```{r, echo=F}
+#Dynamic mapviewer for lakes, colored by log base mean chla
+mapview(mean_spatial,zcol='log10_mean_chl', layer.name="Mean Chlorophyll A")
+```
+
+
+<small> **Figure 4. Map visualizing (log transformed) average chlorophyll a concentrations across lakes, where chlorophyll a observations exceed 200 within the LAGOS Limno dataset (n > 200).** </small>
 
 
 ```{r}
@@ -250,7 +262,7 @@ mapview(spatial_secchi200, zcol='mean_secchi', layer.name='Secchi Disk Depth')
 <small> **Figure 5. Map visualizing average secchi disk depths in meters across lakes, where secchi disk depth observations exceed 200 within the LAGOS Limno dataset (n > 200).** </small> 
 
 
-I did not find an exceptionally strong spatial pattern in secchi disk depth in lakes with at least 200 observations, given the number lakes with observations exceeding 200 is small. However, the patch of lakes near/surrounding the Minneapolis-Saint Paul sprawl in Minnesota have broadly shallower secchi disk depths. Meanwhile, lakes in more remote areas in northern Wisconsin and near the Adirondacks in New York have generally deeper secchi disk depths. Despite a relatively weak spatial pattern, it is probable lakes within more remote areas have generally deeper secchi depths and urban areas shallower depths. 
+I did not find an exceptionally strong spatial pattern in secchi disk depth in lakes with at least 200 observations, given the number of lakes with observations exceeding 200 is small. However, the patch of lakes near/surrounding the Minneapolis-Saint Paul sprawl in Minnesota have broadly shallower secchi disk depths. Meanwhile, lakes in more remote areas in northern Wisconsin and near the Adirondacks in New York have generally deeper secchi disk depths. Despite a relatively weak spatial pattern, it is probable lakes within more remote areas have generally deeper secchi depths and urban areas shallower depths. 
 
 
 ## References 
