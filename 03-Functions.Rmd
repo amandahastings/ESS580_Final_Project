@@ -98,7 +98,7 @@ if(evaluate == T) {
 ```
 
 
-#### Read in snow data with pattern matching {-}
+#### Read in snow data with pattern matching and a for loop {-}
 
 
 ```{r}
