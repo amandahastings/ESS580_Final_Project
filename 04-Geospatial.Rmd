@@ -80,7 +80,7 @@ subset_baser <- spatial_lakes[1:100,]
 mapview(subset_spatial, layer.name="LAGOS lake subset")
 ```
 
-<small> Figure 1. A subset of lakes within the LAGOS dataset for an introduction to dynamic mapping with the mapview R package. </small>
+<small> **Figure 1. A subset of lakes within the LAGOS dataset for an introduction to dynamic mapping with the mapview R package.** </small>
 
 
 ```{r}
@@ -112,10 +112,10 @@ minnesota_lakes <- spatial_lakes[minnesota,]
 minnesota_lakes %>%
   arrange(-lake_area_ha) %>%
   slice(1:1000) %>%
-  mapview(.,zcol = 'lake_area_ha', at=c(0,500,1500,3000,7500,15000,30000,65000,125000),layer.name='Lake area (ha)')+ mapview(minnesota,layer.name="Minnesota", alpha.regions=0.35, col.regions="#fcf87f")
+  mapview(.,zcol = 'lake_area_ha', at=c(0,500,1500,3000,7500,15000,30000,65000,125000),cex='lake_area_ha',layer.name='Lake area (ha)')+ mapview(minnesota,layer.name="Minnesota", alpha.regions=0.35, col.regions="#fcf87f")
 ```
 
-<small> Figure 2. Interactive map of Minnesota Lakes, colored by lake area in hectares. </small> 
+<small> **Figure 2. Interactive map of Minnesota Lakes, colored by lake area in hectares.** </small> 
 
 
 ```{r, include=F}
@@ -140,11 +140,11 @@ nrow(minnesota_lakes)-nrow(istate_lakes)
 istate_lakes %>%
   arrange(-lake_area_ha) %>%
   slice(1:1000) %>% 
-  mapview(., zcol = 'lake_area_ha', at=c(0,100,250,500,1000,2500,5000,10000), layer.name='Lake area (ha)')+ mapview(i_states,zcol='name', alpha.regions=0.35, col.regions=c("#DAA520","#9F2B68"), layer.name=F)
+  mapview(., zcol = 'lake_area_ha', at=c(0,100,250,500,1000,2500,5000,10000), cex='lake_area_ha', layer.name='Lake area (ha)')+ mapview(i_states,zcol='name', alpha.regions=0.35, col.regions=c("#DAA520","#9F2B68"), layer.name=F)
 ```
 
 
-<small> Figure 3. Interactive map of Iowa and Illinois lakes, colored by lake area in hectares. </small> 
+<small> **Figure 3. Interactive map of Iowa and Illinois lakes, colored by lake area in hectares.** </small> 
 
 
 ```{r, echo=F}
@@ -157,7 +157,7 @@ ggplot(minnesota_lakes, aes(x=lake_area_ha))+
 ```
 
 
-<small> Figure 4. Distribution of Minnesota lake size in hectares. </small> 
+<small> **Figure 4. Distribution of Minnesota lake size in hectares.** </small> 
 
 
 ```{r, echo=F}
@@ -178,7 +178,7 @@ ggplot(iowa_lakes, aes(x=lake_area_ha))+
 ```
 
 
-<small> Figure 5. Distribution of Iowa lake size in hectares. </small>
+<small> **Figure 5. Distribution of Iowa lake size in hectares.** </small>
 
 
 ```{r, echo=F}
@@ -198,7 +198,7 @@ ggplot(illinois_lakes, aes(x=lake_area_ha))+
 ```
 
 
-<small> Figure 6. Distribution of Illinois lake size in hectares. </small>
+<small> **Figure 6. Distribution of Illinois lake size in hectares.** </small>
 
 
 In our analysis of the spatial distribution and size of lakes in Minnesota, Iowa, and Illinois, we found Minnesota exceeded the other two states both in the number of sites included in the LAGOS dataset and the size of lakes recorded in each state. There are 16446 sites in the LAGOS dataset for Illinois and Iowa combined. Meanwhile, there are 29038 Minnesota sites, exceeding the number of sites in Illinois/Iowa by 12572 sites. Furthermore, Minnesota lake size was generally greater than Iowa and Illinois lake size. Though, the distributions of lake size for all states are positively skewed. 

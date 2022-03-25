@@ -182,10 +182,10 @@ cornyields <- tibble(cornyields)
 ## Analyses and Results - Corn Yield in Winneshiek County, Iowa 
 
 
-### Question A: Is there a signicant time trend? 
+### Question A: Is there a signicant time trend for corn yield? 
 
 
-#### Linear time trend analysis 
+#### Linear time trend analysis {-}
 
 
 #### *Simple Linear Regression - Yield by Covariate: Year* {-}
@@ -221,9 +221,9 @@ With a p-value of 1.77e-13 and less than $\alpha$ = 0.05, we reject the null hyp
 
 ### Question B: Is there evidence for slowing yield growth?
 
-#### Quadratic time trend analysis 
+#### Quadratic time trend analysis {-}
 
-#### *Quadratic Regression - Yield by Covariates: Year,Year^2^** {-}
+#### *Quadratic Regression - Yield by Covariates: Year,Year^2^* {-}
 
 
 ```{r, echo=F}
@@ -330,7 +330,7 @@ winne_summer_yield$fitted_2a <- temp_yearLM$fitted.values
 With a p-value of 1.01e-11 and less than $\alpha$ = 0.05, we reject the null hypothesis $H_0:\beta_1 = \beta_2$ = 0. We have evidence of a positive linear relationship between year and yield, when average summer max temp is held constant. There is an estimated 2.514 bu/acre increase in corn yield with each increasing year, holding all else constant. 73.18% (Adjusted R-squared) of the variation in corn yield is explained by the regression on average summer maximum temperature and year. Thus, adding year to the original model analyzing yield by average summer maximum temperature improves model predictive ability. 
 
 
-### Quadratic Regression - Yield by Covariates: Average Summer Max Temperature, Max Temperature^2^
+#### *Quadratic Regression - Yield by Covariates: Average Summer Max Temperature, Max Temperature^2^*
 
 
 ```{r,echo=F}

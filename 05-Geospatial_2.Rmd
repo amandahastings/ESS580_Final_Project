@@ -45,7 +45,7 @@ spatial_lakes <- st_as_sf(lake_centers,coords=c('nhd_long','nhd_lat'),
 ```
 
 
-```{r, cache=TRUE, include=F}
+```{r, cache=TRUE}
 #Load LAGOS water quality data
 nutr <- lagos$epi_nutr
 ```
@@ -77,7 +77,7 @@ chla_secchi_200 <- chla_secchi %>%
 
 
 ```{r}
-#Join chla/secchi data to spatial lake data with observations >200
+#Join chla/secchi data to spatial lake data with observations > 200
 spatial_200 <- inner_join(spatial_lakes,chla_secchi_200 %>%
                             distinct(lagoslakeid,.keep_all=T),
                           by='lagoslakeid')
@@ -110,7 +110,7 @@ mean_spatial <- inner_join(spatial_lakes,mean_values_200,
 
 
 ```{r spatial object lagos, cache=TRUE}
-#Create lagos spatial dataset with total number of counts per site 
+#Create dataframe with total number of counts per site from LAGOS data
 site_counts <- chla_secchi %>%
   group_by(lagoslakeid) %>%
   summarize(
@@ -118,22 +118,30 @@ site_counts <- chla_secchi %>%
   mean_secchi=mean(secchi,na.rm=T),
   count = n())
 
-#Add geographic information to site counts data 
+#Add geographic information to site counts data (points)
 geo_counts <- inner_join(site_counts,lake_centers, by= 'lagoslakeid')%>% 
   select(lagoslakeid,nhd_long,nhd_lat, count)
 
-#Create spatial object for lagos dataset 
+#Create spatial object for site counts data
 spatial_counts <- st_as_sf(geo_counts,coords=c('nhd_long','nhd_lat'),
                           crs=4326)
 ```
 
 
+```{r}
+mapview(spatial_counts, cex="count", zcol="count", layer.name="Observations Per Lake", legend.opacity=0.05)
+```
+
+
+<small> **Figure 1. Map depicting the number of observations per lake by circle size.** </small> 
+
+
 ```{r state boundaries}
-#Use a spatial join to combine point dataset and us_boundaries data
+#Use a spatial join to combine point data and us_boundaries data
 #Parse out state boundaries from us_boundaries data   
 states <- us_states()
 
-#Use spatial join to overlay point dataset (original lagos spatial dataset) and state boundaries 
+#Use spatial join to overlay point data and state boundaries 
 overlay <- st_join(spatial_counts,states)
 ```
 
@@ -161,7 +169,8 @@ summed_states <-  st_join(x = states, y = summed_overlay, left = TRUE)%>%
 mapview(summed_states,zcol="sum_count", layer.name='Observations Per State',alpha=0.2, legend.opacity=0.05)
 ```
 
-<small> Figure 1. Interactive map visualizing the total number of observations within each state.</small>
+
+<small> **Figure 2. Interactive map visualizing the total number of observations within each state.** </small>
 
 
 The top five states with the most data include: Minnesota, Wisconsin, New York, Rhode Island, Missouri, and Vermont.
@@ -179,14 +188,6 @@ mapview(summed_overlay,zcol='sum_count',layer.name = 'Observations per state', a
 ```
 
 
-```{r}
-mapview(spatial_counts, cex="count", zcol="count", layer.name="Observations Per Lake", legend.opacity=0.05)
-```
-
-
-<small> Figure 2. Map depicting the number of observations per lake by circle size.</small> 
-
-
 ### Water clarity: chlorophyll a and secchi disk depth {-} 
 
 
@@ -195,7 +196,8 @@ mapview(spatial_counts, cex="count", zcol="count", layer.name="Observations Per 
 mapview(mean_spatial,zcol='log10_mean_chl', layer.name="Mean Chlorophyll A")
 ```
 
-<small> Figure 3. Map visualizing (log transformed) average chlorophyll a concentrations across lakes. Includes lakes where chlorophyll a observations exceed 200 within the LAGOS Limno dataset (n > 200). </small>
+
+<small> **Figure 3. Map visualizing (log transformed) average chlorophyll a concentrations across lakes. Only includes lakes where chlorophyll a observations exceed 200 within the LAGOS Limno dataset (n > 200).** </small>
 
 
 ```{r, echo=F, warning=F}
@@ -207,7 +209,8 @@ ggplot(data=chla_secchi_200, aes(x = secchi, y = chla)) +
   xlim(0,16)
 ```
 
-<small> Figure 4. Chlorophyll a and secchi disk depth measurements across lakes (number of observations exceeding 200). </small> 
+
+<small> **Figure 4. Chlorophyll a and secchi disk depth measurements across lakes (number of observations exceeding 200).** </small> 
 
 
 ```{r, include=FALSE}
@@ -243,7 +246,9 @@ mapview(spatial_secchi200, zcol='mean_secchi', layer.name='Secchi Disk Depth')
 
 ```
 
-<small> Figure 5. Map visualizing average secchi disk depths in meters across lakes. Includes lakes where secchi disk depth observations exceed 200 within the LAGOS Limno dataset (n > 200). </small> 
+
+<small> **Figure 5. Map visualizing average secchi disk depths in meters across lakes. Includes lakes where secchi disk depth observations exceed 200 within the LAGOS Limno dataset (n > 200).** </small> 
+
 
 I did not find an exceptionally strong spatial pattern in secchi disk depth in lakes with at least 200 observations, given the number of observations above 200 is small. However, the patch of lakes near/surrounding the Minneapolis-Saint Paul sprawl in Minnesota have broadly shallower secchi disk depths. Meanwhile, lakes in more remote areas in northern Wisconsin and near the Adirondacks in New York have generally deeper secchi disk depths. Despite a weaker spatial pattern, it is probable lakes within more remote areas have generally deeper secchi depths and urban areas shallower depths. 
 

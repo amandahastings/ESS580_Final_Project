@@ -23,7 +23,7 @@
 <meta name="author" content="Amanda Hastings" />
 
 
-<meta name="date" content="2022-03-23" />
+<meta name="date" content="2022-03-24" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +31,7 @@
   
   
 
-<link rel="next" href="geospatial-analysis.html"/>
+<link rel="next" href="workflow-tools.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -53,6 +53,13 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="libs/dygraphs-1.1.1/dygraph.css" rel="stylesheet" />
+<script src="libs/dygraphs-1.1.1/dygraph-combined.js"></script>
+<script src="libs/dygraphs-1.1.1/shapes.js"></script>
+<script src="libs/moment-2.8.4/moment.js"></script>
+<script src="libs/moment-timezone-0.2.5/moment-timezone-with-data.js"></script>
+<script src="libs/moment-fquarter-1.0.0/moment-fquarter.min.js"></script>
+<script src="libs/dygraphs-binding-1.1.1.6/dygraphs.js"></script>
 <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-1.3.1/leaflet.js"></script>
 <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
@@ -149,39 +156,82 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li><a href="index.html#preface">Preface<span></span></a></li>
-<li class="chapter" data-level="1" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html"><i class="fa fa-check"></i><b>1</b> Geospatial Analysis<span></span></a>
+<li class="chapter" data-level="1" data-path="workflow-tools.html"><a href="workflow-tools.html"><i class="fa fa-check"></i><b>1</b> Workflow Tools<span></span></a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction<span></span></a></li>
-<li class="chapter" data-level="1.2" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#methods"><i class="fa fa-check"></i><b>1.2</b> Methods<span></span></a>
+<li class="chapter" data-level="1.1" data-path="workflow-tools.html"><a href="workflow-tools.html#introduction"><i class="fa fa-check"></i><b>1.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="1.2" data-path="workflow-tools.html"><a href="workflow-tools.html#methods"><i class="fa fa-check"></i><b>1.2</b> Methods<span></span></a>
+<ul>
+<li><a href="workflow-tools.html#site-description">Site Description<span></span></a></li>
+<li><a href="workflow-tools.html#data-acquistion">Data Acquistion<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="workflow-tools.html"><a href="workflow-tools.html#results"><i class="fa fa-check"></i><b>1.3</b> Results<span></span></a>
+<ul>
+<li><a href="workflow-tools.html#static-plotting">Static Plotting<span></span></a></li>
+<li><a href="workflow-tools.html#interactive-plotting">Interactive Plotting<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.4" data-path="workflow-tools.html"><a href="workflow-tools.html#poudre-river-information"><i class="fa fa-check"></i><b>1.4</b> Poudre River Information<span></span></a>
+<ul>
+<li><a href="workflow-tools.html#presentation-link">Presentation link<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="1.5" data-path="workflow-tools.html"><a href="workflow-tools.html#references"><i class="fa fa-check"></i><b>1.5</b> References<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="data-wrangling.html"><a href="data-wrangling.html"><i class="fa fa-check"></i><b>2</b> Data Wrangling<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="data-wrangling.html"><a href="data-wrangling.html#introduction-1"><i class="fa fa-check"></i><b>2.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="2.2" data-path="data-wrangling.html"><a href="data-wrangling.html#methods-1"><i class="fa fa-check"></i><b>2.2</b> Methods<span></span></a>
+<ul>
+<li><a href="data-wrangling.html#data-acquistion-1">Data Acquistion<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="data-wrangling.html"><a href="data-wrangling.html#results-1"><i class="fa fa-check"></i><b>2.3</b> Results<span></span></a>
+<ul>
+<li><a href="data-wrangling.html#question-a-ndvi-and-ndmi">Question A: NDVI and NDMI<span></span></a></li>
+<li><a href="data-wrangling.html#question-b-winter-ndsi-and-summer-ndvi">Question B: Winter NDSI and Summer NDVI<span></span></a></li>
+<li><a href="data-wrangling.html#question-c-ndvi-ndsi-correlations">Question C: NDVI-NDSI correlations<span></span></a></li>
+<li><a href="data-wrangling.html#additional-findings">Additional findings<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html"><i class="fa fa-check"></i><b>3</b> Key Programming Concepts<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html#introduction-2"><i class="fa fa-check"></i><b>3.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html#data-acquisiton-snowpack-depth"><i class="fa fa-check"></i><b>3.2</b> Data Acquisiton: Snowpack Depth<span></span></a></li>
+<li class="chapter" data-level="3.3" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html#results-snowpack-depth"><i class="fa fa-check"></i><b>3.3</b> Results: Snowpack Depth<span></span></a></li>
+<li class="chapter" data-level="3.4" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html#data-acquisition-meterological-data"><i class="fa fa-check"></i><b>3.4</b> Data Acquisition: Meterological Data<span></span></a>
+<ul>
+<li><a href="key-programming-concepts.html#webscraping-extract-meterological-data-urls">Webscraping: extract meterological data URLs<span></span></a></li>
+<li><a href="key-programming-concepts.html#download-meteorological-data">Download meteorological data<span></span></a></li>
+<li><a href="key-programming-concepts.html#write-a-custom-function-to-read-in-data">Write a custom function to read in data<span></span></a></li>
+<li><a href="key-programming-concepts.html#read-in-meterological-data-files-with-map-function">Read in meterological data files with map function<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="key-programming-concepts.html"><a href="key-programming-concepts.html#results-meterological-data"><i class="fa fa-check"></i><b>3.5</b> Results: Meterological Data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html"><i class="fa fa-check"></i><b>4</b> Geospatial Analysis<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#introduction-3"><i class="fa fa-check"></i><b>4.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="4.2" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#methods-2"><i class="fa fa-check"></i><b>4.2</b> Methods<span></span></a>
 <ul>
 <li><a href="geospatial-analysis.html#data-acquisition">Data Acquisition<span></span></a></li>
 <li><a href="geospatial-analysis.html#data-processing">Data Processing<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#results"><i class="fa fa-check"></i><b>1.3</b> Results<span></span></a>
+<li class="chapter" data-level="4.3" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#results-2"><i class="fa fa-check"></i><b>4.3</b> Results<span></span></a>
 <ul>
 <li><a href="geospatial-analysis.html#additional-data-sources">Additional data sources<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="1.4" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#references"><i class="fa fa-check"></i><b>1.4</b> References<span></span></a></li>
+<li class="chapter" data-level="4.4" data-path="geospatial-analysis.html"><a href="geospatial-analysis.html#references-1"><i class="fa fa-check"></i><b>4.4</b> References<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html"><i class="fa fa-check"></i><b>2</b> Geospatial Analysis: Water Quality<span></span></a>
+<li class="chapter" data-level="5" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html"><i class="fa fa-check"></i><b>5</b> Geospatial Analysis: Water Quality<span></span></a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#introduction-1"><i class="fa fa-check"></i><b>2.1</b> Introduction<span></span></a></li>
-<li class="chapter" data-level="2.2" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#methods-1"><i class="fa fa-check"></i><b>2.2</b> Methods<span></span></a>
+<li class="chapter" data-level="5.1" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#introduction-4"><i class="fa fa-check"></i><b>5.1</b> Introduction<span></span></a></li>
+<li class="chapter" data-level="5.2" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#methods-3"><i class="fa fa-check"></i><b>5.2</b> Methods<span></span></a>
 <ul>
 <li><a href="geospatial-analysis-water-quality.html#data-acquisition-1">Data Acquisition<span></span></a></li>
 <li><a href="geospatial-analysis-water-quality.html#data-processing-1">Data Processing<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="2.3" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#results-1"><i class="fa fa-check"></i><b>2.3</b> Results<span></span></a>
+<li class="chapter" data-level="5.3" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#results-3"><i class="fa fa-check"></i><b>5.3</b> Results<span></span></a>
 <ul>
+<li class="chapter" data-level="5.3.1" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#spatial-distribution-lagos-ne-locus-and-limno-data"><i class="fa fa-check"></i><b>5.3.1</b> Spatial distribution: LAGOS-NE Locus and Limno data<span></span></a></li>
 <li><a href="geospatial-analysis-water-quality.html#water-clarity-chlorophyll-a-and-secchi-disk-depth">Water clarity: chlorophyll a and secchi disk depth<span></span></a></li>
 </ul></li>
-<li class="chapter" data-level="2.4" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#what-states-have-the-most-data"><i class="fa fa-check"></i><b>2.4</b> 2) What states have the most data?<span></span></a>
-<ul>
-<li class="chapter" data-level="2.4.1" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#a-first-you-will-need-to-make-a-lagos-spatial-dataset-that-has-the-total"><i class="fa fa-check"></i><b>2.4.1</b> 2a) First you will need to make a lagos spatial dataset that has the total<span></span></a></li>
-<li class="chapter" data-level="2.4.2" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#b-second-you-will-need-to-join-this-point-dataset-to-the-us_boundaries-data."><i class="fa fa-check"></i><b>2.4.2</b> 2b) Second, you will need to join this point dataset to the us_boundaries data.<span></span></a></li>
-<li class="chapter" data-level="2.4.3" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#c-then-you-will-want-to-group-by-state-and-sum-all-the-observations-in"><i class="fa fa-check"></i><b>2.4.3</b> 2c) Then you will want to group by state and sum all the observations in<span></span></a></li>
-</ul></li>
-<li class="chapter" data-level="2.5" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#references-1"><i class="fa fa-check"></i><b>2.5</b> References<span></span></a></li>
+<li class="chapter" data-level="5.4" data-path="geospatial-analysis-water-quality.html"><a href="geospatial-analysis-water-quality.html#references-2"><i class="fa fa-check"></i><b>5.4</b> References<span></span></a></li>
 </ul></li>
 </ul>
 
@@ -203,11 +253,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Introduction to Environmental Data Science: Final Project</h1>
 <p class="author"><em>Amanda Hastings</em></p>
-<p class="date"><em>2022-03-23</em></p>
+<p class="date"><em>2022-03-24</em></p>
 </div>
 <div id="preface" class="section level1 unnumbered hasAnchor">
 <h1>Preface<a href="index.html#preface" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>This book contains six different projects completed in ESS580: Introduction to Environmental Data Science taught by Dr. Matt Ross and Dr. Nathan Mueller at Colorado State University. Each chapter details the purpose, data acquisition, analyses, and results of an individual project completed in the 2022 spring semester. For each project, Dr. Matt Ross and/or Dr. Nathan Mueller wrote the preliminary code and outlined project objectives. Amanda Hastings completed the remaining portions of each project and compiled this book.</p>
+<p>This book contains six different projects completed in ESS580: Introduction to Environmental Data Science taught by Dr. Matt Ross and Dr. Nathan Mueller at Colorado State University. Each chapter details the purpose, data acquisition, analyses, and results of an individual project completed in the 2022 spring semester. For each project, Dr. Matt Ross and/or Dr. Nathan Mueller wrote the preliminary code and outlined project objectives. I completed the remaining portions of each project and compiled this book.</p>
 
 </div>
             </section>
@@ -216,7 +266,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 
-<a href="geospatial-analysis.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="workflow-tools.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
