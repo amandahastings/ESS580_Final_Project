@@ -224,5 +224,18 @@ Additional useful sources for assessing reservoir and lake size:
 
 Meyer, MF, Labou, SG, Cramer, AN, Brousil, MR, & Luff, BT. (2020). The global lake area, climate, and population dataset. Scientific Data, 7(1), 1–12. https://doi.org/10.1038/s41597-020-0517-4
 
-Soranno, P. and K. Cheruvelil. (2017). LAGOS-NE-LIMNO v1.087.1: A module for LAGOS-NE, a multi-scaled geospatial and temporal database of lake ecological context and water quality for thousands of U.S. Lakes: 1925-2013 ver 2. Environmental Data Initiative. https://doi.org/10.6073/pasta/56cc5f1f753d48edfea170a5401dd6df
+Soranno, P. and K. Cheruvelil. (2017). LAGOS-NE-LIMNO v1.087.1: A module for LAGOS-NE, a multi-scaled geospatial and temporal database of lake ecological context and water quality for thousands of U.S. Lakes: 1925-2013 ver2. Environmental Data Initiative. https://doi.org/10.6073/pasta/56cc5f1f753d48edfea170a5401dd6df
 
+
+### Data Retrieval R Packages {-}
+
+
+```{r, include=F}
+citation(package = "LAGOSNE")
+```
+
+Soranno et. al (2017). LAGOS-NE: a multi-scaled geospatial and temporal database of lake ecological       context and water quality for thousands of US lakes. Gigascience, 6(12)
+
+Stachelek J., Oliver S., Masrour, F. (2019). LAGOSNE: Interface to the Lake Multi-scaled
+  Geospatial and Temporal Database. R package version 2.0.2.
+  https://cran.r-project.org/package=LAGOSNE

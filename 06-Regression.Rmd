@@ -15,15 +15,14 @@ library(viridisLite)
 ## Introduction 
 
 
-NEED description
-Weather Data Analysis
-
-
+In this project, we explored regression models for analyzing temperature and crop yield in Iowa, USA. We utilized PRISM temperature data and USDA National Agricultural Statistics Service (NASS) yield data for corn and soybeans.  
 
 ## Methods 
 
 
 ### Data Acquisition: PRISM Temperature Data {-}
+
+Dr. Nathan Mueller provided previously acquired PRISM data for class use. 
 
 
 ```{r tmax data download}
@@ -153,6 +152,9 @@ ggplot(winnewinter) +
 
 
 ## Data Acquisition: NASS Corn Yield Data 
+
+
+We retrieved NASS data using the rnassqs package in R. 
 
 
 ```{r yield download, echo=TRUE, include=FALSE}
@@ -734,6 +736,21 @@ ggplot(na.omit(co_yields_time), aes(fill = yield)) + geom_sf() +
 The map(s) above shows corn yields across Iowa counties in 5 year intervals, in addition to the two most recent years with yield data. Broadly, this map is supportive of earlier findings from our analyses, where corn yields have generally increased with time. Spatially, the map indicates that south-central Iowa counties produce lower corn yields consistently over time, in comparison to other counties.
 
 
+## References 
+
+### Data Retrieval R Packages {-}
+```{r,include=FALSE}
+citation(package="rnassqs")
+citation(package='R.matlab')
+```
+
+Bengtsson, H. (2018). R.matlab: Read and Write MAT Files and Call MATLAB from Within R. R package
+  version 3.6.2. https://CRAN.R-project.org/package=R.matlab
+
+Potter, NA. (2019). rnassqs: An `R` package to access agricultural data via the USDA National
+  Agricultural Statistics Service (USDA-NASS) 'Quick Stats' API. Journal of Open Source Software,
+  4(43), 1880. https://doi.org/10.21105/joss.01880
+  
 
 
 
