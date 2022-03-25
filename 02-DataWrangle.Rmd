@@ -116,7 +116,7 @@ ggplot(summer_wide, aes(x=ndmi, y=ndvi))+
 ```
 
 
-<small> Figures 1-2. NDMI and NDVI spanning summer months in burned versus unburned sites in the Hayman fire area. </small>
+<small> **Figures 1-2. NDMI and NDVI spanning summer months in burned versus unburned sites in the Hayman fire area.** </small>
 
 
 ```{r, echo=TRUE, results='hide'}
@@ -184,7 +184,7 @@ ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi))+
   labs(x="Average Winter NDSI", y="Average Summer NDVI")
 ```
 
-<small> Figure 3. Average winter NDSI and average summer NDVI across all sites over time. </small>
+<small> **Figure 3. Average winter NDSI and average summer NDVI across all sites over time.** </small>
 
 
 ```{r, echo=T, results='hide'}
@@ -223,7 +223,7 @@ ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi, color=burnperiod))+
   scale_color_manual(name="",labels=c("Pre-fire","Post-fire"), values= c("#2f94b5","#b5982f"))
 ```
 
-<small> Figure 4. Average winter NDSI and average summer NDVI in pre- and post-fire years. </small>
+<small> **Figure 4. Average winter NDSI and average summer NDVI in pre- and post-fire years.** </small>
 
 ```{r, echo = T, results='hide'}
 #Fit lm model to evaluate ndvi-ndsi correlation pre- and post-fire 
@@ -272,7 +272,7 @@ ggplot(wide_averages, aes(x=mean_ndsi, y=mean_ndvi, color=site))+
   scale_color_manual(name="Site",labels=c("Burned","Unburned"), values= c("#292423","#a4a823"))
 ```
 
-<small> Figure 5. Average winter NDSI and average summer NDVI between burned and unburned sites. </small>
+<small> **Figure 5. Average winter NDSI and average summer NDVI between burned and unburned sites.** </small>
 
 ```{r, echo = T, results='hide'}
 #Fit lm model to evaluate ndvi-ndsi correlation between burned and unburned sites

@@ -102,7 +102,6 @@ if(evaluate == T) {
 
 
 ```{r}
-#Read in only snow data as a loop
 #Use pattern matching to only keep certain files
 snow_files <- file_names %>%
   .[!grepl('SG_24',.)] %>%
@@ -110,7 +109,8 @@ snow_files <- file_names %>%
 ```
 
 
-```{r, include=F}
+```{r}
+#Read in only snow data as a loop
 #empty_data <- list()
 
 # snow_data <- for(i in 1:length(snow_files)){
@@ -119,8 +119,6 @@ snow_files <- file_names %>%
 # }
 
 #snow_data_full <- do.call('rbind',empty_data)
-
-#summary(snow_data_full)
 ```
 
 
@@ -152,7 +150,7 @@ snow_yearly <- snow_data_full %>%
 
 #Plot yearly mean snow height by site
 ggplot(snow_yearly,aes(x=Year,y=mean_height,color=site)) + 
-  geom_point(alpha=0.75) +
+  geom_point(alpha=0.75, size=2) +
   ggthemes::theme_few() + 
   scale_color_manual(name="Study Plots", labels=c("Swamp Angel","Senator Beck"), values= c("#58A3EB","#58E8EB"))+
   labs(y="Depth of Snowpack (m)",title="Average Snow Height over Time")
