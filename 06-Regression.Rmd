@@ -207,6 +207,7 @@ cornyields <- dplyr::select(cornyieldsall, county_ansi, county_name, yield, year
 cornyields <- tibble(cornyields)
 ```
 
+
 ```{r soybean download, echo=TRUE, include=FALSE}
 #Download NASS data on soybean yields
 
@@ -390,7 +391,6 @@ With a p-value of 1.01e-11 and less than $\alpha$ = 0.05, we reject the null hyp
 
 
 ```{r,echo=T,results='hide'}
-
 #Fit a model for yield with covariates: average summer max temp and max temp^2 
 quad_tempLM <- lm(yield~meantmax + meantmaxsq, data=winne_summer_yield)
 tidy(summary(quad_tempLM))
@@ -519,13 +519,13 @@ ggplot(aes(x = meantmax, y = yield), data = countytmax2018) +
 
 
 ```{r, message=F}
-#Combine county and temperature data 
+#Create data frame for yearly summer tmax across counties
 yearly_co_temp <- tmaxdf %>% 
   group_by(countyfp,year)%>% 
   filter(doy >= 152 & doy <= 243) %>%
   summarize(meantmax = mean(tmax))
 
-  
+#Combine county and temperature data 
 co_yearly_join <- left_join(yearly_co_temp, corn_yields, by= c('countyfp','year'))%>% 
   filter(!is.na(yield))
 
@@ -537,9 +537,11 @@ co_yearly_join$meantmaxsq <- co_yearly_join$meantmax^2
 #### *SLR - Yield by Covariate: Year* {-}
 
 ```{r,echo=T,results='hide'}
+#Fit SLR with yield as response (y) and covariate year (x)
 SLR_LM <- lm(yield~ year, data = co_yearly_join)
 tidy(summary(SLR_LM))
 
+#Add fitted values to data frame 
 co_yearly_join$fit_SLR <- SLR_LM$fitted.values
 ```
 
@@ -557,9 +559,11 @@ ggplot(co_yearly_join) +
 #### *Quadratic Regression - Yield by Covariates: Average Summer Maximum Temperature, Max Temperature^2^* {-}
 
 ```{r, echo=T,results='hide'}
+#Fit quadratic model for mean max tempearture (x)
 QR_LM <- lm(yield~ meantmax+ meantmaxsq, data = co_yearly_join)
 tidy(summary(QR_LM))
 
+#Add fitted values to data frame
 co_yearly_join$fit_QR <- QR_LM$fitted.values
 ```
 
@@ -581,6 +585,7 @@ ggplot(co_yearly_join) +
 MR_LM <- lm(yield~ meantmax+ meantmaxsq+ year, data = co_yearly_join)
 tidy(summary(MR_LM))
 
+#Add fitted values to data frame
 co_yearly_join$fit_MR <- MR_LM$fitted.values
 ```
 
@@ -603,6 +608,7 @@ ggplot(co_yearly_join) +
 panelLM <- lm(yield~ meantmax+ meantmaxsq+ year+countyfp, data = co_yearly_join)
 tidy(summary(panelLM))
 
+#Add fitted values to data frame
 co_yearly_join$fit_panel <- panelLM$fitted.values
 ```
 
@@ -645,7 +651,6 @@ counties <- us_counties(states = 'iowa') %>%
 
 #Adjust capitalization of county names 
 counties$name <- toupper(counties$name)
-
 ```
 
 
@@ -675,7 +680,6 @@ cornyield_time <- corn_yields %>%
 #Join to counties spatial data 
 co_yields_time <- merge(counties, cornyield_time, by.x="name", by.y="county_name", all.x=TRUE)
 
-
 #Use facet wrap by year to show corn yield over the last 9 years
 ggplot(na.omit(co_yields_time), aes(fill = yield)) + geom_sf() +
   scale_fill_viridis() + theme_few() +
@@ -691,7 +695,6 @@ ggplot(na.omit(co_yields_time), aes(fill = yield)) + geom_sf() +
   labs(title="Iowa County Corn Yields Over Time", fill="Yield (Bu/Acre)")+ 
   theme(legend.position = "right",
         legend.key.width = unit(5, "mm"), legend.title=element_text(size=10))
-
 ```
 
 
@@ -731,7 +734,6 @@ summary(soy_2018LM)
 
 #Add fitted values from model to data frame 
 soytmax2018$fitted_l <-soy_2018LM$fitted.values
-
 ```
 
 
@@ -751,7 +753,6 @@ summary(soy_2018_QR)
 
 #Add fitted values from model to data frame 
 soytmax2018$fitted_q <-soy_2018_QR$fitted.values
-
 ```
 
 
